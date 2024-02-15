@@ -1,0 +1,64 @@
+---
+    
+- name: Stop Secondary Site HANA DB
+  shell: |
+    echo -e $(/usr/sap/{{ hana_db_sid | upper }}/HDB{{ hana_instance_nbr }}/HDB stop)
+  become: yes
+  become_user: "{{ hana_db_sid | lower }}adm"
+  register: stopdb_secondarynode
+  
+- debug: var=stopdb_secondarynode 
+  
+- name: To check the status of HanaDB
+  shell: |
+    echo -e $(/usr/sap/hostctrl/exe/sapcontrol -nr "{{ hana_instance_nbr }}" -function GetProcessList)
+  become: yes
+  become_user: "{{ hana_db_sid | lower }}adm"
+  register: DBstatus
+
+- debug: var=DBstatus.stdout
+
+
+- name: Register secondary node to HANA System Replication
+  shell: |
+      source /usr/sap/{{ hana_db_sid }}/home/.sapenv.sh && \
+      /usr/sap/{{ hana_db_sid | upper }}/HDB{{ hana_instance_nbr }}/exe/hdbnsutil \
+      -sr_register --name={{ ansible_hostname }} \
+      --remoteHost={{ primary_virtual_host }} --remoteInstance={{ hana_instance_nbr }} \
+      --replicationMode={{ hana_replication_mode }} --operationMode={{ hana_opration_mode }}
+  args:
+    executable: /bin/bash
+  become: yes
+  become_user: "{{ hana_db_sid | lower }}adm"
+  register: registersr
+  changed_when: "'adding site' in registersr.stdout"
+  #when: not (sap_hana_is_primary | bool)
+  async: 60
+  poll: 2
+
+- debug: var=registersr
+
+
+- name: Start Secondary Site HANA DB
+  shell: |
+    echo -e $(/usr/sap/"{{ hana_db_sid | upper }}"/HDB"{{ hana_instance_nbr }}"/HDB start)
+  become: yes
+  become_user: "{{ hana_db_sid | lower }}adm"
+  register: startdb_secondarynode
+  
+- debug: var=startdb_secondarynode
+
+- name: To check the status of HanaDB again
+  shell: |
+    echo -e $(/usr/sap/hostctrl/exe/sapcontrol -nr "{{ hana_instance_nbr }}" -function GetProcessList)
+  become: yes
+  become_user: "{{ hana_db_sid | lower }}adm"
+  register: DBstatus1
+
+- debug: var=DBstatus1.stdout
+ 
+  
+  
+
+    
+    

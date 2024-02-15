@@ -1,0 +1,70 @@
+---
+# General parameters
+swap_size_mb: "20520"
+sap_solution: NETWEAVER
+
+# Product ID for New Installation. Example for backup/restore: NW_ABAP_OneHost:S4HANA2021.CORE.HDB.CP
+# sap_swpm_product_catalog_id: NW_ABAP_OneHost:S4HANA2021.CORE.HDB.CP
+
+#sap_swpm_product_catalog_id: NW_ABAP_OneHost:S4HANA2022.CORE.HDB.CP
+sap_swpm_product_catalog_id: NW_ABAP_OneHost:S4HANA2022.CORE.HDB.ABAP
+
+
+sap_swpm_software_path: /usr/sap/install/S4HANA2022FPS01FIORI/
+sap_swpm_sapcar_path: /usr/sap/install/S4HANA2022FPS01FIORI/
+sap_swpm_swpm_path: /usr/sap/install/S4HANA2022FPS01FIORI/
+
+# NW Instance Parameters
+sap_swpm_sid: "TST"
+sap_swpm_pas_instance_nr: "06"
+sap_swpm_ascs_instance_nr: "07"
+sap_swpm_ascs_instance_hostname: "tstascsvm"
+sap_swpm_fqdn: "lss.ibm.com"
+sap_swpm_delete_sapinst_users: "true"
+sap_swpm_setup_firewall: yes
+
+# Need to define:
+sap_swpm_java_export_keyphrase: ""
+sap_swpm_use_product_version_descriptor: ""
+sap_swpm_unpack_igs_exe_sar: ""
+sap_swpm_unpack_igs_helper_sar: ""
+sap_swpm_unpack_sap_exe_sar: ""
+sap_swpm_unpack_sap_jvm_sar: ""
+
+
+# HDB Instance Parameters
+# For dual host installation, change the db_host to appropriate value.Maintain /etc/hosts file for both db and app.
+sap_swpm_db_host: "tstdbvm"
+sap_swpm_db_sid: "TST"
+sap_swpm_db_instance_nr: "05"
+
+
+# DB Restore Parameters
+
+# # DB Restore Parameters Backup from AUG 24-2023 (S4HANA2022.CORE.HDB.CP)
+# sap_swpm_backup_location: "/share/heifsbackup/D4HGOLDENBACKUP_DECRYPTED/"
+# sap_swpm_backup_prefix: COMPLETE_DATA_BACKUP
+
+
+# Unix User ID
+sap_swpm_sapadm_uid: '4001'
+sap_swpm_sapsys_gid: '2000'
+sap_swpm_sidadm_uid: '2100'
+sap_swpm_update_etchosts: 'false'
+
+sap_hana_install_master_password: "Welcome@123"
+sap_swpm_master_password: "Welcome@123"
+sap_swpm_sap_sidadm_password: "Welcome@123"
+
+# SWPM parameters
+sap_swpm_inifile_list:
+  - installation_media
+  - credentials
+#  - db_hana_restore
+  - db_hana_config
+  - db_hana_nw_connection
+  - nw_other_config
+  - nw_instance_config
+  - unix_user
+  - other
+  - db_hana_high_isolation

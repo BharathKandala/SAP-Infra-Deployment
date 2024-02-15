@@ -1,0 +1,50 @@
+---
+  - hosts: sap_hana, sap_hana_ads
+    max_fail_percentage: 0
+    become: yes
+    vars:
+      allow_world_readable_tmpfiles: true
+    pre_tasks:
+    - name: Ensure shm group exists with correct gid
+      become: yes
+      ansible.builtin.group:
+        name: "{{ item.name }}"
+        state: present
+        gid: "{{ item.gid }}"
+      with_items:
+      - name: "{{ sap_hana_install_sid | lower }}shm"
+        gid: "{{ sap_sidshm_gid }}"
+
+    - name: Search for SAP HANA installation folder
+      stat:
+        path: "/usr/sap/{{ sap_hana_install_sid }}"
+      register: check_hana
+  
+    - name: Check if SAP HANA is installed
+      debug:
+        msg: | 
+          Skipping installation. Reason: 
+          SAP HANA is already installed. (Directory /usr/sap/{{ sap_hana_install_sid }} detected)
+      when: check_hana.stat.exists
+
+    # - name: Install acl
+    #   community.general.zypper:
+    #     name: "{{ item }}"
+    #     state: present
+    #   with_items:
+    #     - acl
+    #   ignore_errors: true   
+       
+    roles:
+    - role: sap_hana_install
+      become: yes
+      when: not check_hana.stat.exists
+    
+    post_tasks:
+    - name: Change owner and permissions of /backup
+      ansible.builtin.file:
+        path: /backup
+        state: directory
+        mode: "0770"
+        owner: "{{ sap_hana_install_sid | lower }}adm"
+        group: "sapsys"

@@ -1,0 +1,41 @@
+--- 
+# - name: Install required packages
+#   ansible.builtin.package:
+#     name: "{{ item }}"
+#     state: present
+#   with_items:
+#   - cifs-utils
+
+- name: Add group sccgroup
+  ansible.builtin.group:
+    name: sccgroup
+    state: present
+    gid: 78
+
+- name: Add user sccadmin
+  ansible.builtin.user:
+    name: sccadmin
+    uid: 4002
+    shell: /bin/false
+    home: /opt/sap/scc
+    groups: sccgroup
+    append: yes
+
+- name: Install SAPJVM
+  zypper:
+    name: "{{ cc_install_folder }}/{{ cc_sapjvm_installer }}"
+    state: present
+  ignore_errors: "{{ ansible_check_mode }}"
+
+- name: Unzip SAP Cloud Connector
+  ansible.builtin.unarchive:
+    src: "{{ cc_install_folder }}/{{ cc_installer_zip }}"
+    dest: /tmp
+    remote_src: yes
+  ignore_errors: "{{ ansible_check_mode }}"
+
+- name: Install SAP Cloud Connector
+  zypper:
+    name: "/tmp/{{ cc_installer }}"
+    state: present
+  ignore_errors: "{{ ansible_check_mode }}"

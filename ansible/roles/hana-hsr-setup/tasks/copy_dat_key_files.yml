@@ -1,0 +1,56 @@
+---
+    
+- name: copy .KEY file from ansible controller machine into secondary primary DB
+  copy:
+    #src: "/tmp/test.key"
+    #dest: "/tmp/test.key"
+    src: "/tmp/SSFS_{{ hana_db_sid }}.KEY"
+    dest: "/hana/shared/{{ hana_db_sid }}/global/security/rsecssfs/key/SSFS_{{ hana_db_sid }}.KEY"
+    owner: "{{ hana_db_sid|lower }}adm"
+    group: 'sapsys'
+    mode: '0640'
+  become: yes
+  become_user: "{{ hana_db_sid|lower }}adm"
+  register: movekeyfile
+
+- debug: var=movekeyfile 
+ 
+- name: copy .DAT file from ansible controller machine into secondary primary DB
+  copy:
+    #src: "/tmp/test.dat"
+    #dest: "/tmp/test.dat"
+    src: "/tmp/SSFS_{{ hana_db_sid }}.DAT"
+    dest: "/hana/shared/{{ hana_db_sid }}/global/security/rsecssfs/data/SSFS_{{ hana_db_sid }}.DAT"
+    owner: "{{ hana_db_sid|lower }}adm"
+    group: 'sapsys'
+    mode: '0644'
+  become: yes
+  become_user: "{{ hana_db_sid|lower }}adm"
+  register: movedatfile
+
+- debug: var=movedatfile  
+
+- name: To delete the tempory file(.KEY) from localhost/Ansible controller 
+  file:
+   #path: "/tmp/test.key"
+   path: "/tmp/SSFS_{{ hana_db_sid }}.KEY"
+   state: absent
+  #become: yes
+  #become_user: "{{ hana_db_sid|lower }}adm"
+  delegate_to: localhost
+  register: tstkeyabsent 
+  
+- debug: var=tstkeyabsent
+  
+- name: To delete the tempory file(.DAT) from localhost/Ansible controller
+  file:
+   #path: "/tmp/test.dat"
+   path: "/tmp/SSFS_{{ hana_db_sid }}.DAT"   
+   state: absent
+  #become: yes
+  #become_user: "{{ hana_db_sid|lower }}adm"
+  delegate_to: localhost
+  register: tstdatabsent 
+
+- debug: var=tstdatabsent
+

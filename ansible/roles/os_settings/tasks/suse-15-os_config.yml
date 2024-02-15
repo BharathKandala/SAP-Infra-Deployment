@@ -1,0 +1,32 @@
+---
+# SLES 15 specifics
+
+# Update all packages SLES
+# - name: Update all packages on OpenSUSE/SUSE Linux
+#   zypper:
+#     name: '*'
+#     state: latest
+#     type: patch
+#   environment:
+#     ZYPP_LOCK_TIMEOUT: "300"
+  # when: ansible_os_family|upper == "SUSE"
+
+# SUSE bug 1167134
+- name: Ensure DHCLIENT_SET_HOSTNAME is set to no for SLES
+  lineinfile:
+    path:       /etc/sysconfig/network/dhcp
+    regexp:     '^DHCLIENT_SET_HOSTNAME='
+    line:       DHCLIENT_SET_HOSTNAME="no"
+  when:         ansible_os_family|upper == 'SUSE'
+
+- name: Add IP address of all hosts to all hosts
+  lineinfile:
+    dest: /etc/hosts
+    regexp: '.*{{ item }}$'
+    line: "{{ hostvars[item].ansible_host }} {{item}}.core.heiway.net {{item}}"
+    state: present
+  when: hostvars[item].ansible_host is defined
+  with_items: "{{ groups.all }}"
+
+- name: Print hosts file
+  command: cat /etc/hosts

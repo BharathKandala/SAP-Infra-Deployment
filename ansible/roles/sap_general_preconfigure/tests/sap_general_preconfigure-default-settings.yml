@@ -1,0 +1,6 @@
+---
+- hosts: all
+  collections:
+    - community.sap_install
+  roles:
+    - sap_general_preconfigure

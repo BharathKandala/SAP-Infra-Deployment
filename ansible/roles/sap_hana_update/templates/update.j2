@@ -1,0 +1,83 @@
+[Action]
+
+# Execution scenario
+action=update
+
+[General]
+
+# Use Simplified Installation UI
+simplified_ui=n
+
+# Skip all SAP Host Agent calls
+skip_hostagent_calls=n
+bootstrap=n
+
+# Stop update before software version switch, resumable
+prepare_update=n
+
+# Execute checks, do not update SAP HANA System
+check_only=n
+
+# Remote Execution
+remote_execution=ssh
+
+# Use http instead of https for SAPControl web service
+sapcontrol_use_http=n
+
+# Auto Initialize Services
+auto_initialize_services=y
+
+# Verify the authenticity of SAP HANA components
+verify_signature=n
+
+# # Components ( Valid values: all | client | es | ets | lcapps | server | smartda | streaming | rdsync | xs | studio | afl | sca | sop | eml | rme | rtl | trp )
+components=all
+#components=client
+
+# Update Execution Mode
+update_execution_mode=standard
+
+# Non-standard Shared File System
+checkmnt=/hana/shared/{{ hana_update_sid | upper }}
+
+# Do not Modify '/etc/sudoers' File
+skip_modify_sudoers=n
+
+[Server]
+
+# SAP HANA System ID
+sid={{ hana_update_sid | upper }}
+
+# Enable the installation or upgrade of the SAP Host Agent
+install_hostagent=y
+
+# Register the SAP HANA System with systemd
+use_systemd=n
+
+# Configure Python version
+configure_python=python3
+
+# System Database User Name
+system_user=SYSTEM
+
+# Inter Service Communication Mode
+isc_mode=standard
+
+# Apply System Size Dependent Resource Limits? (SAP Note 3014176)
+apply_system_size_dependent_parameters=n
+
+# Database User Password
+system_user_password={{ sap_hana_install_db_system_password|d(sap_hana_install_master_password) }}
+
+# System database user (SYSTEM) password
+systemdb_system_user_password={{ sap_hana_install_db_system_password|d(sap_hana_install_master_password) }}
+
+[Plugin]
+
+# Skips the scriptserver restart during AFL Online Registration
+no_scriptserver_restart=n
+
+[Client]
+
+# SAP HANA Database Client Installation Path
+client_path=/hana/shared/{{ hana_update_sid | upper }}/hdbclient

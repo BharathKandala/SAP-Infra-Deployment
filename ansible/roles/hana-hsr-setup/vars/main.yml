@@ -1,0 +1,15 @@
+---
+# SAP HANA Replication
+hana_backup_dir: /backup
+hana_db_sid: A1H
+hana_instance_nbr: '05'
+hana_opration_mode: logreplay
+hana_prim_site_name: SITEA
+hana_replication_mode: sync
+hana_second_site_name: SITEB
+hana_system_backup_prefix: SYSTEM
+hana_system_db_paswd: 'MOPuppets1#'
+hana_tenant_backup_prefix: A1H
+hana_tenant_sid: A1H
+primary_virtual_host: heia1hhdb05z2
+secondary_virtual_host: heia1hhdb05z4

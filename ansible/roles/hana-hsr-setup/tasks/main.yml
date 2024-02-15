@@ -1,0 +1,25 @@
+---
+    
+#- import_tasks: primary_db_backup.yml
+#  when: ansible_hostname==primary_virtual_host
+
+- import_tasks: secondary_files_backup.yml
+  when: ansible_hostname==secondary_virtual_host
+  
+- import_tasks: fetch_dat_key_files.yml
+  when: ansible_hostname==primary_virtual_host
+  
+- import_tasks: copy_dat_key_files.yml
+  when: ansible_hostname==secondary_virtual_host
+
+# - import_tasks: change_permission.yml
+#   when: "'{{ virtual_host }}' == '{{ secondary_virtual_host }}'"
+
+
+- import_tasks: primary_enable_replication.yml
+  when: ansible_hostname==primary_virtual_host
+
+# - meta: end_play  
+  
+- import_tasks: secondary_db_register.yml
+  when: ansible_hostname==secondary_virtual_host

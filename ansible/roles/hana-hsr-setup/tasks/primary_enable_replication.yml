@@ -1,0 +1,28 @@
+---
+- name: Enable replication in primary site
+  shell: |
+    source /usr/sap/{{ hana_db_sid }}/home/.sapenv.sh && \  
+    /usr/sap/{{ hana_db_sid }}/HDB{{ hana_instance_nbr }}/exe/hdbnsutil -sr_enable --name={{ ansible_hostname }}   
+  become: yes
+  become_user: "{{ hana_db_sid | lower }}adm"
+  args:
+    executable: /bin/bash
+  register: enablesr
+  changed_when: "'successfully enabled system as system replication source site' in enablesr.stdout"
+  failed_when: |
+    enablesr.rc != 0 and 'this site is already enabled' not in enablesr.stdout
+  #when: primary_virtual_host | bool
+  async: 60
+  poll: 2
+
+- debug:
+    msg: "{{ enablesr }}" 
+
+
+ 
+ 
+  
+  
+
+    
+    

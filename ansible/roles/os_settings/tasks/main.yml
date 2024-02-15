@@ -1,0 +1,27 @@
+---
+- debug: var=sap_swpm_db_sid
+
+- include_tasks: swap.yml
+
+- include_vars: ../vars/packages.yml
+  name: "Import package list"
+  
+# - name: "Install python-xml on Suse"
+#   shell: zypper -n install python-xml
+
+- name: Install packages
+  become: yes
+  package:
+    name: "{{ item }}"
+    state: present
+  with_items: "{{ packages }}"  
+  register: installed_packages
+  ignore_errors: true
+
+- name: Print the Installed Packages
+  debug:
+    msg: "{{ item.item }}"
+  loop: "{{ installed_packages.results }}"
+  loop_control:
+      label: "{{ item.state }}"   
+  ignore_errors: true    

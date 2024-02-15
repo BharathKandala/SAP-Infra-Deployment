@@ -1,0 +1,93 @@
+---
+  - hosts: sap_hana, sap_hana_ads
+    become: yes
+    pre_tasks:
+    - name: Search for SAP HANA installation folder
+      stat:
+        path: "/usr/sap/{{ sap_hana_install_sid }}"
+      register: check_hana
+  
+    - name: Check if SAP HANA is installed
+      debug:
+        msg: | 
+          Skipping installation. Reason: 
+          SAP HANA is already installed. (Directory /usr/sap/{{ sap_hana_install_sid }} detected)
+      when: check_hana.stat.exists
+
+    tasks:
+    - name: Configure SAP HANA extra partitions
+      block:
+      - name: Grant permissions to extra SAP HANA partitions
+        file:
+          path: "{{ item }}"
+          owner: "{{ sap_hana_install_sid | lower }}adm"
+          group: "sapsys"
+          mode: 0777
+          recurse: yes
+        with_items: "{{ sap_hana_extra_partitions }}"
+      
+      - name: Ensure SAP HANA data partitioning values are in global.ini
+        community.general.ini_file:
+          path: /usr/sap/{{ sap_hana_install_sid }}/SYS/global/hdb/custom/config/global.ini
+          section: customizable_functionalities
+          option: persistence_datavolume_partition_multipath
+          value: "true"
+          backup: yes
+        register: sap_hana_data_partitioning
+
+      - name: Stop SAP HANA DB
+        become: yes
+        become_user: "{{ sap_hana_install_sid | lower }}adm" 
+        ansible.builtin.shell: |
+          /usr/sap/{{ sap_hana_install_sid }}/HDB{{ sap_hana_install_instance_number }}/HDB stop
+        when: sap_hana_data_partitioning.changed
+    
+      - name: Start SAP HANA DB
+        become: yes
+        become_user: "{{ sap_hana_install_sid | lower }}adm" 
+        ansible.builtin.shell: |
+          /usr/sap/{{ sap_hana_install_sid }}/HDB{{ sap_hana_install_instance_number }}/HDB start
+        when: sap_hana_data_partitioning.changed
+      
+      - name: Ensure SAP HANA data volume striping is enabled in global.ini
+        community.general.ini_file:
+          path: /usr/sap/{{ sap_hana_install_sid }}/SYS/global/hdb/custom/config/global.ini
+          section: persistence
+          option: datavolume_striping
+          value: "true"
+          backup: yes
+
+      - name: Get SAP HANA extra partition sizes in GB
+        become: yes
+        become_user: "root"
+        register: sap_hana_extra_partitions_sizes
+        ansible.builtin.shell: |
+          df -BG | grep {{ item }} | awk '{ print $2 }' | sed 's/G//'
+        with_items: "{{ sap_hana_extra_partitions }}"
+
+      - name: Ensure SAP HANA data volume striping sizes are in global.ini
+        community.general.ini_file:
+          path: /usr/sap/{{ sap_hana_install_sid }}/SYS/global/hdb/custom/config/global.ini
+          section: persistence
+          option: datavolume_striping_size_gb
+          value: "{{ item.stdout|int - 5 }}"
+        with_items:
+        - "{{ sap_hana_extra_partitions_sizes.results | list }}"
+      
+      - name: Add extra data partitions in SAP HANA DB SQL
+        become: yes
+        become_user: "{{ sap_hana_install_sid | lower }}adm"
+        # no_log: true
+        ansible.builtin.shell: |
+          /usr/sap/{{ sap_hana_install_sid }}/HDB{{ sap_hana_install_instance_number }}/exe/hdbsql -u {{ hdbsql_admin_username }} -p {{ hdbsql_admin_password }} -n localhost:{{ hdbsql_port }} \
+          "ALTER SYSTEM ALTER DATAVOLUME ADD PARTITION PATH '{{ item }}/{{ sap_hana_install_sid }}';"
+        with_items: "{{ sap_hana_extra_partitions }}"
+
+      - name: Grant permissions to extra SAP HANA partitions
+        file:
+          path: "{{ item }}"
+          mode: 0777
+          recurse: yes
+        with_items: "{{ sap_hana_extra_partitions }}"
+
+      when: sap_hana_extra_partitions is defined and check_hana.stat.exists

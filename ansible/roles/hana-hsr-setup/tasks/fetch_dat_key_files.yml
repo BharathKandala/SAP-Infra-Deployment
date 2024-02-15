@@ -1,0 +1,87 @@
+---
+    
+- name: Make sure to delete the tempory file(.KEY) from localhost/Ansible controller if it exists
+  file:
+   #path: "/tmp/test.key"
+   path: "/tmp/SSFS_{{ hana_db_sid }}.KEY"
+   state: absent
+  #become: yes
+  #become_user: "{{ sap_sid|lower }}adm"
+  delegate_to: localhost
+  register: tstkeyabsent 
+  
+- debug: var=tstkeyabsent
+  
+- name: Make sure to delete the tempory file(.DAT) from localhost/Ansible controller if it exists
+  file:
+   #path: "/tmp/test.dat"
+   path: "/tmp/SSFS_{{ hana_db_sid }}.DAT"   
+   state: absent
+  #become: yes
+  #become_user: "{{ sap_sid|lower }}adm"
+  delegate_to: localhost
+  register: tstdatabsent 
+
+- debug: var=tstdatabsent
+
+- name: Fetch .KEY file 
+  fetch:
+    #src: "/tmp/tst/test.key"
+    #dest: "/tmp/test.key"
+    flat: yes
+    src: "/hana/shared/{{ hana_db_sid }}/global/security/rsecssfs/key/SSFS_{{ hana_db_sid }}.KEY"
+    dest: "/tmp/SSFS_{{ hana_db_sid }}.KEY"
+    # mode: 0640
+    # remote_src: no
+  become: yes
+  become_user: "{{ hana_db_sid | lower }}adm"
+  register: copykeyfile
+  # delegate_to: "{{ secondary_physical_hostname }}"
+  
+- debug: var=copykeyfile
+ 
+ 
+# - name: Copy .DAT file with owner and permissions changes 
+  # copy:
+    # src: /hana/shared/{{ hana_db_sid }}/global/security/rsecssfs/data/SSFS_{{ hana_db_sid }}.DAT
+    # dest: /hana/shared/{{ hana_db_sid }}/global/security/rsecssfs/data/SSFS_{{ hana_db_sid }}.DAT
+    # owner: "{{ hana_db_sid }}"
+    # group: sapsys
+    # mode: '0644'
+  # become: yes
+  # become_user: "{{ sap_sid | lower }}adm"
+  # register: copydatfile
+  # delegate_to: "{{ secondary_physical_hostname }}"
+  
+
+# - debug: var=copydatfile 
+
+
+# - name: Copy .DAT file with owner and permissions changes
+  # copy:
+    # src: "/tmp/test.dat"
+    # dest: "/tmp/test.dat"
+    # # src: "/hana/shared/{{ hana_db_sid }}/global/security/rsecssfs/data/SSFS_{{ hana_db_sid }}.DAT"
+    # # dest: "/tmp/SSFS_{{ hana_db_sid }}.DAT_{{ ansible_date_time.iso8601 }}"
+    # mode: 0644
+    # remote_src: no
+  # register: copydatfile
+  # delegate_to: "{{ secondary_physical_hostname }}"
+  
+# - debug: var=copydatfile 
+
+- name: Fetch .DAT file 
+  fetch:
+    #src: "/tmp/tst/test.dat"
+    #dest: "/tmp/test.dat"
+    flat: yes
+    src: "/hana/shared/{{ hana_db_sid }}/global/security/rsecssfs/data/SSFS_{{ hana_db_sid }}.DAT"
+    dest: "/tmp/SSFS_{{ hana_db_sid }}.DAT"
+    # mode: 0640
+    # remote_src: no
+  become: yes
+  become_user: "{{ hana_db_sid | lower }}adm"
+  register: copydatfile
+  # delegate_to: "{{ secondary_physical_hostname }}"
+  
+- debug: var=copydatfile

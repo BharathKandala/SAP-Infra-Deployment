@@ -1,0 +1,6 @@
+---
+#get the distribution details
+distro_name: "{{ ansible_distribution | upper }}-{{ ansible_distribution_major_version }}"
+distribution_id: "{{ ansible_distribution | lower ~ ansible_distribution_major_version }}"
+distribution_full_id: "{{ ansible_distribution | lower ~ ansible_distribution_version }}"
+package_prefix: "-"

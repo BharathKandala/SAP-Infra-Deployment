@@ -1,0 +1,6 @@
+---
+- hosts: all
+  vars:
+    allow_world_readable_tmpfiles: true
+  roles:
+    - { role: hana-hsr-setup, become: yes }

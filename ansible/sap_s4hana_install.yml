@@ -1,0 +1,21 @@
+---
+- hosts: sap_s4hana
+  max_fail_percentage: 0
+  become: yes
+  pre_tasks:
+  - name: Search for SAP S4HANA installation folder
+    stat:
+      path: "/usr/sap/{{ sap_swpm_sid }}"
+    register: check_s4hana
+
+  - name: Check if SAP S4HANA is installed
+    debug:
+      msg: | 
+        Skipping installation. Reason: 
+        SAP S4HANA is already installed. (Directory /usr/sap/{{ sap_swpm_sid }} detected)
+    when: check_s4hana.stat.exists
+
+  roles:
+  - role: sap_swpm
+    become: yes
+    #when: not check_s4hana.stat.exists

@@ -1,0 +1,4 @@
+---
+- hosts: all
+  roles:
+    - { role: hana-os-clustering, become: yes }

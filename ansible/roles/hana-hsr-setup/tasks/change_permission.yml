@@ -1,0 +1,21 @@
+---
+- name: Change permissions
+  file:
+    path: /hana/shared/{{ hana_db_sid }}/global/security/rsecssfs/data/SSFS_{{ hana_db_sid }}.DAT
+    state: file
+    owner:  "{{ hana_db_sid  | lower }}adm"
+    group: sapsys
+    mode: "0644"
+    #become: yes
+    #become_user: "{{ sap_sid | lower }}adm"
+
+  
+  
+- name: change owner and permissions
+  file:
+    path: /hana/shared/{{ hana_db_sid }}/global/security/rsecssfs/key/SSFS_{{ hana_db_sid }}.KEY
+    state: file
+    owner:  "{{ hana_db_sid  | lower }}adm"
+    group: sapsys
+    mode: "0640"
+    

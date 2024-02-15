@@ -1,0 +1,9 @@
+---
+- name: Run HANA update Revision 
+  ansible.builtin.include_tasks: hdb_update.yml
+  when: hana_client_update == "db"
+
+- name: Run HANA update Revision 
+  ansible.builtin.include_tasks: hdb_update_app.yml
+  when: hana_client_update == "app"  
+

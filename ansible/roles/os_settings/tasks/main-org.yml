@@ -1,0 +1,178 @@
+--- 
+- include_vars: 
+    file: ../vars/os-vars.yml
+  name: "Ensure variables are available"
+
+- include_tasks: swap.yml
+
+- include_vars: os-vars.yml
+  name: "Import package list"
+   
+
+- name: Add HA repo before installing
+  shell: zypper ar -f --gpgcheck-allow-unsigned-repo "https://download.opensuse.org/repositories/network:/ha-clustering:/Factory/SLE_15_SP3" "Cluster-HA"
+  ignore_errors: true
+
+- name: Register Azure Repo
+  shell: "/usr/sbin/SUSEConnect -p sle-module-public-cloud/{{ansible_distribution_version}}/x86_64"
+  ignore_errors: true
+
+# - environment: 
+#     ZYPP_LOCK_TIMEOUT: "300"
+#   loop: "{{ packages[ansible_os_family|lower + ansible_distribution_major_version] }}"
+#   name: "Install OS packages: {{ ansible_os_family|upper }}-{{ ansible_distribution_major_version }}"
+#   package: 
+#     name: "{{ item }}"
+#     state: present
+
+# - name: "SAP OS Pacakges: - Update Python: {{ distribution_full_id }}"  # noqa package-latest
+#   zypper:
+#     name: 'python-xml'
+#     state: latest
+#   when: distribution_id == "suse15"
+#   tags:
+#     - skip_ansible_lint
+
+# - name: "Determine packages appropriate for tier on: {{ distribution_id }}"
+#   ansible.builtin.set_fact:
+#     packages_for_tier:  "{{ packages[distribution_id] |
+#       selectattr('tier', 'in', ['all', tier]) |
+#       selectattr('node_tier', 'in', ['all', node_tier]) |
+#       list }}"
+
+# - name: "Determine packages appropriate for tier on: {{ distribution_full_id }}"
+#   ansible.builtin.set_fact:
+#     packages_for_specific_tier: "{{ packages[distribution_full_id] |
+#       selectattr('tier', 'in', ['all', tier]) |
+#       selectattr('node_tier', 'in', ['all', node_tier]) |
+#       list }}"
+#     when: packages | selectattr(distribution_full_id, "defined") | list | length > 0
+
+
+#Get list of all applicable SAP OS packages - node_tier = 'all'
+- name: "Get list of all SAP OS Pacakges on: {{ distribution_id }}"
+  ansible.builtin.set_fact:
+    packages_for_node_tier_all: "{{ packages[distribution_id] |
+           selectattr('node_tier', 'match', 'all') |
+           list }}"
+- debug:
+    var: packages_for_node_tier_all
+
+# Print list of matching packages
+- name: "Show all SAP OS Pacakges"
+  ansible.builtin.debug:
+    msg:
+      - "Packages for {{ distribution_id }} : {{ packages_for_node_tier_all }}"
+      #- "Packages for {{ distribution_full_id }} : {{ packages_for_specific_tier }}"
+    verbosity: 2
+  when: packages_for_node_tier_all is defined
+
+#Install all applicable SAP OS packages
+- environment:
+    ZYPP_LOCK_TIMEOUT: "300"
+  name: "Install all applicable SAP OS Pacakges: {{ distro_name }}"
+  block:
+    - debug: 
+        var: packages_for_node_tier_all |selectattr('state', 'equalto', item.state) |map(attribute='package') | list
+      loop: 
+          - { state: 'present' }
+    - set_fact: 
+        package_to_install: "{{ packages_for_node_tier_all |selectattr('state', 'equalto', item.state) |map(attribute='package') | list }}"
+      loop: 
+          - { state: 'present' }
+    # - set_fact: 
+    #     package_to_remove: "{{ packages_for_node_tier_all |selectattr('state', 'equalto', item.state) |map(attribute='package') | list }}"
+    #   loop: 
+    #       - { state: 'absent' }
+          
+    # - name: Zypper update
+    #   become: true
+    #   zypper:
+    #       name: "*"
+    #       state: latest
+    #       type: patch
+        
+    - name: Install all applicable SAP OS Pacakges
+      become: true
+      zypper:
+          name: "{{ package_prefix }}{{ item }}"
+          state: present
+          disable_gpg_check: yes
+          # force_resolution: yes
+      loop: "{{ package_to_install }}"
+      # ignore_errors: yes
+      
+    # - name: Remove all applicable SAP OS Pacakges
+    #   zypper:
+    #       name: "{{ package_prefix }}{{ item }}"
+    #       state: absent
+    #   loop: "{{ package_to_remove }}"
+      # ignore_errors: yes
+
+#Get list of specific SAP OS packages - node_tier = 'hana/ers/ascs'
+- name: "Get list of specific SAP OS Pacakges on: {{ distribution_id }}"
+  ansible.builtin.set_fact:
+    packages_for_node_tier_spec: "{{ packages[distribution_id] |
+           selectattr('tier', 'match', tier) |
+           selectattr('node_tier', 'match', node_tier) |
+           list }}"
+- debug:
+    var: packages_for_node_tier_spec
+
+# Print list of matching packages
+- name: "Show specific SAP OS Pacakges"
+  ansible.builtin.debug:
+    msg:
+      - "Packages for {{ distribution_id }} : {{ packages_for_node_tier_spec }}"
+    verbosity: 2
+  when: packages_for_node_tier_spec is defined
+
+#Install specific SAP OS packages
+- name: "Install specific SAP OS Pacakges: {{ distro_name }}"
+  block:
+    - debug: 
+         var: packages_for_node_tier_spec |selectattr('state', 'equalto', item.state) |map(attribute='package') | list
+      loop: 
+          - { state: 'present' }
+    - set_fact: 
+         package_to_install: "{{ packages_for_node_tier_spec |selectattr('state', 'equalto', item.state) |map(attribute='package') | list }}"
+      loop: 
+          - { state: 'present' }
+    # - set_fact: 
+    #      package_to_remove: "{{ packages_for_node_tier_spec |selectattr('state', 'equalto', item.state) |map(attribute='package') | list }}"
+    #   loop: 
+    #       - { state: 'absent' }
+          
+    - name: Install specific SAP OS Pacakges
+      become: true
+      zypper:
+          name: "{{ package_prefix }}{{ item }}"
+          state: present
+          # force_resolution: yes
+          disable_gpg_check: yes
+      loop: "{{ package_to_install }}"
+      when: 
+      # ignore_errors: yes
+      
+    # - name: Remove specific SAP OS Pacakges
+    #   zypper:
+    #       name: "{{ package_prefix }}{{ item }}"
+    #       state: absent
+    #   loop: "{{package_to_remove}}"
+      # ignore_errors: yes
+
+- command: "echo never > /sys/kernel/mm/transparent_hugepage/enabled"
+  name: "Task Disable Transparent Hugepages & Configure Processor C-States 1"
+
+- lineinfile: 
+    dest: /etc/default/grub
+    line: "GRUB_CMDLINE_LINUX='crashkernel=auto  @ vconsole.keymap=us @kernel_arguments: transparent_hugepage=never intel_idle.max_cstate=1 processor.max_cstate=1'"
+    regexp: GRUB_CMDLINE_LINUX=
+  name: "Task Disable Transparent Hugepages & Configure Processor C-States 2"
+
+- command: "grub2-mkconfig -o /boot/grub2/grub.cfg"
+  name: "Task Disable Transparent Hugepages & Configure Processor C-States 3"
+  
+- include_tasks: "{{ ansible_os_family | lower }}-{{ ansible_distribution_major_version }}-os_config.yml"
+  name: "Manual preparation for {{ ansible_os_family | lower }}-{{ ansible_distribution_major_version }}"
+  when: "ansible_os_family|upper == \"SUSE\""

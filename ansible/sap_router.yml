@@ -1,0 +1,9 @@
+---
+- hosts: sap_router
+  become: yes
+  tasks:
+  - name: Enable SAP Router port in firewalld
+    ansible.posix.firewalld:
+      port: 3299/tcp
+      permanent: yes
+      state: enabled

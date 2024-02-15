@@ -1,0 +1,7 @@
+---
+- name: sap hana upgrade app
+  hosts: sap_hana_upgrade_app
+  gather_facts: no
+  become: yes    
+  roles:
+    - sap_hana_update

@@ -1,0 +1,13 @@
+---
+- hosts: sap_s4hana , sap_hana , sap_webdispatcher
+  max_fail_percentage: 0
+  tasks:
+  - name: stop Firewalld
+    become: yes
+    ansible.builtin.shell: |
+      systemctl stop firewalld
+      
+  - name: Disable Firewalld
+    become: yes
+    ansible.builtin.shell: |
+      systemctl disable firewalld

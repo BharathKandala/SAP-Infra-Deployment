@@ -1,0 +1,127 @@
+---
+# Ensure {{ sap_hana_tmp_directory }} directory exists on the target host
+- name: Ensure {{ sap_hana_tmp_directory }} directory exists
+  file:
+    path: "{{ sap_hana_tmp_directory }}"
+    state: directory
+    mode: '0755'
+    recurse: yes
+
+- name: Copy files from {{ share_path }} to {{ sap_hana_tmp_directory }}
+  copy:
+    src: "{{ share_path }}"
+    dest: "{{ sap_hana_tmp_directory }}"
+    mode: 0755
+    remote_src: yes
+  become: yes
+   
+
+- name: Give  permissions to an existing folder
+  file:
+    path: "{{ sap_hana_tmp_directory }}"
+    owner: root
+    group: root
+    mode: '0755'  
+    recurse: yes   
+
+# To Stop the SAP servers/applications
+- name: collect instance number(s)
+  shell:
+    cmd: /usr/sap/hostctrl/exe/lssap | awk -v sid={{ sid|upper }} -F'|' '{gsub(" ","");if ($1=="{{ sid|upper }}") print $2}'
+  register: instance_nr
+  
+# This task should be uncommented for debugging purposes only 
+- name: show instance number(s)
+  debug:
+    msg: "{{ instance_nr.stdout_lines }}"
+
+- name: show instance number(s)
+  debug:
+    msg: "{{ item }}" 
+  loop: "{{ instance_nr.stdout_lines }}"
+
+
+- name: capture sapcontrol binary path
+  shell: 
+    cmd: /bin/csh -c "source /home/{{ sid|lower }}adm/.cshrc;/usr/bin/which sapcontrol"
+  become: yes
+  become_user: "{{ sid|lower }}adm"
+  register: sap_ctrl_path
+  
+
+- name: stop SAP
+  shell:  |
+     /bin/csh -c "{{ sap_ctrl_path.stdout }} -nr {{ item }} -function StopSystem" 
+     /bin/csh -c "sleep 10"
+     /bin/csh -c "{{ sap_ctrl_path.stdout }} -nr {{ item }} -function WaitforStopped 1200 10"
+  loop: "{{ instance_nr.stdout_lines }}"
+  become: yes
+  become_user: "{{ sid|lower }}adm"
+  register: SAP_stop_result
+
+
+
+# Share memory Cleansing   
+- name: Run cleanipc for all instances
+  shell:
+    cmd: /bin/csh -c "source /home/{{ sid|lower }}adm/.cshrc;cleanipc {{ item }} remove"
+  loop: "{{ instance_nr.stdout_lines }}"
+  loop_control:
+    pause: 10
+  become: yes
+  become_user: "{{ sid|lower }}adm"
+  register: cleanipc_result
+   
+- name: show cleanipc_result
+  debug:
+    msg: "{{ cleanipc_result }}"
+        
+
+- name: Update Hana Revision  
+  command: "./hdbinst -a client --path={{hana_client_appnode}}"
+  become: yes
+  register: updatehanaclient
+  args:
+    chdir: "{{ hana_hdblcm_path }}" 
+
+- name: Installation Message
+  debug:
+    msg: "{{ updatehanaclient }}"    
+
+
+# To Start the SAP servers/applications
+- name: collect instance number(s)
+  shell:
+    cmd: /usr/sap/hostctrl/exe/lssap | awk -v sid={{ sid|upper }} -F'|' '{gsub(" ","");if ($1=="{{ sid|upper }}") print $2}'
+  register: instance_nr_start
+
+# This task should be uncommented for debugging purposes only
+- name: show instance number(s)
+  debug:
+   msg: "{{ instance_nr_start.stdout_lines }}"
+
+- name: capture sapcontrol binary path 
+  shell:                 
+    cmd: /bin/csh -c "source /home/{{ sid|lower }}adm/.cshrc;/usr/bin/which sapcontrol"
+  become: yes            
+  become_user: "{{ sid|lower }}adm"
+  register: sap_ctrl_path_start 
+
+- name: start SAP
+  shell:  |
+     /bin/csh -c "{{ sap_ctrl_path_start.stdout }} -nr {{ item }} -function StartSystem" 
+     /bin/csh -c "sleep 10"
+     /bin/csh -c "{{ sap_ctrl_path_start.stdout }} -nr {{ item }} -function WaitforStarted 1200 10"
+  loop: "{{ instance_nr_start.stdout_lines }}"
+  become: yes
+  become_user: "{{ sid|lower }}adm"
+  register: SAP_start_result
+
+# This task should be uncommented for debugging purposes only
+- name: show SAP start result
+  debug:
+   msg: "{{ SAP_start_result }}"        
+
+
+
+  

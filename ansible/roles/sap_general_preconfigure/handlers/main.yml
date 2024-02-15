@@ -1,0 +1,25 @@
+---
+# handlers file for sap_general_preconfigure
+
+- name: Reboot the managed node
+  ansible.builtin.reboot:
+    test_command: /bin/true
+  listen: __sap_general_preconfigure_reboot_handler
+  when:
+    - sap_general_preconfigure_reboot_ok|d(true)
+
+- name: Remount /dev/shm
+  ansible.builtin.command: mount -o remount /dev/shm
+  args:
+    warn: false
+  listen: __sap_general_preconfigure_mount_tmpfs_handler
+
+- name: Check if /dev/shm is available
+  ansible.builtin.command: df -h /dev/shm
+  register: __sap_general_preconfigure_command_df_shm_result
+  listen: __sap_general_preconfigure_mount_tmpfs_handler
+
+- name: Show the result of df -h /dev/shm
+  ansible.builtin.debug:
+    var: __sap_general_preconfigure_command_df_shm_result.stdout_lines, __sap_general_preconfigure_command_df_shm_result.stderr_lines
+  listen: __sap_general_preconfigure_mount_tmpfs_handler

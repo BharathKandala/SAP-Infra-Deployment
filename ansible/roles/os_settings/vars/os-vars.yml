@@ -1,0 +1,74 @@
+---
+packages:
+  sles_sap15: 
+    - { tier: 'os', package: 'acl=2.2.52', node_tier: 'all', state: 'present' }
+    - { tier: 'os', package: 'python', node_tier: 'all', state: 'present' }
+    - { tier: 'os', package: 'chrony=4.1', node_tier: 'all', state: 'present' }
+    - { tier: 'os', package: 'libyui-qt-pkg', node_tier: 'all', state: 'present' }
+    - { tier: 'os', package: 'glibc=2.31', node_tier: 'all', state: 'present' }
+    - { tier: 'os', package: 'systemd=246.16', node_tier: 'all', state: 'present' }
+    - { tier: 'os', package: 'tuned', node_tier: 'all', state: 'present' }
+    - { tier: 'os', package: 'numad', node_tier: 'all', state: 'present' }
+    - { tier: 'os', package: 'ntp', node_tier: 'all', state: 'present' }
+    - { tier: 'os', package: 'sapconf=5.0.4', node_tier: 'all', state: 'present' }
+    - { tier: 'os', package: 'saptune=3.0.2', node_tier: 'all', state: 'present' }
+    - { tier: 'os', package: 'uuidd=2.36.2', node_tier: 'all', state: 'present' }
+    - { tier: 'os', package: 'libopenssl1_0_0', node_tier: 'all', state: 'present' }
+    - { tier: 'os', package: 'libssh2-1=1.9.0', node_tier: 'all', state: 'present' }
+    - { tier: 'os', package: 'sysstat=12.0.2', node_tier: 'all', state: 'present' }
+    - { tier: 'os', package: 'libgcc_s1=11.3.0', node_tier: 'all', state: 'present' }
+    - { tier: 'os', package: 'libstdc++6=11.3.0', node_tier: 'all', state: 'present' }
+    #- { tier: 'os', package: 'libatomic1', node_tier: 'all', state: 'present' }
+    - { tier: 'os', package: 'scap-security-guide', node_tier: 'all', state: 'present' }
+    - { tier: 'os', package: 'openscap-utils', node_tier: 'all', state: 'present' }
+    - { tier: 'os', package: 'glibc-32bit=2.31', node_tier: 'all', state: 'present' }
+    - { tier: 'os', package: 'glibc-i18ndata', node_tier: 'all', state: 'present' }
+    - { tier: 'os', package: 'glibc-locale-32bit', node_tier: 'all', state: 'present' }
+    - { tier: 'os', package: 'libgcc_s1-32bit', node_tier: 'all', state: 'present' }
+    - { tier: 'os', package: 'libidn11-32bit', node_tier: 'all', state: 'present' }
+    - { tier: 'os', package: 'libX11-6-32bit', node_tier: 'all', state: 'present' }
+    - { tier: 'os', package: 'libcurl4-32bit', node_tier: 'all', state: 'present' }
+    - { tier: 'os', package: 'libz1-32bit=1.2.11', node_tier: 'all', state: 'present' }
+    - { tier: 'os', package: 'libuuid1-32bit', node_tier: 'all', state: 'present' }
+    - { tier: 'os', package: 'python-xml=2.7.18', node_tier: 'all', state: 'present' }
+    - { tier: 'os', package: 'unrar', node_tier: 'all', state: 'present' }
+    - { tier: 'os', package: 'python2-rpm', node_tier: 'all', state: 'present' }
+    - { tier: 'os', package: 'cloud-regionsrv-client=10.0.5', node_tier: 'all', state: 'present' }
+    - { tier: 'os', package: 'cloud-regionsrv-client-plugin-azure', node_tier: 'all', state: 'present' }
+    - { tier: 'os', package: 'regionServiceClientConfigAzure=2.0.0', node_tier: 'all', state: 'present' }
+    - { tier: 'os', package: 'regionServiceCertsAzure', node_tier: 'all', state: 'present' }
+    - { tier: 'os', package: 'autofs', node_tier: 'all', state: 'present' }
+    - { tier: 'os', package: 'nfs-utils', node_tier: 'all', state: 'present' }
+    - { tier: 'os', package: 'nfs4-acl-tools', node_tier: 'all', state: 'present' }
+    - { tier: 'os', package: 'socat', node_tier: 'all', state: 'present' }    
+   # - { tier: 'os', package: 'golang-github-prometheus-node_exporter', node_tier: 'all', state: 'present' }
+    - { tier: 'ha', package: 'corosync=2.4.5', node_tier: 'hana', state: 'present' }
+    - { tier: 'ha', package: 'resource-agents=4.8.0', node_tier: 'hana', state: 'present' }
+    - { tier: 'ha', package: 'fence-agents=4.11.0', node_tier: 'hana', state: 'present' }
+    - { tier: 'ha', package: 'cloud-netconfig-azure=1.6', node_tier: 'hana', state: 'present' }
+    # - { tier: 'ha', package: 'ha-cluster-bootstrap', node_tier: 'hana', state: 'present' }
+    #- { tier: 'ha', package: 'ha-cluster-bootstrap', node_tier: 'ascs', state: 'present' }
+    #- { tier: 'ha', package: 'ha-cluster-bootstrap', node_tier: 'ers', state: 'present' }
+    - { tier: 'ha', package: 'azure-cli', node_tier: 'hana', state: 'present' }
+    - { tier: 'ha', package: 'acl', node_tier: 'hana', state: 'present' }
+    - { tier: 'ha', package: 'azure-cli', node_tier: 'ascs', state: 'present' }
+    - { tier: 'ha', package: 'azure-cli', node_tier: 'ers', state: 'present' }
+    - { tier: 'ha', package: 'python3-azure-mgmt-compute=18.0.0', node_tier: 'hana', state: 'present' }
+    - { tier: 'ha', package: 'python3-azure-mgmt-compute=18.0.0', node_tier: 'ascs', state: 'present' }
+    - { tier: 'ha', package: 'python3-azure-mgmt-compute=18.0.0', node_tier: 'ers', state: 'present' }
+    - { tier: 'ha', package: 'python3-azure-identity=1.5.0', node_tier: 'hana', state: 'present' }
+    - { tier: 'ha', package: 'python3-azure-identity=1.5.0', node_tier: 'ascs', state: 'present' }
+    - { tier: 'ha', package: 'python3-azure-identity=1.5.0', node_tier: 'ers', state: 'present' }
+    - { tier: 'ha', package: 'autofs', node_tier: 'hana', state: 'present' }
+    - { tier: 'ha', package: 'autofs', node_tier: 'ascs', state: 'present' }
+    - { tier: 'ha', package: 'autofs', node_tier: 'ers', state: 'present' }
+    - { tier: 'ha', package: 'socat', node_tier: 'hana', state: 'present' }
+    - { tier: 'ha', package: 'socat', node_tier: 'ascs', state: 'present' }
+    - { tier: 'ha', package: 'socat', node_tier: 'ers', state: 'present' }
+
+
+    #- { tier: 'ha', package: 'crmsh', node_tier: 'hana', state: 'present' }
+    #- { tier: 'ha', package: 'crmsh', node_tier: 'ascs', state: 'present' }
+    #- { tier: 'ha', package: 'crmsh', node_tier: 'ers', state: 'present' }
+    - { tier: 'ha', package: 'sap-suse-cluster-connector', node_tier: 'ascs', state: 'present' }
+    - { tier: 'ha', package: 'sap-suse-cluster-connector', node_tier: 'ers', state: 'present' }

@@ -1,0 +1,28 @@
+---
+- hosts: sap_hana, sap_hana_ads
+  max_fail_percentage: 0
+  pre_tasks:
+    - name: Search for SAP HANA installation folder
+      stat:
+        path: "/usr/sap/{{ sap_hana_install_sid }}"
+      register: check_hana
+  
+    - name: Check if SAP HANA is installed
+      debug:
+        msg: | 
+          Skipping installation. Reason: 
+          SAP HANA is already installed. (Directory /usr/sap/{{ sap_hana_install_sid }} detected)
+      when: check_hana.stat.exists
+    
+#     - name: Install acl
+#       community.general.zypper:
+#         name: "{{ item }}"
+#         state: present
+#       with_items:
+#         - acl  
+#       ignore_errors: true     
+
+  roles:
+  - role: sap_hana_preconfigure
+    become: yes
+    when: not check_hana.stat.exists

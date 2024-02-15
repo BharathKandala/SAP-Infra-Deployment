@@ -1,0 +1,45 @@
+---
+# Ensure {{ sap_hana_tmp_directory }} directory exists on the target host
+- name: Ensure {{ sap_hana_tmp_directory }} directory exists
+  file:
+    path: "{{ sap_hana_tmp_directory }}"
+    state: directory
+    mode: '0755'
+    recurse: yes
+
+- name: Copy files from {{ share_path }} to {{ sap_hana_tmp_directory }}
+  copy:
+    src: "{{ share_path }}"
+    dest: "{{ sap_hana_tmp_directory }}"
+    mode: 0755
+    remote_src: yes
+  become: yes    
+
+- name: "Process SAP HANA Update Configfile Template"
+  template:
+    src: "../templates/update.j2"
+    dest: "{{ sap_hana_tmp_directory }}/update.cfg"
+    mode: 0755
+  register: cftemplate
+
+- name: Give  permissions to an existing folder
+  file:
+    path: "{{ sap_hana_tmp_directory }}"
+    owner: root
+    group: root
+    mode: '0755'  
+    recurse: yes 
+
+- name: Update Hana Revision
+  command: "./hdblcm --configfile={{ sap_hana_tmp_directory }}/update.cfg -b"
+  register: updatehanarevision
+  args:
+    chdir: "{{ hana_hdblcm_path }}" 
+
+- name: Installation Message
+  debug:
+    msg: "{{ updatehanarevision }}"        
+
+
+
+  

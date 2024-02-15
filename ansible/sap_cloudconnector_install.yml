@@ -1,0 +1,19 @@
+---
+- hosts: sap_cloudconnector
+  pre_tasks:
+  - name: Search for SAP Cloud Connector installation folder
+    stat:
+      path: "/opt/sap/scc"
+    register: check_cc
+
+  - name: Check if SAP Cloud Connector is installed
+    debug:
+      msg: | 
+        Skipping installation. Reason: 
+        SAP Cloud Connector is already installed. (Directory /opt/sap/scc detected)
+    when: check_cc.stat.exists
+
+  roles:
+  - role: sap_cloudconnector_install
+    become: yes
+    when: not check_cc.stat.exists

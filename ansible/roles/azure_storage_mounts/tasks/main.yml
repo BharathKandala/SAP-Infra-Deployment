@@ -1,0 +1,74 @@
+--- 
+- name: Install required packages
+  ansible.builtin.package:
+    name: "{{ item }}"
+    state: present
+  with_items:
+  - cifs-utils
+
+- name: Create mount directories
+  ansible.builtin.file:
+    path: "{{ item.path }}"
+    state: directory
+    mode: "{{ item.dir_mode | default('0550') }}"
+  with_items:
+  - "{{ azure_storage_mounts }}"
+
+- name: Create smbcredentials folder
+  ansible.builtin.file:
+    path: "/etc/smbcredentials"
+    state: directory
+    mode: '0750'
+
+# - name: Debug
+#   shell: |
+#     echo "Current user is: $(whoami)"
+#     az account show
+#     az storage account keys list --resource-group {{ item.resource_group_name }} --account-name {{ item.storage_account_name }} --query "[0].value" --subscription {{ item.subscription_id }} -o tsv 
+#   with_items:
+#   - "{{ azure_storage_mounts }}"
+#   delegate_to: 127.0.0.1
+#   become: false
+
+- name: Get secrets from Storage Accounts
+  no_log: true
+  shell: |
+    az account set --subscription {{ item.subscription_id }} > /dev/null 2>&1
+    az storage account keys list --resource-group {{ item.resource_group_name }} --account-name {{ item.storage_account_name }} --query "[0].value" --subscription {{ item.subscription_id }} -o tsv 
+  register: smb_password
+  with_items:
+  - "{{ azure_storage_mounts }}"
+  delegate_to: 127.0.0.1
+  become: false
+
+- name: Create smbcredentials files
+  ansible.builtin.file:
+    path: "/etc/smbcredentials/{{ item.storage_account_name }}-{{ item.share_name }}.cred"
+    mode: '0600'
+    state: touch
+  with_items:
+  - "{{ azure_storage_mounts }}"
+
+- name: Add secrets to smbcredentials files
+  no_log: true
+  ansible.builtin.lineinfile:
+    path: "/etc/smbcredentials/{{ item.0.storage_account_name }}-{{ item.0.share_name }}.cred"
+    search_string: 'password'
+    line: |
+      username={{ item.0.storage_account_name }}
+      password={{ item.1.stdout }}
+  with_together:
+  - "{{ azure_storage_mounts }}"
+  - "{{ smb_password.results | list }}"
+  ignore_errors: "{{ ansible_check_mode }}"
+
+- name: Mount shares
+  ansible.posix.mount:
+    src: "//{{ item.storage_account_name }}.file.core.windows.net/{{ item.share_name }}"
+    path: "{{ item.path }}"
+    fstype: "{{ item.fstype | default('cifs') }}"
+    opts: "credentials=/etc/smbcredentials/{{ item.storage_account_name }}-{{ item.share_name }}.cred,dir_mode={{ item.dir_mode | default('0550') }},file_mode={{ item.file_mode | default('0550') }},serverino,nosharesock,actimeo=30,uid={{ item.uid | default('0') }},gid={{ item.gid | default('0') }}"
+    state: mounted
+  with_items:
+  - "{{ azure_storage_mounts }}"
+  ignore_errors: "{{ ansible_check_mode }}"

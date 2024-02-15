@@ -1,0 +1,5 @@
+---
+- hosts: all
+  max_fail_percentage: 0
+  roles:
+    - { role: os_settings, become: yes }

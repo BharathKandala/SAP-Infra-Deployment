@@ -1,0 +1,64 @@
+---
+- name: Install required packages
+  community.general.zypper:
+    name: "{{ item }}"
+    state: present
+  with_items:
+    - lvm2
+    - unzip
+    - nfs-client
+
+- name: Create volume groups
+  community.general.lvg:
+    pvs: "{{ item.pvs }}"
+    force: yes
+    vg: "{{ item.name }}"
+    pvresize: "{{ item.pvresize | default('yes') }}"
+  with_items:
+    - "{{ vgs }}"
+
+- name: Create directories
+  ansible.builtin.file:
+    path: "{{ item.1.path }}"
+    state: directory
+    mode: "{{ item.1.mode | default('0775') }}"
+    owner: "{{ item.1.owner | default(omit) }}"
+    group: "{{ item.1.group | default(omit) }}"
+
+  with_subelements:
+    - "{{ vgs }}"
+    - lvs
+
+- name: Create logical volumes
+  community.general.lvol:
+    vg: "{{ item.0.name }}"
+    lv: "{{ item.1.name }}"
+    size: "{{ item.1.size | default('100%FREE') }}"
+    shrink: no
+    resizefs: "{{ item.1.resizefs | default('yes') }}"
+    opts: "{{ item.1.opts | default(omit) }}"
+  with_subelements:
+    - "{{ vgs }}"
+    - lvs
+  ignore_errors: "{{ ansible_check_mode }}"
+
+- name: Create filesystems
+  filesystem:
+    fstype: "{{ item.1.fstype | default('xfs') }}"
+    dev: "/dev/{{ item.0.name }}/{{ item.1.name }}"
+  with_subelements:
+    - "{{ vgs }}"
+    - lvs
+  ignore_errors: "{{ ansible_check_mode }}"
+
+- name: Mount devices
+  ansible.posix.mount:
+    path: "{{ item.1.path }}"
+    src: "/dev/mapper/{{ item.0.name }}-{{ item.1.name }}"
+    fstype: "{{ item.1.fstype | default('xfs') }}"
+    state: mounted
+    opts: defaults,nofail
+  with_subelements:
+    - "{{ vgs }}"
+    - lvs
+  ignore_errors: "{{ ansible_check_mode }}"

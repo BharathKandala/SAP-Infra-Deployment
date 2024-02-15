@@ -1,0 +1,125 @@
+---
+- hosts: sap_hana, sap_hana_ads
+  tasks: 
+
+  - name: debbug azure_backup_username
+    debug: var=azure_backup_username  
+    
+  - name:  "Backup - options set in section [backup] of global.ini."
+    become_user: "{{ sap_hana_install_sid | lower }}adm"
+    become: yes
+    community.general.ini_file:
+      path:  "/hana/shared/{{ sap_hana_install_sid | upper }}/global/hdb/custom/config/global.ini"
+      section: backup
+      state:  present
+      mode: 0644
+      option: "{{ item.option }}"
+      value:  "{{ item.value }}"
+    loop:
+      - { option: log_backup_timeout_s, value: "900" }
+      - { option: catalog_backup_using_backint, value: "true" }
+      - { option: enable_accumulated_catalog_backup, value: "false" }
+      - { option: parallel_data_backup_backint_channels, value: "1" }
+      - { option: backint_response_timeout, value: "7200" }
+
+  # - meta: end_play
+
+  - name: Configure SAP HANA backups in Agent and SAP HANA
+    when: sap_hana_backups|default(false)|bool == true
+    block:
+    - name: Create Azure Backup user in SAP HANA DB SQL
+      become: yes
+      become_user: "{{ sap_hana_install_sid | lower }}adm"
+      no_log: true
+      ansible.builtin.shell: |
+        /usr/sap/{{ sap_hana_install_sid }}/HDB{{ sap_hana_install_instance_number }}/exe/hdbsql -u {{ hdbsql_admin_username }} -p {{ hdbsql_admin_password }} -n localhost:3{{ sap_hana_install_instance_number }}13 \
+        "CREATE USER {{ azure_backup_username }} PASSWORD {{ azure_backup_password }} NO FORCE_FIRST_PASSWORD_CHANGE;"
+        exit 0
+
+    - name: Grant Azure Backup user permissions in SAP HANA DB SQL
+      become: yes
+      become_user: "{{ sap_hana_install_sid | lower }}adm"
+      no_log: true
+      ansible.builtin.shell: |
+        /usr/sap/{{ sap_hana_install_sid }}/HDB{{ sap_hana_install_instance_number }}/exe/hdbsql -u {{ hdbsql_admin_username }} -p {{ hdbsql_admin_password }} -n localhost:3{{ sap_hana_install_instance_number }}13 \
+        "GRANT BACKUP ADMIN, DATABASE ADMIN, CATALOG READ, INIFILE ADMIN TO {{ azure_backup_username }};"
+    
+    - name: Create user store in SAP HANA DB SQL
+      become: yes
+      become_user: "{{ sap_hana_install_sid | lower }}adm"
+      no_log: true 
+      ansible.builtin.shell: |
+        /usr/sap/{{ sap_hana_install_sid }}/HDB{{ sap_hana_install_instance_number }}/exe/hdbuserstore Set SYSTEM localhost:3{{ sap_hana_install_instance_number }}13@SYSTEMDB {{ hdbsql_admin_username | upper }} {{ hdbsql_admin_password }}
+
+    - name: Search for msawb plugin file
+      become: yes
+      become_user: root
+      stat:
+        path: "/opt/msawb/etc/config/SAPHana/msawb-pluginhost-saphana-{{ sap_hana_install_sid | lower }}-environment.conf"
+      register: check_msawb_plugin
+
+    # - name: Configure backups for SAP HANA
+    #   become: yes
+    #   become_user: root
+    #   ansible.builtin.script: |
+    #     files/msawb-plugin-config-com-sap-hana.sh \
+    #       --add \
+    #       --sid {{ sap_hana_install_sid }} \
+    #       --instance-number {{ sap_hana_install_instance_number }} \
+    #       --system-key SYSTEM \
+    #       --backup-key {{ azure_backup_username }}
+    #   when: not check_msawb_plugin.stat.exists
+    #   register: backup_output
+
+    - name: Configure backups for SAP HANA
+      become: yes
+      become_user: root
+      command: |
+        /tmp/msawb-plugin-config-com-sap-hana.sh \
+          --add \
+          --sid {{ sap_hana_install_sid }} \
+          --instance-number {{ sap_hana_install_instance_number }} \
+          --system-key {{ azure_backup_username }}
+      when: not check_msawb_plugin.stat.exists
+      register: backup_output
+
+    # - name: Configure backups for SAP HANA
+    #   become: yes
+    #   become_user: root
+    #   command: '/tmp/msawb-plugin-config-com-sap-hana.sh -sk SYSTEM'
+    #   when: not check_msawb_plugin.stat.exists
+    #   register: backup_output  
+
+    - debug:
+        msg: "{{ backup_output }}"  
+
+  post_tasks:
+  - name: Configure SAP HANA backups in Recovery Services Vault
+    when: sap_hana_backups|default(false)|bool == true
+    block:
+    # - name: Configure SAP HANA database backup policies
+    #   shell: |
+    #     az account set --subscription {{ sap_hana_backup_policy_subscription_id }}
+    #     chmod -R 775 files/create-sap-hana-db-backup-policy.ps1
+    #     files/create-sap-hana-db-backup-policy.ps1 \
+    #     -backupPolicyFile files/policies/{{ sap_hana_install_sid | lower }}.json \
+    #     -backupPolicyName {{ sap_hana_backup_policy_name }} \
+    #     -vaultResourceGroupName {{ sap_hana_backup_vault_resource_group_name }} \
+    #     -vaultName {{ sap_hana_backup_vault_name }}
+    #   delegate_to: 127.0.0.1
+    #   become: false
+
+    - name: Configure SAP HANA database backups
+      shell: |
+        az account set --subscription {{ sap_hana_backup_policy_subscription_id }}
+        chmod -R 775 files/configure-sap-hana-db-backup.ps1
+        files/configure-sap-hana-db-backup.ps1 \
+        -backupPolicyName {{ sap_hana_backup_policy_name }} \
+        -vaultResourceGroupName {{ sap_hana_backup_vault_resource_group_name }} \
+        -vaultName {{ sap_hana_backup_vault_name }} \
+        -sapHanaDbServerName {{ sap_hana_backup_server_name }} \
+        -sapHanaDbList '{{ sap_hana_backup_database_list | join(',') }}' \
+        -sapHanaDbVmName {{ sap_hana_backup_vm_name }} \
+        -sapHanaDbVmResourceGroupName {{ sap_hana_backup_vm_resource_group_name }}
+      delegate_to: 127.0.0.1
+      become: false

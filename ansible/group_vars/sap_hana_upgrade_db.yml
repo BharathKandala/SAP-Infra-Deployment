@@ -1,0 +1,22 @@
+# # HANA 2.72 (db)
+sap_hana_tmp_directory: "/backup/tmp"
+share_path: "/usr/sap/install/HANA275/"
+#hana_hdblcm_path: "/backup/tmp/SAP_HANA_DATABASE/"
+hana_hdblcm_path: "/usr/sap/install/HANA275/SAP_HANA_DATABASE/"
+hana_update_component_medium: "{{ sap_hana_tmp_directory }}/"
+hana_update_sid: "tst"
+hana_client_update: "db"
+
+# # # HANA 2.72 (app)
+# sap_hana_tmp_directory: "/backup/tmp/"
+# share_path: "/share/heifsmedia/HANA2.72/extracted/SAP_HANA_CLIENT"
+# hana_hdblcm_path: "/backup/tmp/SAP_HANA_CLIENT/"
+# hana_update_component_medium: "/backup/tmp"
+# hana_client_appnode: "/usr/sap/D1C/hdbclient"
+# sid: "d1c"
+
+# HANA 2.67
+# sap_hana_tmp_directory: "/backup"
+# hana_hdblcm_path: "/backup/HANA2.67/SAP_HANA_DATABASE"
+# hana_update_component_medium: "/backup/HANA2.67"
+# hana_update_sid: "d3h"

@@ -1,0 +1,23 @@
+---
+# Requires SLE-Module-Legacy15 Module
+- name: "2578899 - SAP HANA database"
+  ansible.builtin.zypper:
+    name: "{{ package }}"
+    type: package
+  with_items:
+  - libssh2-1
+  - libopenssl1_1
+  loop_control:
+    loop_var: package
+
+- name: 2578899 - sysstat - monitoring data
+  ansible.builtin.package:
+    name: "sysstat"
+
+- name: 2578899 - UUID daemon
+  ansible.builtin.package:
+    name: "uuidd"
+
+- name: 2578899 - insserv-compat package
+  ansible.builtin.package:
+    name: "insserv-compat"

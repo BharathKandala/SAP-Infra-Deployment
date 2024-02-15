@@ -1,0 +1,45 @@
+---
+
+- name: Creating a directory for SYSTEM backup 
+  file:
+      path: "{{ hana_backup_dir }}/systemdb"
+      state: directory
+      mode: 0777
+  register: create_dir_status
+  become: yes
+  become_user: "root"
+  
+- debug: var=create_dir_status
+
+
+- name: Creating a directory for tenant backup 
+  file:
+      path: "{{ hana_backup_dir }}/tenantdb"
+      state: directory
+      mode: 0777
+  register: create_dir1_status
+  become: yes
+  become_user: "root"
+  
+- debug: var=create_dir1_status
+    
+- name: Primary system SYSTEMDB backup
+  shell: |
+    /usr/sap/{{ hana_db_sid | upper }}/HDB{{ hana_instance_nbr }}/exe/hdbsql -i {{ hana_instance_nbr }} -d SYSTEMDB -u SYSTEM -p '{{ hana_system_db_paswd }}' "BACKUP DATA USING FILE ('{{ hana_backup_dir }}/systemdb','{{ hana_system_backup_prefix }}')"
+  become: yes
+  become_user: "{{ hana_db_sid | lower }}adm"
+  register: systemdbbackup
+
+  
+- debug: var=systemdbbackup 
+    
+    
+- name: Primary system tenantDB backup
+  shell: |
+     /usr/sap/{{ hana_db_sid | upper }}/HDB{{ hana_instance_nbr }}/exe/hdbsql -i {{ hana_instance_nbr }} -d SYSTEMDB -u SYSTEM -p '{{ hana_system_db_paswd }}' "BACKUP DATA FOR {{ hana_tenant_sid }} USING FILE ('{{ hana_backup_dir }}/tenantdb','{{ hana_tenant_backup_prefix }}')"
+  become: yes
+  become_user: "{{ hana_db_sid | lower }}adm"
+  register: tenantdbbackup
+
+  
+- debug: var=tenantdbbackup

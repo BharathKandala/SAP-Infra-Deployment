@@ -1,0 +1,23 @@
+---
+        
+- name: take the backup of .KEY file
+  shell: 
+    cmd: mv SSFS_{{ hana_db_sid }}.KEY SSFS_{{ hana_db_sid }}.KEY.orig
+  args:
+    chdir: "/hana/shared/{{ hana_db_sid }}/global/security/rsecssfs/key"
+  become: yes
+  become_user: "{{ hana_db_sid | lower }}adm"
+  register: keyfilebackup
+
+- debug: var=keyfilebackup 
+
+- name: take the backup of .DAT file
+  shell: 
+    cmd: mv SSFS_{{ hana_db_sid }}.DAT SSFS_{{ hana_db_sid }}.DAT.orig
+  args:
+    chdir: "/hana/shared/{{ hana_db_sid }}/global/security/rsecssfs/data"
+  become: yes
+  become_user: "{{ hana_db_sid | lower }}adm"
+  register: datfilebackup
+
+- debug: var=datfilebackup 

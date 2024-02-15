@@ -1,0 +1,89 @@
+---
+- hosts: sap_hana, sap_hana_ads
+  tasks: 
+  - name: Search for SAP HANA installation folder
+    stat:
+      path: "/usr/sap/{{ sap_hana_install_sid }}"
+    register: check_hana
+
+  - name: Check if SAP HANA is installed
+    debug:
+      msg: | 
+        Skipping installation. Reason: 
+        SAP HANA is already installed. (Directory /usr/sap/{{ sap_hana_install_sid }} detected)
+    when: check_hana.stat.exists
+
+  - when: sap_hana_isolation_mode|default(false)|bool == true and check_hana.stat.exists
+    block:
+    - name: Ensure group exists with correct gid
+      become: yes
+      ansible.builtin.group:
+        name: "{{ item.name }}"
+        state: present
+        gid: "{{ item.gid }}"
+      with_items:
+      - name: "{{ sap_hana_install_sid | lower }}grp"
+        gid: "{{ sap_hana_isolation_mode_gid }}"
+      - name: "{{ sap_hana_install_sid | lower }}shm"
+        gid: "{{ sap_sidshm_gid }}"
+
+    - name: Add users and groups
+      become: yes
+      user:
+        name: "{{ item.name }}"
+        groups: "{{ item.groups }}"
+        group: "{{ item.group | default(omit) }}"
+        uid: "{{ item.uid | default(omit) }}"
+        append: yes
+      with_items:
+      - name: "{{ sap_hana_install_sid | lower }}usr"
+        uid: "{{ sap_hana_isolation_mode_uid }}"
+        group: "sapsys"
+        groups:
+        - "{{ sap_hana_install_sid | lower }}shm"
+        - "{{ sap_hana_install_sid | lower }}grp"
+      - name: "{{ sap_hana_install_sid | lower }}adm"
+        groups:
+        - sapsys
+        - "{{ sap_hana_install_sid | lower }}grp"
+
+    - name: Change user primary group
+      become: yes
+      ansible.builtin.user:
+        name: "{{ sap_hana_install_sid | lower }}usr"
+        group: "sapsys"
+
+    - name: Stop database
+      become: yes
+      become_user: "{{ sap_hana_install_sid | lower }}adm"
+      # no_log: true
+      ansible.builtin.shell: |
+        /usr/sap/{{ sap_hana_install_sid }}/HDB{{ sap_hana_install_instance_number }}/exe/hdbsql \
+        -d SYSTEMDB -u {{ hdbsql_admin_username }} -p {{ hdbsql_admin_password }} -n localhost:3{{ sap_hana_install_instance_number }}13 \
+        "ALTER SYSTEM STOP DATABASE {{ sap_hana_install_sid }}"
+
+    - name: Run convertMDC.py Python script
+      become: yes
+      become_user: "{{ sap_hana_install_sid | lower }}adm"
+      environment:
+        TERM: xterm  
+      ansible.builtin.shell: |
+        bash -ilc "python /usr/sap/{{ sap_hana_install_sid }}/HDB{{ sap_hana_install_instance_number }}/exe/python_support/convertMDC.py --verbose --change=databaseIsolation --isolation={{ sap_hana_isolation_mode_level | default('high') }}"
+
+    - name: Set OS User and Group on SAP HANA database
+      become: yes
+      become_user: "{{ sap_hana_install_sid | lower }}adm"
+      # no_log: true
+      ansible.builtin.shell: |
+        /usr/sap/{{ sap_hana_install_sid }}/HDB{{ sap_hana_install_instance_number }}/exe/hdbsql \
+        -d SYSTEMDB -u {{ hdbsql_admin_username }} -p {{ hdbsql_admin_password }} -n localhost:3{{ sap_hana_install_instance_number }}13 \
+        "ALTER DATABASE {{ sap_hana_install_sid }} OS USER '{{ sap_hana_install_sid | lower }}usr' OS GROUP '{{ sap_hana_install_sid | lower }}grp'"
+
+    - name: Start database
+      become: yes
+      become_user: "{{ sap_hana_install_sid | lower }}adm"
+      # no_log: true
+      ansible.builtin.shell: |
+        /usr/sap/{{ sap_hana_install_sid }}/HDB{{ sap_hana_install_instance_number }}/exe/hdbsql \
+        -d SYSTEMDB -u {{ hdbsql_admin_username }} -p {{ hdbsql_admin_password }} -n localhost:3{{ sap_hana_install_instance_number }}13 \
+        "ALTER SYSTEM START DATABASE {{ sap_hana_install_sid }}"
