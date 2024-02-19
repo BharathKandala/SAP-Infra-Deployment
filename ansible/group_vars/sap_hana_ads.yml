@@ -3,84 +3,84 @@
 swap_size_mb: "2052"
 sap_solution: HANA
 
-azure_storage_mounts:
-- share_name: 
-  storage_account_name: 
-  resource_group_name: 
-  subscription_id: 
-  path: /share/heifsmedia
-  file_mode: 775
-  dir_mode: 775
-- share_name: 
-  storage_account_name: 
-  resource_group_name: 
-  subscription_id: 
-  path: /share/heifsdepmedia
-  file_mode: 775
-  dir_mode: 775
+# azure_storage_mounts:
+# - share_name: 
+#   storage_account_name: 
+#   resource_group_name: 
+#   subscription_id: 
+#   path: /share/heifsmedia
+#   file_mode: 775
+#   dir_mode: 775
+# - share_name: 
+#   storage_account_name: 
+#   resource_group_name: 
+#   subscription_id: 
+#   path: /share/heifsdepmedia
+#   file_mode: 775
+#   dir_mode: 775
 
 # Volume groups and logical volumes
-vgs:
-# Data VG
-- name: datavg
-  lvs:
-  - name: datalv
-    path: /hana/data
-  pvs:
-  - "/dev/disk/azure/scsi1/lun0"
+# vgs:
+# # Data VG
+# - name: datavg
+#   lvs:
+#   - name: datalv
+#     path: /hana/data
+#   pvs:
+#   - "/dev/disk/azure/scsi1/lun0"
 
   
 # Log VG
-- name: logvg
-  lvs:
-  - name: loglv
-    opts: --stripes 2 --stripesize 64
-    path: /hana/log
-  pvs:
-  - "/dev/disk/azure/scsi1/lun1"
-  - "/dev/disk/azure/scsi1/lun2"
+# - name: logvg
+#   lvs:
+#   - name: loglv
+#     opts: --stripes 2 --stripesize 64
+#     path: /hana/log
+#   pvs:
+#   - "/dev/disk/azure/scsi1/lun1"
+#   - "/dev/disk/azure/scsi1/lun2"
 
 # Shared VG
-- name: sharedvg
-  lvs:
-  - name: sharedlv
-    path: /hana/shared
-  pvs:
-  - "/dev/disk/azure/scsi1/lun3"
+# - name: sharedvg
+#   lvs:
+#   - name: sharedlv
+#     path: /hana/shared
+#   pvs:
+#   - "/dev/disk/azure/scsi1/lun3"
 
 # User VG
-- name: usrsapvg
-  lvs:
-  - name: usrsaplv
-    path: /usr/sap
-  pvs:
-  - "/dev/disk/azure/scsi1/lun4"
+# - name: usrsapvg
+#   lvs:
+#   - name: usrsaplv
+#     path: /usr/sap
+#   pvs:
+#   - "/dev/disk/azure/scsi1/lun4"
 
 # Backup VG
-- name: backupvg
-  lvs:
-  - name: backuplv
-    path: /backup
-    mode: "0770"
-  pvs:
-  - "/dev/disk/azure/scsi1/lun5"
+# - name: backupvg
+#   lvs:
+#   - name: backuplv
+#     path: /backup
+#     mode: "0770"
+#   pvs:
+#   - "/dev/disk/azure/scsi1/lun5"
 
 # SAP HANA
-sap_hana_install_software_directory: /share/heifsdepmedia/HANA2.62/
+sap_hana_install_software_directory: /software/HANA/
 sap_hana_install_use_master_password: "y"
-sap_hana_install_sid: "P1D"
-sap_hana_install_instance_number: "50"
-sap_hana_install_userid: "2004"
-sap_hana_install_groupid: "79"
+sap_hana_install_sid: "DA1"
+sap_hana_install_instance_number: "00"
+sap_hana_install_userid: "1001"
+sap_hana_install_groupid: "982"
 sap_hana_install_update_etchosts: "false"
 sap_hana_install_system_restart: "y"
 sap_hana_install_update_firewall: yes
 sap_general_preconfigure_reboot_ok: no
 
 # Unix User ID
-sap_sidshm_gid: "202"
-sap_sapadm_uid: "4001"
-sap_sapsys_gid: "79"
+sap_sidshm_gid: "1003"
+sap_sapadm_uid: "982"
+sap_sapsys_gid: "982"
 
 
 # SAP HANA Isolation mode
