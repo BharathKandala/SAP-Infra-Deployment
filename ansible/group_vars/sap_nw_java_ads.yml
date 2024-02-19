@@ -4,18 +4,18 @@ swap_size_mb: "20640"
 sap_solution: NETWEAVER
 
 azure_storage_mounts:
-- share_name: heifsmedia
-  storage_account_name: heisapstorage01
-  resource_group_name: hei-coregc-rg-sap-weeu-infra
-  subscription_id: 4f50e73b-0f78-469d-8948-584b0ecb0342
-  path: /share/heifsmedia
+- share_name: 
+  storage_account_name: 
+  resource_group_name: 
+  subscription_id: 
+  path: 
   file_mode: 775
   dir_mode: 775
-- share_name: heifsdepmedia
-  storage_account_name: heidepstorage01
-  resource_group_name: hei-coregc-rg-dep-weeu-saplibrary
-  subscription_id: 48b7643a-5031-4970-9fcf-873eb22ed08c
-  path: /share/heifsdepmedia
+- share_name: 
+  storage_account_name: 
+  resource_group_name: 
+  subscription_id: 
+  path: 
   file_mode: 775
   dir_mode: 775
 
@@ -52,7 +52,7 @@ sap_swpm_sid: D1A
 sap_swpm_db_schema_java: SAPJAVA1
 sap_swpm_db_sid: D1D
 sap_swpm_db_instance_nr: "50"
-sap_swpm_fqdn: core.heiway.net
+sap_swpm_fqdn: 
 sap_swpm_load_type: SAP
 sap_swpm_sapadm_uid: "4001"
 sap_swpm_sapsys_gid: "79"
