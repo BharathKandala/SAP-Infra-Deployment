@@ -3,63 +3,63 @@
 swap_size_mb: "20640"
 sap_solution: NETWEAVER
 
-azure_storage_mounts:
-- share_name: 
-  storage_account_name: 
-  resource_group_name: 
-  subscription_id: 
-  path: 
-  file_mode: 775
-  dir_mode: 775
-- share_name: 
-  storage_account_name: 
-  resource_group_name: 
-  subscription_id: 
-  path: 
-  file_mode: 775
-  dir_mode: 775
+# azure_storage_mounts:
+# - share_name: 
+#   storage_account_name: 
+#   resource_group_name: 
+#   subscription_id: 
+#   path: 
+#   file_mode: 775
+#   dir_mode: 775
+# - share_name: 
+#   storage_account_name: 
+#   resource_group_name: 
+#   subscription_id: 
+#   path: 
+#   file_mode: 775
+#   dir_mode: 775
 
-# Volume groups and logical volumes
-vgs:
-# SAP VG
-- name: sapvg
-  lvs:
-  - name: usrsaplv
-    path: /usr/sap/
-    size: 40G
-  - name: sapmntlv
-    path: /sapmnt/
-  pvs:
-  - "/dev/disk/azure/scsi1/lun0"
+# # Volume groups and logical volumes
+# vgs:
+# # SAP VG
+# - name: sapvg
+#   lvs:
+#   - name: usrsaplv
+#     path: /usr/sap/
+#     size: 40G
+#   - name: sapmntlv
+#     path: /sapmnt/
+#   pvs:
+#   - "/dev/disk/azure/scsi1/lun0"
 
 # Software
-sap_swpm_software_path: /share/heifsdepmedia/ADS_7.5SP23/
-sap_swpm_sapcar_path: /share/heifsdepmedia/HANA2.62/
-sap_swpm_swpm_path: /share/heifsdepmedia/ADS_7.5SP23/
-sap_swpm_unpack_igs_exe_sar: /share/heifsdepmedia/ADS_7.5SP23/igsexe_13-80003187.sar
-sap_swpm_unpack_igs_helper_sar: /share/heifsdepmedia/ADS_7.5SP23/igshelper_17-10010245.sar
-sap_swpm_unpack_sap_exe_sar: /share/heifsdepmedia/ADS_7.5SP23/SAPEXE_1000-80002573.SAR
-sap_swpm_unpack_sap_jvm_sar: /share/heifsdepmedia/ADS_7.5SP23/SAPJVM8_88-80000202.SAR
+sap_swpm_software_path: /software/ADS_media/
+sap_swpm_sapcar_path: /software/HCMT_tool/
+sap_swpm_swpm_path: /software/ADS_media/
+sap_swpm_unpack_igs_exe_sar: /software/ADS_media/igsexe_4-80007786.sar
+sap_swpm_unpack_igs_helper_sar: /software/ADS_media/igshelper_17-10010245.sar
+sap_swpm_unpack_sap_exe_sar: /software/ADS_media/SAPEXE_201-80007612.SAR
+sap_swpm_unpack_sap_jvm_sar: /software/ADS_media/SAPJVM8_97-80000202.SAR
 
 # SAP SWPM Variables
 sap_swpm_product_catalog_id: NW_Java_OneHost:NW750.HDB.PD
 sap_swpm_db_schema: SAPJAVA1
 sap_swpm_software_use_media: "false"
-sap_swpm_pas_instance_nr: "51"
-sap_swpm_java_scs_instance_nr: "52"
+sap_swpm_pas_instance_nr: "00"
+sap_swpm_java_scs_instance_nr: "01"
 sap_swpm_delete_sapinst_users: "true"
-sap_swpm_sid: D1A
+sap_swpm_sid: DA1
 sap_swpm_db_schema_java: SAPJAVA1
-sap_swpm_db_sid: D1D
-sap_swpm_db_instance_nr: "50"
+sap_swpm_db_sid: DA1
+sap_swpm_db_instance_nr: "00"
 sap_swpm_fqdn: 
 sap_swpm_load_type: SAP
-sap_swpm_sapadm_uid: "4001"
-sap_swpm_sapsys_gid: "79"
-sap_swpm_sidadm_uid: "2003"
+sap_swpm_sapadm_uid: "1002"
+sap_swpm_sapsys_gid: "1002"
+sap_swpm_sidadm_uid: "1001"
 sap_swpm_setup_firewall: yes
 sap_swpm_use_product_version_descriptor: "true"
-sap_swpm_db_host: heip1dhdb50
+sap_swpm_db_host: vmplrda1hana
 
 sap_swpm_inifile_list:
 - installation_media
