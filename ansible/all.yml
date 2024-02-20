@@ -1,9 +1,9 @@
 ---
-# - import_playbook: os_settings.yml
-#   tags:
-#   - os
-#   - security
-#   - ha
+- import_playbook: os_settings.yml
+  tags:
+  - os
+  - security
+  - ha
 
 # # - import_playbook: cis_hardening.yml
 # #   tags:
@@ -29,10 +29,10 @@
 #   # - cloudconnector
 #   # - saprouter
 
-- import_playbook: disable_services.yml
-  tags: 
-  - hanadb
-  - s4hana    
+# - import_playbook: disable_services.yml
+#   tags: 
+#   - hanadb
+#   - s4hana    
 
 
 # - import_playbook: sap_hana_preconfigure.yml
@@ -61,19 +61,19 @@
 # #   - hanadb
 # #   - s4hana
 
-- import_playbook: sap_hana_upgrade_db.yml
-  tags: 
-  - sap_hana_upgrade
+# - import_playbook: sap_hana_upgrade_db.yml
+#   tags: 
+#   - sap_hana_upgrade
 
 # - import_playbook: sap_s4hana_install.yml
 #   tags: 
 #   - s4hana
 #   - hanadb
 
-- import_playbook: disable_services.yml
-  tags: 
-  - hanadb
-  - s4hana    
+# - import_playbook: disable_services.yml
+#   tags: 
+#   - hanadb
+#   - s4hana    
   
 # # - import_playbook: sap_hana_azure_backup.yml
 # #   tags: 
