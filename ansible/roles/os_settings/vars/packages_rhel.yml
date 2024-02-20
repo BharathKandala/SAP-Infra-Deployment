@@ -1,0 +1,71 @@
+---
+packages:
+ - python 
+ - unixODBC
+ - libyui-qt-pkg
+ - glibc=2.31
+ - systemd=246.16
+ - systemd
+ - tuned
+ - numad
+ - ntp
+ - sapconf
+ - saptune
+#  - uuidd=2.36.2
+ - uuidd
+#  - libopenssl
+ - libssh2-1=1.9.0
+ - sysstat=12.0.2
+ - libgcc_s1
+ - libstdc++6
+ - scap-security-guide
+ - openscap-utils
+ - glibc-32bit=2.31
+ - glibc-i18ndata
+#  - glibc-locale-32bit
+ - libgcc_s1-32bit
+ - libidn11-32bit
+ - libX11-6-32bit
+ - libcurl4-32bit
+ - libz1-32bit=1.2.11
+ - libuuid1-32bit
+#  - python-xml=2.7.18
+ - unrar
+#  - python2-rpm
+ - cloud-regionsrv-client
+ - cloud-regionsrv-client-plugin-azure
+ - regionServiceClientConfigAzure
+ - regionServiceCertsAzure
+ - acl
+ - autofs
+ - nfs-utils
+ - nfs4-acl-tools 
+ - sap-suse-cluster-connector	
+ - socat  
+ - corosync
+ - resource-agents
+ - fence-agents
+ - cloud-netconfig-azure
+ - azure-cli
+ - acl
+ - azure-cli
+ - python3-azure-mgmt-compute
+ - python3-azure-identity
+ - sapstartsrv-resource-agents
+ - crmsh 
+ - crmsh-scripts 
+ - SAPHanaSR  # Added by Meher on 0806
+ - SAPHanaSR-doc # Added by Meher on 0806
+ - SAPHanaSR-ScaleOut  # Added by Prakash on 2507
+ - SAPHanaSR-ScaleOut-doc  # Added by Prakash on 2507
+ - pacemaker  # Added by Meher on 0806 
+ #- "--type pattern ha_sles" # Added by Meher on 0806 
+ - supportutils-plugin-ha-sap # Added by Meher on 0806
+ - ClusterTools2 # Added by Meher on 0806
+ - chrony=4.1
+
+ # suse01:~ # zypper in --type pattern ha_sles  - Verification required
+
+ # 
+patterns:
+- ha_sles
