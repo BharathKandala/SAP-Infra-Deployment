@@ -3,7 +3,7 @@
 
 - include_tasks: swap.yml
 
-- include_vars: ../vars/packages.yml
+- include_vars: ../vars/packages_rhel.yml
   name: "Import package list"
   
 # - name: "Install python-xml on Suse"
