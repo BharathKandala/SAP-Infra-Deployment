@@ -1,54 +1,54 @@
 ---
-- import_playbook: os_settings.yml
-  tags:
-  - os
-  - security
-  - ha
+# - import_playbook: os_settings.yml
+#   tags:
+#   - os
+#   - security
+#   - ha
 
-# # - import_playbook: cis_hardening.yml
-# #   tags:
-# #   - security
+# - import_playbook: cis_hardening.yml
+#   tags:
+#   - security
 
 # - import_playbook: create_partitions.yml
 #   tags: 
 #   - os
-#   # - ha
-#   # - hanadb
-#   # - s4hana
-#   # - netweaver
-#   # - cloudconnector
-#   # - saprouter
+  # - ha
+  # - hanadb
+  # - s4hana
+  # - netweaver
+  # - cloudconnector
+  # - saprouter
 
 # - import_playbook: azure_storage_mounts.yml
 #   tags: 
 #   - os
-#   # - ha
-#   # - hanadb
-#   # - s4hana
-#   # - netweaver
-#   # - cloudconnector
-#   # - saprouter
+  # - ha
+  # - hanadb
+  # - s4hana
+  # - netweaver
+  # - cloudconnector
+  # - saprouter
 
-# - import_playbook: disable_services.yml
-#   tags: 
-#   - hanadb
-#   - s4hana    
+- import_playbook: disable_services.yml
+  tags: 
+  - hanadb
+  - s4hana    
 
 
-# - import_playbook: sap_hana_preconfigure.yml
-#   tags:
-#   - hanadb
-#   - s4hana
+- import_playbook: sap_hana_preconfigure.yml
+  tags:
+  - hanadb
+  - s4hana
 
-# - import_playbook: sap_hana_install.yml
-#   tags: 
-#   - hanadb
-#   - s4hana
+- import_playbook: sap_hana_install.yml
+  tags: 
+  - hanadb
+  - s4hana
   
-# - import_playbook: disable_services.yml
-#   tags: 
-#   - hanadb
-#   - s4hana    
+- import_playbook: disable_services.yml
+  tags: 
+  - hanadb
+  - s4hana    
 
 
 # # - import_playbook: sap_hana_isolation_mode.yml
