@@ -63,6 +63,7 @@ sap_swpm_setup_firewall: yes
 sap_swpm_use_product_version_descriptor: "true"
 sap_swpm_db_host: vmplrda1hana
 sap_swpm_java_export_keyphrase: "Plrsap@321"
+sap_swpm_software_use_media: "false"
 
 #Required For Java Instance
 sap_swpm_java_scs_instance_hostname: "vmplrda1app"
