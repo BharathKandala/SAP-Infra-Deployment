@@ -76,13 +76,33 @@ sap_swpm_db_systemdb_password: "{{ sap_hana_install_master_password }}"
 sap_swpm_db_schema_abap_password: "{{ sap_hana_install_master_password }}"
 sap_swpm_db_sidadm_password: "{{ sap_hana_install_master_password }}"
 
+# sap_swpm_inifile_list:
+# - installation_media
+# - installation_media_swpm1
+# - other
+# - nw_instance_config
+# - db_hana_nw_connection
+# - nw_java_ume
+# - unix_user
+# - nw_other_config
+# - credentials
+
 sap_swpm_inifile_list:
-- installation_media
-- installation_media_swpm1
-- other
-- nw_instance_config
-- db_hana_nw_connection
-- nw_java_ume
-- unix_user
-- nw_other_config
-- credentials
+  - swpm_installation_media
+  - swpm_installation_media_swpm1
+  - installation_media
+  - credentials
+  - credentials_hana
+  - db_config_hana
+  - db_connection_nw_hana
+  #- db_hana_nw_connection
+  - nw_config_java_ume
+  - nw_config_central_services_java
+  - nw_config_primary_application_server_instance
+  - nw_config_other
+  #- nw_other_config
+  #- db_restore_hana     #(Uncomment if backup is required)
+  - nw_instance_config
+  - sap_os_linux_user
+  - other
+  #- db_hana_high_isolation
