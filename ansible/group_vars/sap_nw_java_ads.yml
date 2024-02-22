@@ -67,6 +67,7 @@ sap_swpm_use_product_version_descriptor: "true"
 sap_swpm_db_host: vmplrda1hana
 sap_swpm_java_export_keyphrase: "Plrsap@321"
 sap_swpm_software_use_media: "false"
+sap_swpm_set_fqdn: "false"
 
 #Required For Java Instance
 sap_swpm_java_scs_instance_hostname: "vmplrda1app"
@@ -108,7 +109,7 @@ sap_swpm_inifile_list:
   - nw_config_java_ume
   - nw_config_central_services_java
   - nw_config_primary_application_server_instance
-  # - nw_config_other
+  - nw_config_other
   #- nw_other_config
   #- db_restore_hana     #(Uncomment if backup is required)
   - nw_instance_config
