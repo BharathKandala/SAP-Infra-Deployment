@@ -66,16 +66,17 @@ sap_solution: HANA
 #   - "/dev/disk/azure/scsi1/lun5"
 
 # SAP HANA
-sap_hana_install_software_directory: /software/HANA/
+sap_hana_install_software_directory: /software/ADS_media/HANA2.76/
 sap_hana_install_use_master_password: "y"
 sap_hana_install_sid: "DA1"
 sap_hana_install_instance_number: "00"
 sap_hana_install_userid: "1001"
 sap_hana_install_groupid: "982"
 sap_hana_install_update_etchosts: "false"
-sap_hana_install_system_restart: "y"
+sap_hana_install_system_restart: "n"
 sap_hana_install_update_firewall: yes
 sap_general_preconfigure_reboot_ok: no
+sap_hana_install_hdblcm_extraargs: "--tenantdb_user=SYSTEM --volume_encryption=off --backup_encryption=off --autostart=1 --certificates_hostmap={{ ansible_hostname }}={{ ansible_hostname }} --install_execution_mode=optimized"
 
 # Unix User ID
 sap_sidshm_gid: "1003"
