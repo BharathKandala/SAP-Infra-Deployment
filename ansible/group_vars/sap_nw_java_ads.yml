@@ -34,7 +34,7 @@ sap_solution: NETWEAVER
 
 # Software
 sap_swpm_software_path: /software/ADS_media/
-sap_swpm_sapcar_path: /software/HCMT_tool/
+sap_swpm_sapcar_path: /software/ADS_media/
 sap_swpm_swpm_path: /software/ADS_media/
 sap_swpm_unpack_igs_exe_sar: /software/ADS_media/igsexe_4-80007786.sar
 sap_swpm_unpack_igs_helper_sar: /software/ADS_media/igshelper_17-10010245.sar
