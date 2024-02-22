@@ -33,14 +33,14 @@
     state: present
   when: ansible_os_family == "RedHat" or ansible_distribution == "CentOS"
 
-- name: Install Python devel and gcc to system Python on SUSE Linux
-  zypper:
-    name:
-    - python3-devel
-    - gcc
-    state: present
-    update_cache: yes
-  when: ansible_pkg_mgr == "zypper"
+# - name: Install Python devel and gcc to system Python on SUSE Linux
+#   community.general.zypper:
+#     name:
+#     - python3-devel
+#     - gcc
+#     state: present
+#     update_cache: yes
+#   when: ansible_pkg_mgr == "zypper"
 
 # Required for Ansible Module pids
 - name: Install Python dependency psutil to system Python
