@@ -35,15 +35,24 @@
   - s4hana    
 
 
-- import_playbook: sap_hana_preconfigure.yml
-  tags:
-  - hanadb
-  - s4hana
+# - import_playbook: sap_hana_preconfigure.yml
+#   tags:
+#   - hanadb
+#   - s4hana
 
-- import_playbook: sap_hana_install.yml
+# - import_playbook: sap_hana_install.yml
+#   tags: 
+#   - hanadb
+#   - s4hana
+
+- import_playbook: sap_netweaver_preconfigure.yml
   tags: 
+  - netweaver
   - hanadb
-  - s4hana
+
+- import_playbook: sap_nw_java_ads_install.yml
+  tags: 
+  - netweaver
   
 - import_playbook: disable_services.yml
   tags: 
@@ -81,14 +90,7 @@
 # #   - s4hana
 # #   - hanabackup
 
-# # - import_playbook: sap_netweaver_preconfigure.yml
-# #   tags: 
-# #   - netweaver
-# #   - hanadb
 
-# # - import_playbook: sap_nw_java_ads_install.yml
-# #   tags: 
-# #   - netweaver
 
 # # - import_playbook: sap_webdispatcher_install.yml
 # #   tags: 
