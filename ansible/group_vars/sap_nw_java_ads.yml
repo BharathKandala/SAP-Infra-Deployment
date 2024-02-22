@@ -64,6 +64,10 @@ sap_swpm_use_product_version_descriptor: "true"
 sap_swpm_db_host: vmplrda1hana
 sap_swpm_java_export_keyphrase: "Plrsap@321"
 
+#Required For Java Instance
+sap_swpm_java_scs_instance_hostname: "vmplrda1app"
+sap_swpm_java_scs_instance_nr: "01"
+
 # Passwords of APP
 sap_app_install_master_password: "Plrsap@321"
 sap_swpm_master_password: "{{ sap_app_install_master_password }}"
