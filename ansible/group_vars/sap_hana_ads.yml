@@ -70,6 +70,7 @@ sap_hana_install_software_directory: /software/ADS_media/HANA2.76/
 sap_hana_install_use_master_password: "y"
 sap_hana_install_sid: "DA1"
 sap_hana_install_instance_number: "00"
+sap_hana_install_master_password: "Plrhana@321"
 sap_hana_install_userid: "1001"
 sap_hana_install_groupid: "982"
 sap_hana_install_update_etchosts: "false"
