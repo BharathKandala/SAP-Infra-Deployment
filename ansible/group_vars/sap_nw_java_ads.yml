@@ -94,7 +94,7 @@ sap_swpm_db_sidadm_password: "{{ sap_hana_install_master_password }}"
 
 sap_swpm_inifile_list:
   - swpm_installation_media
-  - swpm_installation_media_swpm1
+  # - swpm_installation_media_swpm1
   - installation_media
   - credentials
   - credentials_hana
