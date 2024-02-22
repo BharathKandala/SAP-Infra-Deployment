@@ -42,6 +42,9 @@ sap_swpm_unpack_sap_exe_sar: /software/ADS_media/SAPEXE_201-80007612.SAR
 sap_swpm_unpack_sap_jvm_sar: /software/ADS_media/SAPJVM8_97-80000202.SAR
 sap_swpm_cd_rdms_path: /software/ADS_media
 sap_swpm_cd_java_path: /software/ADS_media
+sap_swpm_cd_export_path: /software/ADS_media
+sap_swpm_cd_export_pt1_path: /software/ADS_media
+sap_swpm_cd_export_pt2_path: /software/ADS_media
 
 # SAP SWPM Variables
 sap_swpm_product_catalog_id: NW_Java_OneHost:NW750.HDB.PD
@@ -95,6 +98,7 @@ sap_swpm_db_sidadm_password: "{{ sap_hana_install_master_password }}"
 sap_swpm_inifile_list:
   - swpm_installation_media
   # - swpm_installation_media_swpm1
+  - swpm_installation_media_swpm1_exportfiles
   - installation_media
   - credentials
   - credentials_hana
