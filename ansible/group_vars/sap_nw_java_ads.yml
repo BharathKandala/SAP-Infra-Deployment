@@ -57,7 +57,7 @@ sap_swpm_sid: DA1
 sap_swpm_db_schema_java: SAPJAVA1
 sap_swpm_db_sid: DA1
 sap_swpm_db_instance_nr: "00"
-sap_swpm_fqdn: 
+sap_swpm_fqdn: ""
 sap_swpm_load_type: SAP
 sap_swpm_sapadm_uid: "1002"
 sap_swpm_sapsys_gid: "1002"
@@ -108,7 +108,7 @@ sap_swpm_inifile_list:
   - nw_config_java_ume
   - nw_config_central_services_java
   - nw_config_primary_application_server_instance
-  - nw_config_other
+  # - nw_config_other
   #- nw_other_config
   #- db_restore_hana     #(Uncomment if backup is required)
   - nw_instance_config
