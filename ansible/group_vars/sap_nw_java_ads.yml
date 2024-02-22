@@ -42,9 +42,9 @@ sap_swpm_unpack_sap_exe_sar: /software/ADS_media/SAPEXE_201-80007612.SAR
 sap_swpm_unpack_sap_jvm_sar: /software/ADS_media/SAPJVM8_97-80000202.SAR
 sap_swpm_cd_rdms_path: /software/ADS_media
 sap_swpm_cd_java_path: /software/ADS_media
-sap_swpm_cd_export_path: /software/ADS_media
-sap_swpm_cd_export_pt1_path: /software/ADS_media
-sap_swpm_cd_export_pt2_path: /software/ADS_media
+sap_swpm_cd_export_path: /software/ADS_media/HANA2.76/51055106
+sap_swpm_cd_export_pt1_path: /software/ADS_media/HANA2.76/51055106
+sap_swpm_cd_export_pt2_path: /software/ADS_media/HANA2.76/51055106
 
 # SAP SWPM Variables
 sap_swpm_product_catalog_id: NW_Java_OneHost:NW750.HDB.PD
