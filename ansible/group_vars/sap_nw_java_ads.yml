@@ -92,7 +92,7 @@ sap_swpm_db_sidadm_password: "{{ sap_hana_install_master_password }}"
 
 
 # UME Parameters
-sap_swpm_ume_type: "abap"
+# sap_swpm_ume_type: "abap"
 sap_swpm_ume_j2ee_admin_password: "{{ sap_app_install_master_password }}"
 sap_swpm_ume_sapjsf_password: "{{ sap_app_install_master_password }}"
 sap_swpm_ume_client_nr: "000"
