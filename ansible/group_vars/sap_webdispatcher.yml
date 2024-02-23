@@ -39,47 +39,23 @@ sap_swpm_software_path: /software/Webdispatcher_media/
 sap_swpm_sapcar_path: /software/ADS_media/
 sap_swpm_swpm_path: /software/ADS_media/
 
-# # ACSC Information
-# sap_swpm_ascs_sid: "DW1"
-# sap_swpm_ascs_instance_nr: "00"
-
-# SAP SWPM Web Dispatcher
-# sap_swpm_wd_instance_nr: "{{ sap_swpm_wd_instance_nr }}"
-sap_swpm_wd_instance_nr: "00"
-
-
-
-
-
-
-
-
 # NW Passwords
 sap_hana_install_master_password: Plrsap@321
 sap_swpm_master_password: "{{ sap_hana_install_master_password }}"
-sap_swpm_ddic_000_password: "{{ sap_hana_install_master_password }}"
-sap_swpm_wd_backend_rfc_ddic_000_password: "{{ sap_hana_install_master_password }}"
-
-# HDB Passwords
-# sap_swpm_db_system_password: "{{ sap_hana_install_master_password }}"
-# sap_swpm_db_systemdb_password: "{{ sap_hana_install_master_password }}"
-# sap_swpm_db_schema_abap_password: "{{ sap_hana_install_master_password }}"
-# sap_swpm_db_sidadm_password: "{{ sap_hana_install_master_password }}"
-# sap_swpm_db_schema_abap: "SAPHANADB"
-
-
 
 # Misc
 sap_swpm_delete_sapinst_users: "true"
-sap_swpm_sid: "DW1" 
 sap_swpm_wd_use_wd_http_port: "true"
-
 sap_swpm_sapadm_uid: "1002"
 sap_swpm_sapsys_gid: "1002"
 sap_swpm_sidadm_uid: "1001"
 sap_swpm_set_fqdn: false
 sap_swpm_fqdn: ""
 sap_swpm_setup_firewall: yes
+
+# NW Instance Parameters
+sap_swpm_sid: "DW1"
+sap_swpm_wd_instance_nr: "00"
 
 # Backend Connection
 sap_swpm_wd_system_connectivity: 'true'
@@ -98,15 +74,17 @@ sap_swpm_wd_virtual_host: "vmplrdw1app" # Change it to  Hostname of the actual s
 # SAP Host Agent
 sap_swpm_install_saphostagent: 'false'
 
+# Generate inifile.params using sap_swpm Ansible Role
 sap_swpm_inifile_list:
-- installation_media
-- swpm_installation_media
-- other
-- generic_webdisp
-- nw_config_webdisp_generic
-- unix_user
-- sap_os_linux_user
-- nw_other_config
-- nw_config_other
-- credentials
+  - swpm_installation_media
+  - credentials
+  - nw_config_other
+  # - nw_config_central_services_abap
+  # - nw_config_primary_application_server_instance
+  # - nw_config_ports
+  - nw_config_webdisp_generic
+  # - nw_config_host_agent
+  - sap_os_linux_user
+
+
 
