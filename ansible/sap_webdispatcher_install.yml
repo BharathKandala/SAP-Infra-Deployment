@@ -1,19 +1,19 @@
 ---
 - hosts: sap_webdispatcher
-  pre_tasks:
-  - name: Search for SAP Web Dispatcher installation folder
-    stat:
-      path: "/usr/sap/{{ sap_swpm_sid }}"
-    register: check_webdispatcher
+  # pre_tasks:
+  # - name: Search for SAP Web Dispatcher installation folder
+  #   stat:
+  #     path: "/usr/sap/{{ sap_swpm_sid }}"
+  #   register: check_webdispatcher
 
-  - name: Check if SAP Web Dispatcher is installed
-    debug:
-      msg: | 
-        Skipping installation. Reason: 
-        SAP Web Dispatcher is already installed. (Directory /usr/sap/{{ sap_swpm_sid }} detected)
-    when: check_webdispatcher.stat.exists
+  # - name: Check if SAP Web Dispatcher is installed
+  #   debug:
+  #     msg: | 
+  #       Skipping installation. Reason: 
+  #       SAP Web Dispatcher is already installed. (Directory /usr/sap/{{ sap_swpm_sid }} detected)
+  #   when: check_webdispatcher.stat.exists
 
   roles:
   - role: sap_swpm
     become: yes
-    when: not check_webdispatcher.stat.exists
+    # when: not check_webdispatcher.stat.exists
