@@ -57,7 +57,7 @@
 - import_playbook: disable_services.yml
   tags: 
   - hanadb
-  - s4hana    
+  - s4hana   
 
 
 # # - import_playbook: sap_hana_isolation_mode.yml
@@ -89,8 +89,6 @@
 # #   - hanadb
 # #   - s4hana
 # #   - hanabackup
-
-
 
 - import_playbook: sap_webdispatcher_install.yml
   tags: 
