@@ -46,14 +46,13 @@ sap_swpm_swpm_path: /software/ADS_media/
 # SAP SWPM Web Dispatcher
 # sap_swpm_wd_instance_nr: "{{ sap_swpm_wd_instance_nr }}"
 sap_swpm_wd_instance_nr: "00"
-sap_swpm_wd_activate_icf: "true"
-sap_swpm_wd_system_connectivity: "true"
-sap_swpm_wd_backend_sid: "DP1"
-sap_swpm_wd_backend_ms_http_port: "8101"
-sap_swpm_wd_backend_ms_host: "vmplrdp1app"
-sap_swpm_wd_backend_rfc_host: "2"
-sap_swpm_wd_backend_rfc_instance_nr: "00"
-sap_swpm_wd_backend_scenario_size: "500"
+
+
+
+
+
+
+
 
 # NW Passwords
 sap_hana_install_master_password: Plrsap@321
@@ -74,13 +73,30 @@ sap_swpm_wd_backend_rfc_ddic_000_password: "{{ sap_hana_install_master_password 
 sap_swpm_delete_sapinst_users: "true"
 sap_swpm_sid: "DW1" 
 sap_swpm_wd_use_wd_http_port: "true"
-sap_swpm_wd_virtual_host: "vmplrdw1app" # Change it to  Hostname of the actual server
+
 sap_swpm_sapadm_uid: "1002"
 sap_swpm_sapsys_gid: "1002"
 sap_swpm_sidadm_uid: "1001"
 sap_swpm_set_fqdn: false
 sap_swpm_fqdn: ""
 sap_swpm_setup_firewall: yes
+
+# Backend Connection
+sap_swpm_wd_system_connectivity: 'true'
+sap_swpm_wd_activate_icf: 'true'
+sap_swpm_wd_backend_sid: "DP1"
+sap_swpm_wd_backend_ms_http_port: "8101"
+sap_swpm_wd_backend_ms_host: "vmplrdp1app"
+sap_swpm_wd_backend_rfc_host: "vmplrdp1app"
+sap_swpm_wd_backend_rfc_instance_nr: "00"
+sap_swpm_wd_backend_scenario_size: "500"
+# sap_swpm_wd_backend_rfc_client_nr: "000"
+# sap_swpm_wd_backend_rfc_user: "DDIC"
+# sap_swpm_wd_backend_rfc_user_password: "NewPass$321"
+sap_swpm_wd_virtual_host: "vmplrdw1app" # Change it to  Hostname of the actual server
+
+# SAP Host Agent
+sap_swpm_install_saphostagent: 'false'
 
 sap_swpm_inifile_list:
 - installation_media
