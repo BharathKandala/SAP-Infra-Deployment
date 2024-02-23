@@ -1,0 +1,100 @@
+---
+# General parameters
+swap_size_mb: "2052"
+
+# Volume groups and logical volumes
+vgs:
+# SAP VG
+- name: sapvg
+  lvs:
+  - name: usrsaplv
+    path: /usr/sap/
+    size: 20G
+  - name: sapmntlv
+    path: /sapmnt/
+  pvs:
+  - "/dev/disk/azure/scsi1/lun0"
+
+azure_storage_mounts:
+- share_name: heifsmedia
+  storage_account_name: heisapstorage01
+  resource_group_name: hei-coregc-rg-sap-weeu-infra
+  subscription_id: 4f50e73b-0f78-469d-8948-584b0ecb0342
+  path: /share/heifsmedia
+  file_mode: 0777
+  dir_mode: 0777
+- share_name: heifsdepmedia
+  storage_account_name: heidepstorage01
+  resource_group_name: hei-coregc-rg-dep-weeu-saplibrary
+  subscription_id: 48b7643a-5031-4970-9fcf-873eb22ed08c
+  path: /share/heifsdepmedia
+  file_mode: 0777
+  dir_mode: 0777
+
+# Product ID for New Installation. Example for backup/restore: NW_ABAP_OneHost:S4HANA2021.CORE.HDB.CP
+sap_swpm_product_catalog_id: NW_Webdispatcher:NW750.IND.PD
+
+# Software
+sap_swpm_software_path: /share/heifsmedia/SAPWEBDISP7.85
+sap_swpm_sapcar_path: /share/heifsdepmedia/S4HANA2021FPS02
+sap_swpm_swpm_path: /share/heifsdepmedia/S4HANA2021FPS02
+
+# ACSC Information
+
+sap_swpm_ascs_sid: "P1C"
+sap_swpm_ascs_instance_nr: "07"
+
+# Virtual IP Information
+
+scs_virtual_hostname: "{{ sap_swpm_ascs_sid | lower }}scs{{ sap_swpm_ascs_instance_nr }}vip1"
+# wd_virtual_hostname: "{{ sap_swpm_sid | lower }}wd{{ sap_swpm_wd_instance_nr }}vip1"
+
+
+# SAP SWPM Web Dispatcher
+sap_swpm_wd_instance_nr: "{{ sap_swpm_wd_instance_nr }}"
+sap_swpm_wd_activate_icf: "true"
+sap_swpm_wd_system_connectivity: "true"
+sap_swpm_wd_backend_sid: "P1C"
+sap_swpm_wd_backend_ms_http_port: "8107"
+sap_swpm_wd_backend_ms_host: "{{ scs_virtual_hostname }}"
+sap_swpm_wd_backend_rfc_host: "heip1cpas06z2"
+sap_swpm_wd_backend_rfc_instance_nr: "06"
+sap_swpm_wd_backend_scenario_size: "500"
+
+# NW Passwords
+sap_swpm_master_password: "{{ sap_hana_install_master_password }}"
+sap_swpm_ddic_000_password: "{{ sap_hana_install_master_password }}"
+sap_swpm_wd_backend_rfc_ddic_000_password: "{{ sap_hana_install_master_password }}"
+
+# HDB Passwords
+sap_swpm_db_system_password: "{{ sap_hana_install_master_password }}"
+sap_swpm_db_systemdb_password: "{{ sap_hana_install_master_password }}"
+sap_swpm_db_schema_abap_password: "{{ sap_hana_install_master_password }}"
+sap_swpm_db_sidadm_password: "{{ sap_hana_install_master_password }}"
+sap_swpm_db_schema_abap: "SAPHANADB"
+
+
+
+# Misc
+sap_swpm_delete_sapinst_users: "true"
+sap_swpm_sid: "{{ sap_swpm_sid }}" 
+sap_swpm_wd_use_wd_http_port: "true"
+sap_swpm_wd_virtual_host: "{{ inventory_hostname  }}" # Change it to  Hostname of the actual server
+sap_swpm_sapadm_uid: "4001"
+sap_swpm_sapsys_gid: "79"
+sap_swpm_sidadm_uid: "2026"
+sap_swpm_fqdn: "core.heiway.net"
+sap_swpm_setup_firewall: yes
+
+sap_swpm_inifile_list:
+- installation_media
+- swpm_installation_media
+- other
+- generic_webdisp
+- nw_config_webdisp_generic
+- unix_user
+- sap_os_linux_user
+- nw_other_config
+- nw_config_other
+- credentials
+
