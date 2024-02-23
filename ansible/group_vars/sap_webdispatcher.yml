@@ -3,33 +3,33 @@
 swap_size_mb: "2052"
 
 # Volume groups and logical volumes
-vgs:
-# SAP VG
-- name: sapvg
-  lvs:
-  - name: usrsaplv
-    path: /usr/sap/
-    size: 20G
-  - name: sapmntlv
-    path: /sapmnt/
-  pvs:
-  - "/dev/disk/azure/scsi1/lun0"
+# vgs:
+# # SAP VG
+# - name: sapvg
+#   lvs:
+#   - name: usrsaplv
+#     path: /usr/sap/
+#     size: 20G
+#   - name: sapmntlv
+#     path: /sapmnt/
+#   pvs:
+#   - "/dev/disk/azure/scsi1/lun0"
 
-azure_storage_mounts:
-- share_name: heifsmedia
-  storage_account_name: heisapstorage01
-  resource_group_name: 
-  subscription_id: 
-  path: /share/heifsmedia
-  file_mode: 0777
-  dir_mode: 0777
-- share_name: heifsdepmedia
-  storage_account_name: heidepstorage01
-  resource_group_name: hei-coregc-rg-dep-weeu-saplibrary
-  subscription_id: 48b7643a-5031-4970-9fcf-873eb22ed08c
-  path: /share/heifsdepmedia
-  file_mode: 0777
-  dir_mode: 0777
+# azure_storage_mounts:
+# - share_name: 
+#   storage_account_name: 
+#   resource_group_name: 
+#   subscription_id: 
+#   path: 
+#   file_mode: 0777
+#   dir_mode: 0777
+# - share_name: 
+#   storage_account_name: 
+#   resource_group_name: 
+  # subscription_id: 
+  # path: 
+  # file_mode: 0777
+  # dir_mode: 0777
 
 # Product ID for New Installation. Example for backup/restore: NW_ABAP_OneHost:S4HANA2021.CORE.HDB.CP
 sap_swpm_product_catalog_id: NW_Webdispatcher:NW750.IND.PD
@@ -42,12 +42,6 @@ sap_swpm_swpm_path: /software/ADS_media/
 # # ACSC Information
 # sap_swpm_ascs_sid: "DW1"
 # sap_swpm_ascs_instance_nr: "00"
-
-# Virtual IP Information
-
-# scs_virtual_hostname: "{{ sap_swpm_ascs_sid | lower }}scs{{ sap_swpm_ascs_instance_nr }}vip1"
-# wd_virtual_hostname: "{{ sap_swpm_sid | lower }}wd{{ sap_swpm_wd_instance_nr }}vip1"
-
 
 # SAP SWPM Web Dispatcher
 # sap_swpm_wd_instance_nr: "{{ sap_swpm_wd_instance_nr }}"
@@ -84,6 +78,7 @@ sap_swpm_wd_virtual_host: "vmplrdw1app" # Change it to  Hostname of the actual s
 sap_swpm_sapadm_uid: "1002"
 sap_swpm_sapsys_gid: "1002"
 sap_swpm_sidadm_uid: "1001"
+sap_swpm_set_fqdn: false
 sap_swpm_fqdn: ""
 sap_swpm_setup_firewall: yes
 
