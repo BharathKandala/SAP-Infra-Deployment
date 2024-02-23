@@ -50,56 +50,56 @@ sap_swpm_cd_export_pt2_path: /software/ADS_media/HANA2.76/51055106
 sap_swpm_product_catalog_id: NW_Java_OneHost:NW750.HDB.PD
 sap_swpm_db_schema: SAPJAVA1
 sap_swpm_software_use_media: "false"
-sap_swpm_pas_instance_nr: "00"
-sap_swpm_java_scs_instance_nr: "01"
 sap_swpm_delete_sapinst_users: "true"
-sap_swpm_sid: DA1
-sap_swpm_db_schema_java: SAPJAVA1
-sap_swpm_db_sid: DA1
-sap_swpm_db_instance_nr: "00"
-sap_swpm_fqdn: ""
-sap_swpm_load_type: SAP
 sap_swpm_sapadm_uid: "1002"
 sap_swpm_sapsys_gid: "1002"
 sap_swpm_sidadm_uid: "1001"
 sap_swpm_setup_firewall: yes
 sap_swpm_use_product_version_descriptor: "true"
-sap_swpm_db_host: vmplrda1hana
-sap_swpm_java_export_keyphrase: "Plrsap@321"
 sap_swpm_software_use_media: "false"
-sap_swpm_set_fqdn: "false"
 
-#Required For Java Instance
-sap_swpm_java_scs_instance_hostname: "vmplrda1app"
+# NW Instance Parameters
+sap_swpm_sid: DA1
+sap_swpm_pas_instance_nr: "00"
 sap_swpm_java_scs_instance_nr: "01"
+sap_swpm_pas_instance_hostname: "{{ ansible_hostname }}"
+sap_swpm_ascs_instance_hostname: "{{ ansible_hostname }}"
+sap_swpm_java_scs_instance_hostname: "{{ ansible_hostname }}"
+sap_swpm_set_fqdn: "false"
+sap_swpm_fqdn: ""
+sap_swpm_load_type: SAP
 
-# Passwords of APP
+# HDB Instance Parameters
+sap_swpm_db_host: vmplrda1hana
+sap_swpm_db_schema_java: SAPJAVA1
+sap_swpm_db_sid: DA1
+sap_swpm_db_instance_nr: "00"
+
+# NW Passwords
 sap_app_install_master_password: "Plrsap@321"
 sap_swpm_master_password: "{{ sap_app_install_master_password }}"
 sap_swpm_ddic_000_password: "{{ sap_app_install_master_password }}"
-sap_swpm_ume_j2ee_admin_password: "{{ sap_app_install_master_password }}"
+sap_swpm_java_export_keyphrase: "{{ sap_app_install_master_password }}"
 
 # HDB Passwords
 sap_hana_install_master_password: "Plrhana@321"
 sap_swpm_db_system_password: "{{ sap_hana_install_master_password }}"
 sap_swpm_db_systemdb_password: "{{ sap_hana_install_master_password }}"
-sap_swpm_db_schema_abap_password: "{{ sap_hana_install_master_password }}"
-sap_swpm_db_sidadm_password: "{{ sap_hana_install_master_password }}"
+sap_swpm_db_schema_java: "SAPJAVA1"
 sap_swpm_db_schema_password: "{{ sap_hana_install_master_password }}"
-# sap_swpm_db_schema_java: "{{ sap_hana_install_master_password }}"
 sap_swpm_db_schema_java_password: "{{ sap_hana_install_master_password }}"
+sap_swpm_db_sidadm_password: "{{ sap_hana_install_master_password }}"
 
-# sap_swpm_inifile_list:
-# - installation_media
-# - installation_media_swpm1
-# - other
-# - nw_instance_config
-# - db_hana_nw_connection
-# - nw_java_ume
-# - unix_user
-# - nw_other_config
-# - credentials
 
+# UME Parameters
+sap_swpm_ume_type: "abap"
+sap_swpm_ume_j2ee_admin_password: "{{ sap_app_install_master_password }}"
+sap_swpm_ume_sapjsf_password: "{{ sap_app_install_master_password }}"
+sap_swpm_ume_client_nr: "000"
+sap_swpm_ume_instance_nr: "{{ sap_swpm_pas_instance_nr }}"
+sap_swpm_ume_instance_hostname: "{{ ansible_hostname }}"
+
+# Generate inifile.params using sap_swpm Ansible Role
 sap_swpm_inifile_list:
   - swpm_installation_media
   # - swpm_installation_media_swpm1
