@@ -115,9 +115,7 @@ sap_swpm_inifile_list:
   - nw_config_primary_application_server_instance
   - nw_config_other
   #- nw_other_config
-  #- db_restore_hana     #(Uncomment if backup is required)
-
-  
+  #- db_restore_hana     #(Uncomment if backup is required)  
   - nw_instance_config
   - sap_os_linux_user
   - other
