@@ -59,7 +59,7 @@ sap_swpm_wd_instance_nr: "00"
 
 # Backend Connection
 sap_swpm_wd_system_connectivity: 'true'
-sap_swpm_wd_activate_icf: 'true'
+sap_swpm_wd_activate_icf: 'false'
 sap_swpm_wd_backend_sid: "DP1"
 sap_swpm_wd_backend_ms_http_port: "8101"
 sap_swpm_wd_backend_ms_host: "vmplrdp1app"
