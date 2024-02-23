@@ -3,6 +3,7 @@ packages:
  - bind-utils
  - compat-locales-sap
  - libatomic
+ - tcsh
  - tuned-profiles-sap
  - expect
  - libaio
