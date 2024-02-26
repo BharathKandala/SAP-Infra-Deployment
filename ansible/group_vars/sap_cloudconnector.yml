@@ -1,4 +1,37 @@
+---
+# General parameters
+swap_size_mb: "2052"
+
+# azure_storage_mounts:
+# - share_name: 
+#   storage_account_name: 
+#   resource_group_name: 
+#   subscription_id: 
+#   path: 
+
+# Volume groups and logical volumes
+# vgs:
+# # SAP VG
+# - name: sapvg
+#   lvs:
+#   - name: scclv
+#     path: /scc
+#   pvs:
+#   - "/dev/disk/azure/scsi1/lun0"
+
+# Cloud Connector variables - V2.16.0 . Download link - https://tools.hana.ondemand.com/#cloud
+
 cc_install_folder: /share/heifsmedia/SCC2.16.0
 cc_sapjvm_installer: sapjvm-8.1.095-linux-x64.rpm
 cc_installer_zip: sapcc-2.16.0-linux-x64.zip
 cc_installer: com.sap.scc-ui-2.16.0-10.x86_64.rpm
+  
+# Cloud Connector variables - V2.15.2
+
+# cc_install_folder: /share/heifsmedia/SCC2.15.2
+# cc_sapjvm_installer: sapjvm-8.1.092-linux-x64.rpm
+# cc_installer_zip: sapcc-2.15.2-linux-x64.zip
+# cc_installer: com.sap.scc-ui-2.15.2-1.x86_64.rpm
+
+
+
