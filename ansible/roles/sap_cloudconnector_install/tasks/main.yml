@@ -14,11 +14,11 @@
     groups: sccgroup
     append: yes
 
-# - name: Install SAPJVM
-#   package:
-#     name: "{{ cc_install_folder }}/{{ cc_sapjvm_installer }}"
-#     state: present
-#   ignore_errors: "{{ ansible_check_mode }}"
+- name: Install SAPJVM
+  dnf :
+    name: "{{ cc_install_folder }}/{{ cc_sapjvm_installer }}"
+    state: present
+  ignore_errors: "{{ ansible_check_mode }}"
 
 - name: Unzip SAP Cloud Connector
   ansible.builtin.unarchive:
