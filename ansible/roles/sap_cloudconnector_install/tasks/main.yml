@@ -1,11 +1,4 @@
 --- 
-# - name: Install required packages
-#   ansible.builtin.package:
-#     name: "{{ item }}"
-#     state: present
-#   with_items:
-#   - cifs-utils
-
 - name: Add group sccgroup
   ansible.builtin.group:
     name: sccgroup
