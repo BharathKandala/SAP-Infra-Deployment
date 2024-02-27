@@ -28,7 +28,7 @@
   ignore_errors: "{{ ansible_check_mode }}"
 
 - name: Install SAP Cloud Connector
-  zypper:
+  package:
     name: "/tmp/{{ cc_installer }}"
     state: present
   ignore_errors: "{{ ansible_check_mode }}"
