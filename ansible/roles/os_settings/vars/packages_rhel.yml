@@ -1,6 +1,6 @@
 ---
 packages:
-- acl
+ - acl
  - bind-utils
  - compat-locales-sap
  - libatomic
