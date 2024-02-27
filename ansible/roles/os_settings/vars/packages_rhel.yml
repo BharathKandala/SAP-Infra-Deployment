@@ -1,5 +1,6 @@
 ---
 packages:
+- acl
  - bind-utils
  - compat-locales-sap
  - libatomic
@@ -21,6 +22,7 @@ packages:
  - xorg-x11-xauth
  - compat-openssl11
  - chkconfig
+ - cifs-utils
 #  - python 
 #  - unixODBC
 #  - libyui-qt-pkg
