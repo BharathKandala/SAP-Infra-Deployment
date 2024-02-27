@@ -8,4 +8,4 @@
 #vmplrdw1app ansible_host=10.222.16.21 ansible_user=setupadmin ansible_ssh_private_key_file=private_key
 
 [sap_cloudconnector]
-heiprdscccpi ansible_host=10.178.40.196 ansible_user=setupadmin ansible_ssh_private_key_file=private_key
+vmplrdc1app ansible_host=10.222.16.61 ansible_user=setupadmin ansible_ssh_private_key_file=private_key
