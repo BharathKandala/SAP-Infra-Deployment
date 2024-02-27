@@ -30,7 +30,7 @@ cc_installer: com.sap.scc-ui-2.16.2-10.x86_64.rpm
 
 # cc_install_folder: /share/heifsmedia/SCC2.15.2
 # cc_sapjvm_installer: sapjvm-8.1.092-linux-x64.rpm
-# cc_installer_zip: sapcc-2.15.2-linux-x64.zip
+# cc_installer_zip: sapcc-2.16.2-linux-x64.zip
 # cc_installer: com.sap.scc-ui-2.15.2-1.x86_64.rpm
 
 
