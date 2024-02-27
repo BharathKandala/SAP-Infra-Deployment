@@ -1,9 +1,9 @@
 ---
-# - import_playbook: os_settings.yml
-#   tags:
-#   - os
-#   - security
-#   - ha
+- import_playbook: os_settings.yml
+  tags:
+  - os
+  - security
+  - ha
 
 # - import_playbook: cis_hardening.yml
 #   tags:
@@ -95,9 +95,9 @@
 #   - hanadb
 #   - s4hana
 
-# # - import_playbook: sap_cloudconnector_install.yml
-# #   tags: 
-# #   - cloudconnector
+- import_playbook: sap_cloudconnector_install.yml
+  tags: 
+  - cloudconnector
 
 # # - import_playbook: sap_router.yml
 # #   tags: 
