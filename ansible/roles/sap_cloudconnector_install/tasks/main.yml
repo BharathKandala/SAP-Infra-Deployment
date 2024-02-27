@@ -15,7 +15,7 @@
     append: yes
 
 - name: Install SAPJVM
-  package:
+  yum:
     name: "{{ cc_install_folder }}/{{ cc_sapjvm_installer }}"
     state: present
   ignore_errors: "{{ ansible_check_mode }}"
