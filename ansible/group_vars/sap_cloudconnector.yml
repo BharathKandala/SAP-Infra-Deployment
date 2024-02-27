@@ -21,7 +21,7 @@ swap_size_mb: "2052"
 
 # Cloud Connector variables - V2.16.0 . Download link - https://tools.hana.ondemand.com/#cloud
 
-cc_install_folder: /software/CC_media/
+cc_install_folder: /software/CC_Media/
 cc_sapjvm_installer: sapjvm-8.1.097-linux-x64.rpm
 cc_installer_zip: sapcc-2.16.2-linux-x64.zip
 cc_installer: com.sap.scc-ui-2.16.2-10.x86_64.rpm
