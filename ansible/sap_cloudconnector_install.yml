@@ -16,4 +16,4 @@
   roles:
   - role: sap_cloudconnector_install
     become: yes
-    when: not check_cc.stat.exists
+    # when: not check_cc.stat.exists
