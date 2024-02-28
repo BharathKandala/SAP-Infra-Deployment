@@ -34,7 +34,11 @@
     dest: /etc/profile.d/java.sh
     owner: root
     group: root
-    mode: 0555    
+    mode: 0555   
+
+- name: Install SAP Cloud Connector
+  shell: sh /etc/profile.d/java.sh
+    
   
 # - meta: end_play    
 
