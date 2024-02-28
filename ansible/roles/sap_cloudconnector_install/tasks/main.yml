@@ -27,6 +27,14 @@
     src: "{{ cc_install_folder }}/{{ cc_sapjvm_installer }}"
     dest: /opt/sap/sapjvm/
     remote_src: yes
+
+- name: Put java profile
+  template:
+    src: java.sh.j2
+    dest: /etc/profile.d/java.sh
+    owner: root
+    group: root
+    mode: 0555    
   
 - meta: end_play    
 
