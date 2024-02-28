@@ -36,7 +36,7 @@
     group: root
     mode: 0555   
 
-- name: Install SAP Cloud Connector
+- name: Set JAVA_HOME
   shell: sh /etc/profile.d/java.sh
     
   
