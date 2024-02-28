@@ -26,6 +26,7 @@
   ansible.builtin.unarchive:
     src: "{{ cc_install_folder }}/{{ cc_sapjvm_installer }}"
     dest: /usr/bin/java
+    extra_opts: [--strip-components=1]
     remote_src: yes
 
 - name: Put java profile
