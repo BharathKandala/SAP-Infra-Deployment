@@ -25,7 +25,7 @@
 - name: Unzip sapjvm zip file
   ansible.builtin.unarchive:
     src: "{{ cc_install_folder }}/{{ cc_sapjvm_installer }}"
-    dest: /opt/sap/java
+    dest: /usr/bin/java
     remote_src: yes
 
 - name: Put java profile
