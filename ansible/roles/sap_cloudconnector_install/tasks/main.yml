@@ -14,10 +14,31 @@
     groups: sccgroup
     append: yes
 
-- name: Install SAPJVM
-  dnf :
-    name: "{{ cc_install_folder }}/{{ cc_sapjvm_installer }}"
-    state: present
+- name: Mkdir for java installation
+  file:
+    path: /opt/sap/sapjvm
+    mode: 0755
+    state: directory  
+    
+- name: Unzip sapjvm zip file
+  ansible.builtin.unarchive:
+    src: "{{ cc_install_folder }}/{{ cc_sapjvm_installer }}"
+    dest: /opt/sap/sapjvm/
+    remote_src: yes
+  
+- meta: end_play    
+
+# - name: Install SAPJVM
+#   dnf :
+#     name: "{{ cc_install_folder }}/{{ cc_sapjvm_installer }}"
+#     state: present
+#   ignore_errors: "{{ ansible_check_mode }}"
+
+- name: Unzip sapjvm zip file
+  ansible.builtin.unarchive:
+    src: "{{ cc_install_folder }}/{{ cc_sapjvm_installer }}"
+    dest: /tmp
+    remote_src: yes
   ignore_errors: "{{ ansible_check_mode }}"
 
 - name: Unzip SAP Cloud Connector
