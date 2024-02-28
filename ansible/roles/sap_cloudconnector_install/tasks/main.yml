@@ -36,7 +36,7 @@
     group: root
     mode: 0555    
   
-- meta: end_play    
+# - meta: end_play    
 
 # - name: Install SAPJVM
 #   dnf :
