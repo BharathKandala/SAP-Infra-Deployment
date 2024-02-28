@@ -16,7 +16,7 @@
 
 - name: Mkdir for java installation
   file:
-    path: /opt/sap/sapjvm
+    path: /usr/bin/java
     mode: 0755
     state: directory  
     group: root
@@ -25,7 +25,7 @@
 - name: Unzip sapjvm zip file
   ansible.builtin.unarchive:
     src: "{{ cc_install_folder }}/{{ cc_sapjvm_installer }}"
-    dest: /opt/sap/sapjvm/
+    dest: /opt/sap/java
     remote_src: yes
 
 - name: Put java profile
