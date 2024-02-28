@@ -19,6 +19,8 @@
     path: /opt/sap/sapjvm
     mode: 0755
     state: directory  
+    group: root
+    owner: root
     
 - name: Unzip sapjvm zip file
   ansible.builtin.unarchive:
