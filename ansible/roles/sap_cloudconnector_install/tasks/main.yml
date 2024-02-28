@@ -44,12 +44,6 @@
 #     state: present
 #   ignore_errors: "{{ ansible_check_mode }}"
 
-- name: Unzip sapjvm zip file
-  ansible.builtin.unarchive:
-    src: "{{ cc_install_folder }}/{{ cc_sapjvm_installer }}"
-    dest: /tmp
-    remote_src: yes
-  ignore_errors: "{{ ansible_check_mode }}"
 
 - name: Unzip SAP Cloud Connector
   ansible.builtin.unarchive:
@@ -58,8 +52,17 @@
     remote_src: yes
   ignore_errors: "{{ ansible_check_mode }}"
 
+
 - name: Install SAP Cloud Connector
-  package:
-    name: "/tmp/{{ cc_installer }}"
-    state: present
-  ignore_errors: "{{ ansible_check_mode }}"
+  shell: rpm -i /tmp/{{ cc_installer }}
+  register: "sapcc_install"
+
+- name: Print the installation results
+  debug:
+    msg: "{{ sapcc_install }}"
+
+# - name: Install SAP Cloud Connector
+#   package:
+#     name: "/tmp/{{ cc_installer }}"
+#     state: present
+#   ignore_errors: "{{ ansible_check_mode }}"
