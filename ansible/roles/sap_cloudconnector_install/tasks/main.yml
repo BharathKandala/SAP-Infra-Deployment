@@ -61,8 +61,7 @@
 - name: Install SAP Cloud Connector
   shell: rpm -i /tmp/{{ cc_installer }}
   environment: 
-    JAVA_HOME: /usr/bin/java/sapmachine-jdk-17.0.10
-    # PATH: /usr/bin/java/sapmachine-jdk-17.0.10/bin:$PATH
+    JAVA_HOME: /usr/bin/java   
   register: "sapcc_install"
 
 - name: Print the installation results
