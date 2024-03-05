@@ -105,6 +105,7 @@ sap_sapsys_gid: "2000"
 
 # # SAP HANA Azure Backups
 # sap_hana_backups: yes
+azure_backup_username: AZUREWLBACKUPHANAUSER
 # sap_hana_backup_policy_subscription_id: 
 # sap_hana_backup_policy_name: 
 # sap_hana_backup_vault_resource_group_name: 
