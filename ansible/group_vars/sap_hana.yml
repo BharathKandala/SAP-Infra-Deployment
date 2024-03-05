@@ -106,13 +106,13 @@ sap_sapsys_gid: "2000"
 # # SAP HANA Azure Backups
 # sap_hana_backups: yes
 azure_backup_username: AZUREWLBACKUPHANAUSER
-# sap_hana_backup_policy_subscription_id: 
-# sap_hana_backup_policy_name: 
-# sap_hana_backup_vault_resource_group_name: 
-# sap_hana_backup_vault_name: 
-# sap_hana_backup_server_name: 
-# sap_hana_backup_vm_name: 
-# sap_hana_backup_vm_resource_group_name: 
-# sap_hana_backup_database_list: 
-# - "saphanadatabase;a2h;systemdb"
-# - "saphanadatabase;a2h;a2h"
+sap_hana_backup_policy_subscription_id: d936a6d0-43af-4559-9183-fc2957c6e589
+sap_hana_backup_policy_name: 
+sap_hana_backup_vault_resource_group_name: rg-pce-sap-nprd-gwc-001
+sap_hana_backup_vault_name: rsv-rg-pce-sap-nprd-gwc-001
+sap_hana_backup_server_name: vmplrdp1hana
+sap_hana_backup_vm_name: vmplrdp1hana
+sap_hana_backup_vm_resource_group_name: rg-pce-sap-dev-gwc-001
+sap_hana_backup_database_list: 
+- "saphanadatabase;dp1;systemdb"
+- "saphanadatabase;dp1;dp1"
