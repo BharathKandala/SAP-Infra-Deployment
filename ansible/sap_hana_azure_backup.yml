@@ -32,7 +32,7 @@
       become_user: "{{ sap_hana_install_sid | lower }}adm"
       # no_log: true
       ansible.builtin.shell: |
-        /usr/sap/{{ sap_hana_install_sid }}/HDB{{ sap_hana_install_instance_number }}/exe/hdbsql -u {{ hdbsql_admin_username }} -p {{ hdbsql_admin_password }} -n localhost:3{{ sap_hana_install_instance_number }}13 \
+        /usr/sap/{{ sap_hana_install_sid }}/HDB{{ sap_hana_install_instance_number }}/exe/hdbsql -u SYSTEM -p {{ hdbsql_admin_password }} -n localhost:3{{ sap_hana_install_instance_number }}13 \
         "CREATE USER {{ azure_backup_username }} PASSWORD {{ azure_backup_password }} NO FORCE_FIRST_PASSWORD_CHANGE;"
         exit 0
 
