@@ -50,15 +50,15 @@
     #   ansible.builtin.debug:
     #     var: sap_hana_hdbsql.stdout_lines
     
-    # - name: Create Azure Backup user in SAP HANA DB SQL
-    #   become: yes
-    #   become_user: "{{ sap_hana_install_sid | lower }}adm"
-    #   # no_log: true
-    #   ansible.builtin.shell: |
-    #     /usr/sap/{{ sap_hana_install_sid }}/HDB{{ sap_hana_install_instance_number }}/exe/hdbsql -u SYSTEM -p '{{ sap_hana_install_master_password }}' -n localhost:3{{ sap_hana_install_instance_number }}13 \
-    #     "CREATE USER {{ azure_backup_username }} PASSWORD {{ azure_backup_password }} NO FORCE_FIRST_PASSWORD_CHANGE;"
-    #     exit 0
-    #   register: azure_backup_username   
+    - name: Create Azure Backup user in SAP HANA DB SQL
+      become: yes
+      become_user: "{{ sap_hana_install_sid | lower }}adm"
+      # no_log: true
+      ansible.builtin.shell: |
+        /usr/sap/{{ sap_hana_install_sid }}/HDB{{ sap_hana_install_instance_number }}/exe/hdbsql -u SYSTEM -p '{{ sap_hana_install_master_password }}' -n localhost:3{{ sap_hana_install_instance_number }}13 \
+        "CREATE USER {{ azure_backup_username }} PASSWORD {{ azure_backup_password }} NO FORCE_FIRST_PASSWORD_CHANGE;"
+        exit 0
+      register: azure_backup_username   
 
   
     # - name: debbug azure_backup_username
@@ -77,7 +77,7 @@
       become_user: "{{ sap_hana_install_sid | lower }}adm"
       # no_log: true 
       ansible.builtin.shell: |
-        /usr/sap/{{ sap_hana_install_sid }}/HDB{{ sap_hana_install_instance_number }}/exe/hdbuserstore Set SYSTEM localhost:3{{ sap_hana_install_instance_number }}13@SYSTEMDB {{ SYSTEM | upper }} '{{ sap_hana_install_master_password }}'
+        /usr/sap/{{ sap_hana_install_sid }}/HDB{{ sap_hana_install_instance_number }}/exe/hdbuserstore Set SYSTEM localhost:3{{ sap_hana_install_instance_number }}13@SYSTEMDB SYSTEM '{{ sap_hana_install_master_password }}'
 
     - name: Search for msawb plugin file
       become: yes
