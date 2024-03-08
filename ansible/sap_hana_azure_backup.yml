@@ -4,6 +4,13 @@
 
   - name: debbug azure_backup_username
     debug: var=azure_backup_username  
+
+  - name: copy msawb-plugin-config-com-sap-hana sh file target location
+    copy: 
+      src: files/msawb-plugin-config-com-sap-hana.sh
+      dest: /tmp/msawb-plugin-config-com-sap-hana.sh
+
+  - meta: end_play    
     
   - name:  "Backup - options set in section [backup] of global.ini."
     become_user: "{{ sap_hana_install_sid | lower }}adm"
