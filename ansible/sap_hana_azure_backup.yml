@@ -37,7 +37,7 @@
         -u SYSTEM \
         -p '{{ sap_hana_install_master_password }}' \
         -m <<EOF
-        CREATE USER {{ azure_backup_username }} PASSWORD '{{ azure_backup_password }}' NO FORCE_FIRST_PASSWORD_CHANGE;
+        CREATE USER {{ azure_backup_username }} PASSWORD {{ azure_backup_password }} NO FORCE_FIRST_PASSWORD_CHANGE;
         GRANT BACKUP ADMIN, DATABASE ADMIN, CATALOG READ, INIFILE ADMIN TO {{ azure_backup_username }};        
         EOF
       args:
@@ -56,7 +56,7 @@
     #   # no_log: true
     #   ansible.builtin.shell: |
     #     /usr/sap/{{ sap_hana_install_sid }}/HDB{{ sap_hana_install_instance_number }}/exe/hdbsql -u SYSTEM -p '{{ sap_hana_install_master_password }}' -n localhost:3{{ sap_hana_install_instance_number }}13 \
-    #     "CREATE USER {{ azure_backup_username }} PASSWORD '{{ azure_backup_password }}' NO FORCE_FIRST_PASSWORD_CHANGE;"
+    #     "CREATE USER {{ azure_backup_username }} PASSWORD {{ azure_backup_password }} NO FORCE_FIRST_PASSWORD_CHANGE;"
     #     exit 0
     #   register: azure_backup_username   
 
