@@ -106,6 +106,7 @@ sap_hana_install_instance_number: "00"
 # # SAP HANA Azure Backups
 sap_hana_backups: yes
 azure_backup_username: AZUREWLBACKUPHANAUSER
+azure_backup_password: "{{ sap_hana_install_master_password }}"
 sap_hana_backup_policy_subscription_id: d936a6d0-43af-4559-9183-fc2957c6e589
 sap_hana_backup_policy_name: bp-pce-sap-dp1-hana-db-backup
 sap_hana_backup_vault_resource_group_name: rg-pce-sap-dev-gwc-001 
