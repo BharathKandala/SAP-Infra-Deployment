@@ -11,4 +11,4 @@
 #vmplrdc1app ansible_host=10.222.16.61 ansible_user=setupadmin ansible_ssh_private_key_file=private_key
 
 [sap_hana]
-vmplrdp1hana ansible_host=10.222.17.11 ansible_user=setupadmin ansible_ssh_private_key_file=wdp.pem sap_hana_install_master_password=Plrhana@321
+vmplrdp1hana ansible_host=10.222.17.11 ansible_user=setupadmin ansible_ssh_private_key_file=wdp.pem 
