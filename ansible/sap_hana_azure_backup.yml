@@ -112,10 +112,10 @@
       become_user: root
       ansible.builtin.script: |
         files/msawb-plugin-config-com-sap-hana.sh \
-          --add \
+          -a \
           --sid {{ sap_hana_install_sid }} \
           -n {{ sap_hana_install_instance_number }} \
-          --system-key {{ azure_backup_username }}
+          --system-key SYSTEM \
           -sn
       when: not check_msawb_plugin.stat.exists
       register: backup_output    
