@@ -1,6 +1,7 @@
 ---
 packages:
  - acl
+ - azure-cli
  - bind-utils
  - compat-locales-sap
  - libatomic
