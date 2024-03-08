@@ -37,7 +37,7 @@
         -u SYSTEM \
         -p '{{ sap_hana_install_master_password }}' \
         -m <<EOF
-        CREATE USER {{ azure_backup_username }} PASSWORD {{ sap_hana_install_master_password }} NO FORCE_FIRST_PASSWORD_CHANGE;
+        CREATE USER {{ azure_backup_username }} PASSWORD '{{ sap_hana_install_master_password }}' NO FORCE_FIRST_PASSWORD_CHANGE;
         GRANT BACKUP ADMIN, DATABASE ADMIN, CATALOG READ, INIFILE ADMIN TO {{ azure_backup_username }};        
         EOF
       args:
