@@ -86,20 +86,6 @@
         path: "/opt/msawb/etc/config/SAPHana/msawb-pluginhost-saphana-{{ sap_hana_install_sid | lower }}-environment.conf"
       register: check_msawb_plugin
 
-    # - name: Configure backups for SAP HANA
-    #   become: yes
-    #   become_user: root
-    #   ansible.builtin.script: |
-    #     files/msawb-plugin-config-com-sap-hana.sh \
-    #       --add \
-    #       --sid {{ sap_hana_install_sid }} \
-    #       --instance-number {{ sap_hana_install_instance_number }} \
-    #       --system-key SYSTEM \
-    #       --backup-key {{ azure_backup_username }}
-    #   when: not check_msawb_plugin.stat.exists
-    #   register: backup_output
-
-
     - name: Configure backups for SAP HANA
       become: yes
       become_user: root
@@ -108,9 +94,23 @@
           --add \
           --sid {{ sap_hana_install_sid }} \
           --instance-number {{ sap_hana_install_instance_number }} \
-          --system-key {{ azure_backup_username }}
+          --system-key SYSTEM \
+          --backup-key {{ azure_backup_username }}
       when: not check_msawb_plugin.stat.exists
-      register: backup_output    
+      register: backup_output
+
+
+    # - name: Configure backups for SAP HANA
+    #   become: yes
+    #   become_user: root
+    #   ansible.builtin.script: |
+    #     files/msawb-plugin-config-com-sap-hana.sh \
+    #       --add \
+    #       --sid {{ sap_hana_install_sid }} \
+    #       --instance-number {{ sap_hana_install_instance_number }} \
+    #       --system-key {{ azure_backup_username }}
+    #   when: not check_msawb_plugin.stat.exists
+    #   register: backup_output    
 
     # - name: Configure backups for SAP HANA
     #   become: yes
