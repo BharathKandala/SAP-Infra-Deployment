@@ -74,24 +74,24 @@ sap_solution: HANA
 #   - "/dev/disk/azure/scsi1/lun7"
 
 # SAP HANA
-sap_hana_install_software_directory: /usr/sap/install
-# sap_hana_install_software_directory: /share/heifsdepmedia/HANA2.62/
-sap_hana_install_use_master_password: "y"
-sap_hana_install_master_password: "Welcome@123"
-sap_hana_install_sid: "TST"
-sap_hana_install_instance_number: "05"
-sap_hana_install_userid: "2023"
-sap_hana_install_groupid: "2000"
-sap_hana_install_update_etchosts: "false"
-sap_hana_install_system_restart: "n"
-sap_hana_install_update_firewall: yes
-sap_general_preconfigure_reboot_ok: no
-# sap_hana_install_hdblcm_extraargs: "--tenantdb_user=SYSTEM --volume_encryption=off --backup_encryption=off --autostart=1 --certificates_hostmap={{ ansible_hostname }}={{ ansible_hostname }} --install_execution_mode=optimized"
-sap_hana_install_hdblcm_extraargs: "--tenantdb_user=SYSTEM --autostart=1 --certificates_hostmap={{ ansible_hostname }}={{ ansible_hostname }} --install_execution_mode=optimized"
-# Unix User ID
-sap_sidshm_gid: "208"
-sap_sapadm_uid: "4001"
-sap_sapsys_gid: "2000"
+# sap_hana_install_software_directory: /usr/sap/install
+# # sap_hana_install_software_directory: /share/heifsdepmedia/HANA2.62/
+# sap_hana_install_use_master_password: "y"
+# sap_hana_install_master_password: "Welcome@123"
+# sap_hana_install_sid: "TST"
+# sap_hana_install_instance_number: "05"
+# sap_hana_install_userid: "2023"
+# sap_hana_install_groupid: "2000"
+# sap_hana_install_update_etchosts: "false"
+# sap_hana_install_system_restart: "n"
+# sap_hana_install_update_firewall: yes
+# sap_general_preconfigure_reboot_ok: no
+# # sap_hana_install_hdblcm_extraargs: "--tenantdb_user=SYSTEM --volume_encryption=off --backup_encryption=off --autostart=1 --certificates_hostmap={{ ansible_hostname }}={{ ansible_hostname }} --install_execution_mode=optimized"
+# sap_hana_install_hdblcm_extraargs: "--tenantdb_user=SYSTEM --autostart=1 --certificates_hostmap={{ ansible_hostname }}={{ ansible_hostname }} --install_execution_mode=optimized"
+# # Unix User ID
+# sap_sidshm_gid: "208"
+# sap_sapadm_uid: "4001"
+# sap_sapsys_gid: "2000"
 
 # SAP HANA Extra options
 #sap_hana_extra_partitions: 
