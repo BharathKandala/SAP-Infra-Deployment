@@ -79,7 +79,7 @@ sap_solution: HANA
 # sap_hana_install_use_master_password: "y"
 # sap_hana_install_master_password: "Welcome@123"
 sap_hana_install_sid: "DP1"
-#sap_hana_install_instance_number: "05"
+sap_hana_install_instance_number: "00"
 # sap_hana_install_userid: "2023"
 # sap_hana_install_groupid: "2000"
 # sap_hana_install_update_etchosts: "false"
