@@ -84,20 +84,20 @@
 #   - hanadb
 #   - s4hana    
   
-# # - import_playbook: sap_hana_azure_backup.yml
-# #   tags: 
-# #   - hanadb
-# #   - s4hana
-# #   - hanabackup
+- import_playbook: sap_hana_azure_backup.yml
+  tags: 
+  - hanadb
+  - s4hana
+  - hanabackup
 
 # - import_playbook: sap_webdispatcher_install.yml
 #   tags: 
 #   - hanadb
 #   - s4hana
 
-- import_playbook: sap_cloudconnector_install.yml
-  tags: 
-  - cloudconnector
+# - import_playbook: sap_cloudconnector_install.yml
+#   tags: 
+#   - cloudconnector
 
 # # - import_playbook: sap_router.yml
 # #   tags: 
