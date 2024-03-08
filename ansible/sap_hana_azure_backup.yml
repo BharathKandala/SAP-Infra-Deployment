@@ -30,7 +30,7 @@
     - name: Create Azure Backup user in SAP HANA DB SQL
       become: yes
       become_user: "{{ sap_hana_install_sid | lower }}adm"
-      no_log: true
+      # no_log: true
       ansible.builtin.shell: |
         /usr/sap/{{ sap_hana_install_sid }}/HDB{{ sap_hana_install_instance_number }}/exe/hdbsql -u {{ hdbsql_admin_username }} -p {{ hdbsql_admin_password }} -n localhost:3{{ sap_hana_install_instance_number }}13 \
         "CREATE USER {{ azure_backup_username }} PASSWORD {{ azure_backup_password }} NO FORCE_FIRST_PASSWORD_CHANGE;"
@@ -39,7 +39,7 @@
     - name: Grant Azure Backup user permissions in SAP HANA DB SQL
       become: yes
       become_user: "{{ sap_hana_install_sid | lower }}adm"
-      no_log: true
+      # no_log: true
       ansible.builtin.shell: |
         /usr/sap/{{ sap_hana_install_sid }}/HDB{{ sap_hana_install_instance_number }}/exe/hdbsql -u {{ hdbsql_admin_username }} -p {{ hdbsql_admin_password }} -n localhost:3{{ sap_hana_install_instance_number }}13 \
         "GRANT BACKUP ADMIN, DATABASE ADMIN, CATALOG READ, INIFILE ADMIN TO {{ azure_backup_username }};"
@@ -47,7 +47,7 @@
     - name: Create user store in SAP HANA DB SQL
       become: yes
       become_user: "{{ sap_hana_install_sid | lower }}adm"
-      no_log: true 
+      # no_log: true 
       ansible.builtin.shell: |
         /usr/sap/{{ sap_hana_install_sid }}/HDB{{ sap_hana_install_instance_number }}/exe/hdbuserstore Set SYSTEM localhost:3{{ sap_hana_install_instance_number }}13@SYSTEMDB {{ hdbsql_admin_username | upper }} {{ hdbsql_admin_password }}
 
