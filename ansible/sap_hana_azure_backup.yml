@@ -9,6 +9,7 @@
     copy: 
       src: files/configure-sap-hana-db-backup.ps1
       dest: /tmp/configure-sap-hana-db-backup.ps1
+    delegate_to: 127.0.0.1  
 
   - name: copy msawb-plugin-config-com-sap-hana sh file target location
     copy: 
