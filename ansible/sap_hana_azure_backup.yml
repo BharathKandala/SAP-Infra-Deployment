@@ -160,6 +160,7 @@
 
     - name: Configure SAP HANA database backups
       shell: |
+        az login --identity --username 26bb01d8-ca83-4137-85b1-8f6c117365b1
         az account set --subscription {{ sap_hana_backup_policy_subscription_id }}
         chmod -R 775 files/configure-sap-hana-db-backup.ps1
         files/configure-sap-hana-db-backup.ps1 \
