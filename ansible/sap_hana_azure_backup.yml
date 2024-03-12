@@ -5,10 +5,15 @@
   - name: debbug azure_backup_username
     debug: var=azure_backup_username  
 
-  # - name: copy msawb-plugin-config-com-sap-hana sh file target location
-  #   copy: 
-  #     src: files/msawb-plugin-config-com-sap-hana.sh
-  #     dest: /tmp/msawb-plugin-config-com-sap-hana.sh
+  - name: copy configure-sap-hana-db-backup ps1 file target location
+    copy: 
+      src: files/configure-sap-hana-db-backup.ps1
+      dest: /tmp/configure-sap-hana-db-backup.ps1
+
+  - name: copy msawb-plugin-config-com-sap-hana sh file target location
+    copy: 
+      src: files/msawb-plugin-config-com-sap-hana.sh
+      dest: /tmp/msawb-plugin-config-com-sap-hana.sh      
 
   # - meta: end_play    
     
@@ -161,8 +166,8 @@
     - name: Configure SAP HANA database backups
       shell: |        
         az account set --subscription {{ sap_hana_backup_policy_subscription_id }}
-        chmod -R 775 files/configure-sap-hana-db-backup.ps1
-        files/configure-sap-hana-db-backup.ps1 \
+        chmod -R 775 /tmp/configure-sap-hana-db-backup.ps1
+        /tmp/configure-sap-hana-db-backup.ps1 \
         -backupPolicyName {{ sap_hana_backup_policy_name }} \
         -vaultResourceGroupName {{ sap_hana_backup_vault_resource_group_name }} \
         -vaultName {{ sap_hana_backup_vault_name }} \
