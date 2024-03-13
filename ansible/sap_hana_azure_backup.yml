@@ -20,7 +20,7 @@
       group: root
       mode: '0755'
       
-  - meta: end_play    
+  # - meta: end_play    
     
   - name:  "Backup - options set in section [backup] of global.ini."
     become_user: "{{ sap_hana_install_sid | lower }}adm"
