@@ -19,5 +19,5 @@
 #[sap_hana_dsj]
 #vmplrdsjhana ansible_host=10.222.17.31 ansible_user=setupadmin ansible_ssh_private_key_file=private_key ansible_ssh_common_args='-o StrictHostKeyChecking=no'
 
-[sap_hana_dsj]
+[sap_hana_da1]
 vmplrda1hana ansible_host=10.222.17.41 ansible_user=setupadmin ansible_ssh_private_key_file=private_key ansible_ssh_common_args='-o StrictHostKeyChecking=no'
