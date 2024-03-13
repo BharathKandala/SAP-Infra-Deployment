@@ -13,5 +13,8 @@
 #[sap_hana]
 #vmplrdp1hana ansible_host=10.222.17.11 ansible_user=setupadmin ansible_ssh_private_key_file=wdp.pem
 
-[sap_hana_ds1]
-vmplrds1hana ansible_host=10.222.17.21 ansible_user=setupadmin ansible_ssh_private_key_file=private_key
+#[sap_hana_ds1]
+#vmplrds1hana ansible_host=10.222.17.21 ansible_user=setupadmin ansible_ssh_private_key_file=private_key
+
+[sap_hana_dsj]
+vmplrdsjhana ansible_host=10.222.17.31 ansible_user=setupadmin ansible_ssh_private_key_file=private_key
