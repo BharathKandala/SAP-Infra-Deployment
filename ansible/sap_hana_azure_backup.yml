@@ -12,6 +12,7 @@
     delegate_to: 127.0.0.1  
 
   - name: copy msawb-plugin-config-com-sap-hana sh file target location
+    become: true
     copy: 
       src: files/msawb-plugin-config-com-sap-hana.sh
       dest: /tmp/msawb-plugin-config-com-sap-hana.sh      
