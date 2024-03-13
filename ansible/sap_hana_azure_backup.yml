@@ -1,5 +1,5 @@
 ---
-- hosts: sap_hana, sap_hana_ads
+- hosts: sap_hana, sap_hana_ads, sap_hana_ds1
   tasks: 
 
   - name: debbug azure_backup_username
