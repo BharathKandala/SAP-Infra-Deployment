@@ -1,6 +1,7 @@
 ---
 - name: Webdisaptcher Status
   hosts: sap_webdispatcher
+  become: true
   vars:
     SID: dw1
     webdispatcher_port:
