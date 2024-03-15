@@ -34,7 +34,7 @@
     
     - name: Status Of Webdisaptcher
       shell:
-        cmd: /bin/csh -c "{{ sapcontrol_path }}/sapcontrol -nr {{ instance_nr_lines[0] }} -function GetProcessList"
+        cmd: /bin/csh -c "sapcontrol -nr {{ instance_nr_lines[0] }} -function GetProcessList"
       become: yes
       become_user: "{{ SID|lower }}adm"
       register: extra_check_result
@@ -58,6 +58,8 @@
       debug:
         msg: "{{ ps_ef_ouptut }}"
       when: "'wd.sap{{ SID|lower }}_W{{ instance_nr_lines[0] }}' in ps_ef_ouptut.stdout_lines"
+
+    - meta: end_play
       
     - name: Fail message when Status is not GREEN
       fail:
