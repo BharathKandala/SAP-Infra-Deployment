@@ -5,7 +5,7 @@
   vars:
     SID: dw1
     hdp_path: 
-    sapcontrol_path:
+    sapcontrol_path: "/usr/sap/hostctrl/exe"
     
   tasks:
     - name: show SID number(s) for AS
@@ -30,7 +30,7 @@
     
     - name: Status Of Webdisaptcher GetProcessList
       shell:
-        cmd: /bin/csh -c "sapcontrol -nr {{ instance_nr_lines[0] }} -function GetProcessList"
+        cmd: /bin/csh -c "{{ sapcontrol_path }}/sapcontrol -nr {{ instance_nr_lines[0] }} -function GetProcessList"
       become: yes
       become_user: "{{ SID|lower }}adm"
       register: extra_check_result
@@ -48,7 +48,7 @@
       
     - name: Status Of Webdisaptcher GetSystemInstanceList
       shell:
-        cmd: /bin/csh -c "sapcontrol -nr {{ instance_nr_lines[0] }} -function GetSystemInstanceList"
+        cmd: /bin/csh -c "{{ sapcontrol_path }}/sapcontrol -nr {{ instance_nr_lines[0] }} -function GetSystemInstanceList"
       become: yes
       become_user: "{{ SID|lower }}adm"
       register: get_system_instance_list
