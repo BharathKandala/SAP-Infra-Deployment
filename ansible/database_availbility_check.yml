@@ -1,0 +1,105 @@
+---
+- name: Webdisaptcher Status
+  hosts: all
+  vars:
+    SID:
+    hdp_path: 
+    sapcontrol_path:
+    
+  tasks:
+    - name: show SID number(s) for AS
+      debug:
+        msg: "{{ SID }}"
+
+    - name: collect instance number(s) for AS
+      shell:
+        cmd: /usr/sap/hostctrl/exe/lssap | awk -v sid={{ SID |upper }} -F'|' '{gsub(" ","");if ($1=="{{ SID|upper }}") print $2}' | sort
+      register: instance_nr
+    
+    - name: initialise empty array
+      set_fact:
+        instance_nr_lines: []
+    
+    - name: create fact that will use instance_nr_lines array
+      set_fact:
+        instance_nr_lines: "{{ instance_nr_lines }} + [ '{{ item }}' ]"
+      loop: "{{ instance_nr.stdout_lines }}"
+    
+    - name: show instance numbers, line-by-line
+      debug:
+        msg: "{{ item }}"
+      loop: "{{ instance_nr_lines }}"
+    
+    - name: Status Of Webdisaptcher GetProcessList
+      shell:
+        cmd: /bin/csh -c "{{ sapcontrol_path }}/sapcontrol -nr {{ instance_nr_lines[0] }} -function GetProcessList"
+      become: yes
+      become_user: "{{ SID|lower }}adm"
+      register: extra_check_result
+      ignore_errors: true
+    
+    - name: Display of Status Of Webdisaptcher GetProcessList
+      debug:
+        msg: "{{ extra_check_result }}"
+      when: '"GRAY" not in extra_check_result.stdout_lines and "YELLOW" not in extra_check_result.stdout_lines and "RED" not in extra_check_result.stdout_lines'
+      
+    - name: Fail message when Status is not GREEN
+      fail:
+        msg: "Webdisaptcher status is not GREEN"
+      when: '"GREEN" not in extra_check_result.stdout_lines'
+      
+    - name: Status Of Webdisaptcher GetSystemInstanceList
+      shell:
+        cmd: /bin/csh -c "{{ sapcontrol_path }}/sapcontrol -nr {{ instance_nr_lines[0] }} -function GetSystemInstanceList"
+      become: yes
+      become_user: "{{ SID|lower }}adm"
+      register: get_system_instance_list
+      ignore_errors: true
+    
+    - name: Display of Status Of Webdisaptcher GetSystemInstanceList
+      debug:
+        msg: "{{ get_system_instance_list }}"
+      when: '"GRAY" not in get_system_instance_list.stdout_lines and "YELLOW" not in get_system_instance_list.stdout_lines and "RED" not in get_system_instance_list.stdout_lines'
+      
+    - name: Fail message when Status is not GREEN
+      fail:
+        msg: "Webdisaptcher status is not GREEN"
+      when: '"GREEN" not in get_system_instance_list.stdout_lines'
+      
+    - name: Check HDB Status
+      shell: "hdbsql -U DEFAULT"
+      args:
+        chdir: "/usr/sap/{{ SID|lower }}/HDB{{ instance_nr_lines[0] }}/exe"
+      register: hdbinfo
+       
+    - debug:
+        msg: "{{ hdbinfo }}"
+      when: "'Welcome to SAP HANA Database interactive terminal' in hdbinfo.stdout_lines"
+      
+    - name: finding volume of /hana/log directory
+      shell: |
+         df -h /hana/log --output=pcent | sed 1d
+      register: hana_log_disk_usage_percentage_per
+      
+    - debug:
+        var: hana_log_disk_usage_percentage_per.stdout_lines
+      
+    - name: finding volume of /hana/log directory
+      shell: |
+         df -h /hana/data --output=pcent | sed 1d
+      register: hana_data_disk_usage_percentage_per
+      
+    - debug:
+        var: hana_data_disk_usage_percentage_per.stdout_lines
+        
+    - debug:
+        msg: "/hana/log more than 80% Manual intervention is required"
+      when: hana_log_disk_usage_percentage_per | int > 80
+      
+    - debug:
+        msg: "/hana/data more than 80% Manual intervention is required"
+      when: hana_log_disk_usage_percentage_per | int > 80
+        
+      
+    
+    
