@@ -48,7 +48,7 @@
     - name: Fail message when Status is not GREEN
       fail:
         msg: "Webdisaptcher status is not GREEN"
-      when: "'GREEN' not in extra_check_result.stdout_lines"
+      when: "' GREEN' not in extra_check_result.stdout_lines"
       
     - name: Check the Process
       shell: "ps -ef | grep {{ SID |lower }}adm"
