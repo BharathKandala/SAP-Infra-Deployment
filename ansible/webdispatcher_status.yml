@@ -1,10 +1,10 @@
 ---
 - name: Webdisaptcher Status
-  hosts: all
+  hosts: sap_webdispatcher
   vars:
-    SID:
+    SID: wp1
     webdispatcher_port:
-    sapcontrol_path:
+    sapcontrol_path: /software/Webdispatcher_media/
   tasks:
     - name: show SID number(s) for AS
       debug:
