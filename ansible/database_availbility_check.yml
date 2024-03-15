@@ -2,7 +2,7 @@
 - name: Webdisaptcher Status
   hosts: all
   vars:
-    SID:
+    SID: dw1
     hdp_path: 
     sapcontrol_path:
     
@@ -22,7 +22,7 @@
     
     - name: create fact that will use instance_nr_lines array
       set_fact:
-        instance_nr_lines: "{{ instance_nr_lines }} + [ '{{ item }}' ]"
+        instance_nr_lines: "{{ instance_nr_lines  + [ item  ] }}"
       loop: "{{ instance_nr.stdout_lines }}"
     
     - name: show instance numbers, line-by-line
@@ -46,7 +46,7 @@
     - name: Fail message when Status is not GREEN
       fail:
         msg: "Webdisaptcher status is not GREEN"
-      when: '"GREEN" not in extra_check_result.stdout_lines'
+      when: '"GREEN" in extra_check_result.stdout_lines'
       
     - name: Status Of Webdisaptcher GetSystemInstanceList
       shell:
@@ -55,6 +55,8 @@
       become_user: "{{ SID|lower }}adm"
       register: get_system_instance_list
       ignore_errors: true
+
+    - debug: var=get_system_instance_list
     
     - name: Display of Status Of Webdisaptcher GetSystemInstanceList
       debug:
@@ -64,7 +66,9 @@
     - name: Fail message when Status is not GREEN
       fail:
         msg: "Webdisaptcher status is not GREEN"
-      when: '"GREEN" not in get_system_instance_list.stdout_lines'
+      when: '"GREEN" in get_system_instance_list.stdout_lines'
+
+    - meta: end_play
       
     - name: Check HDB Status
       shell: "hdbsql -U DEFAULT"
