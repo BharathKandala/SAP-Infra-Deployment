@@ -29,17 +29,16 @@
       loop: "{{ instance_nr.stdout_lines }}"
     
     - name: Status Of Webdisaptcher GetProcessList
-      shell:
-        cmd: /bin/csh -c "{{ sapcontrol_path }}/sapcontrol -nr {{ instance_nr_lines[0] }} -function GetProcessList"
+      shell: '/bin/csh -c "{{ sapcontrol_path }}/sapcontrol -nr {{ instance_nr_lines[0] }} -function GetProcessList | grep -i green"'
       become: yes
       become_user: "{{ SID|lower }}adm"
       register: extra_check_result
       ignore_errors: true
-    
+
     - name: Display of Status Of Webdisaptcher GetProcessList
       debug:
         msg: "{{ extra_check_result }}"
-      when: '"GRAY" not in extra_check_result.stdout_lines and "YELLOW" not in extra_check_result.stdout_lines and "RED" not in extra_check_result.stdout_lines'
+      # when: '"GRAY" not in extra_check_result.stdout_lines and "YELLOW" not in extra_check_result.stdout_lines and "RED" not in extra_check_result.stdout_lines'
       
     - name: Fail message when Status is not GREEN
       fail:
