@@ -2,7 +2,7 @@
 - name: Webdisaptcher Status
   hosts: sap_webdispatcher
   vars:
-    SID: wp1
+    SID: dw1
     webdispatcher_port:
     sapcontrol_path: /software/Webdispatcher_media/
   tasks:
