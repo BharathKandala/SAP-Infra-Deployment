@@ -38,12 +38,12 @@
     - name: Display of Status Of Webdisaptcher GetProcessList
       debug:
         msg: "{{ extra_check_result }}"
-      # when: '"GRAY" not in extra_check_result.stdout_lines and "YELLOW" not in extra_check_result.stdout_lines and "RED" not in extra_check_result.stdout_lines'
+      when: '"GRAY" not in extra_check_result.stdout_lines and "YELLOW" not in extra_check_result.stdout_lines and "RED" not in extra_check_result.stdout_lines'
       
-    - name: Fail message when Status is not GREEN
-      fail:
-        msg: "Webdisaptcher status is not GREEN"
-      when: '"GREEN" in extra_check_result.stdout_lines'
+    # - name: Fail message when Status is not GREEN
+    #   fail:
+    #     msg: "Webdisaptcher status is not GREEN"
+    #   when: '"GREEN" in extra_check_result.stdout_lines'
       
     - name: Status Of Webdisaptcher GetSystemInstanceList
       shell:
@@ -57,13 +57,13 @@
     
     - name: Display of Status Of Webdisaptcher GetSystemInstanceList
       debug:
-        msg: "{{ get_system_instance_list }}"
+        msg: "SAP Is UP and running"
       when: '"GRAY" not in get_system_instance_list.stdout_lines and "YELLOW" not in get_system_instance_list.stdout_lines and "RED" not in get_system_instance_list.stdout_lines'
       
-    - name: Fail message when Status is not GREEN
-      fail:
-        msg: "Webdisaptcher status is not GREEN"
-      when: '"GREEN" in get_system_instance_list.stdout_lines'
+    # - name: Fail message when Status is not GREEN
+    #   fail:
+    #     msg: "Webdisaptcher status is not GREEN"
+    #   when: '"GREEN" in get_system_instance_list.stdout_lines'
 
     - meta: end_play
       
