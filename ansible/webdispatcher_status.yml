@@ -65,14 +65,16 @@
     - name: check if the process wd.sap<sid>_W<nr> process is running
       debug:
         msg: "{{ ps_ef_ouptut }}"
-      when: "'ws_sap' in ps_ef_ouptut.stdout_lines"
+      # when: "'ws_sap' in ps_ef_ouptut.stdout_lines"
 
-    - meta: end_play
+    # - meta: end_play
       
     - name: Fail message when Status is not GREEN
       fail:
-        msg: "wd.sap{{ SID|lower }}_W{{ instance_nr_lines[0] }} is not running"
-      when: '"wd.sap{{ SID|lower }}_W{{ instance_nr_lines[0] }}" not in ps_ef_ouptut.stdout_lines'
+        msg: "{{ ws_sap }} is not running"
+      when: '"ws_sap" in ps_ef_ouptut.stdout_lines'
+
+    - meta: end_play
       
     - name: cat available.log file
       shell: "cat available.log"
