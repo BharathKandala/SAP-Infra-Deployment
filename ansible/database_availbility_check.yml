@@ -15,6 +15,8 @@
       shell:
         cmd: /usr/sap/hostctrl/exe/lssap | awk -v sid={{ SID |upper }} -F'|' '{gsub(" ","");if ($1=="{{ SID|upper }}") print $2}' | sort
       register: instance_nr
+
+    - debug: var=instance_nr
     
     - name: initialise empty array
       set_fact:
@@ -24,11 +26,6 @@
       set_fact:
         instance_nr_lines: "{{ instance_nr_lines  + [ item  ] }}"
       loop: "{{ instance_nr.stdout_lines }}"
-    
-    - name: show instance numbers, line-by-line
-      debug:
-        msg: "{{ item }}"
-      loop: "{{ instance_nr_lines }}"
     
     - name: Status Of Webdisaptcher GetProcessList
       shell:
