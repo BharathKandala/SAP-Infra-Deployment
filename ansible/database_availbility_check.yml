@@ -1,6 +1,7 @@
 ---
 - name: Webdisaptcher Status
   hosts: all
+  become: true
   vars:
     SID: dw1
     hdp_path: 
