@@ -56,7 +56,7 @@
 
     - name: setfact for ps ef
       setfact:
-        ws_sap: "wd.sap{{ SID|lower }}_W{{ instance_nr_lines[0] }"
+        ws_sap: "wd.sap{{ SID|lower }}_W{{ instance_nr_lines[0] }}"
       
     - name: check if the process wd.sap<sid>_W<nr> process is running
       debug:
