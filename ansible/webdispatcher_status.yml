@@ -53,11 +53,15 @@
     - name: Check the Process
       shell: "ps -ef | grep {{ SID |lower }}adm"
       register: ps_ef_ouptut
+
+    - name: setfact for ps ef
+      setfact:
+        ws_sap: "wd.sap{{ SID|lower }}_W{{ instance_nr_lines[0] }"
       
     - name: check if the process wd.sap<sid>_W<nr> process is running
       debug:
         msg: "{{ ps_ef_ouptut }}"
-      when: "'wd.sap{{ SID|lower }}_W{{ instance_nr_lines[0] }}' in ps_ef_ouptut.stdout_lines"
+      when: "ws_sap in ps_ef_ouptut.stdout_lines"
 
     - meta: end_play
       
