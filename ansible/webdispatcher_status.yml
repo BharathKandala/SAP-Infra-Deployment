@@ -73,8 +73,6 @@
       fail:
         msg: "{{ ws_sap }} is not running"
       when: '"ws_sap" in ps_ef_ouptut.stdout_lines'
-
-    - meta: end_play
       
     - name: cat available.log file
       shell: "cat available.log"
