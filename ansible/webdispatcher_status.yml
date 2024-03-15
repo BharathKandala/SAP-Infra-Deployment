@@ -55,7 +55,7 @@
       register: ps_ef_ouptut
 
     - name: setfact for ps ef
-      setfact:
+      set_fact:
         ws_sap: "wd.sap{{ SID|lower }}_W{{ instance_nr_lines[0] }}"
       
     - name: check if the process wd.sap<sid>_W<nr> process is running
