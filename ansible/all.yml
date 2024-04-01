@@ -1,9 +1,11 @@
 ---
-# - import_playbook: os_settings.yml
-#   tags:
-#   - os
-#   - security
-#   - ha
+- import_playbook: os_settings.yml
+  tags:
+  - os
+  - security
+  - ha
+
+- meta: end_play
 
 # - import_playbook: cis_hardening.yml
 #   tags:
