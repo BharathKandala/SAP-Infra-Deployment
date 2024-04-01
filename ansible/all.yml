@@ -4,9 +4,7 @@
   - os
   - security
   - ha
-
-- meta: end_play
-
+  
 # - import_playbook: cis_hardening.yml
 #   tags:
 #   - security
@@ -56,10 +54,10 @@
 #   tags: 
 #   - netweaver
   
-- import_playbook: disable_services.yml
-  tags: 
-  - hanadb
-  - s4hana   
+# - import_playbook: disable_services.yml
+#   tags: 
+#   - hanadb
+#   - s4hana   
 
 
 # # - import_playbook: sap_hana_isolation_mode.yml
@@ -86,11 +84,11 @@
 #   - hanadb
 #   - s4hana    
   
-- import_playbook: sap_hana_azure_backup.yml
-  tags: 
-  - hanadb
-  - s4hana
-  - hanabackup
+# - import_playbook: sap_hana_azure_backup.yml
+#   tags: 
+#   - hanadb
+#   - s4hana
+#   - hanabackup
 
 # - import_playbook: sap_webdispatcher_install.yml
 #   tags: 
