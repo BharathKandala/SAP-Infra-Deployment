@@ -22,6 +22,6 @@
   debug:
     msg: "{{ item.item }}"
   loop: "{{ installed_packages.results }}"
-  loop_control:
-      label: "{{ item.state }}"   
+  # loop_control:
+  #     label: "{{ item.state }}"   
   ignore_errors: true    
