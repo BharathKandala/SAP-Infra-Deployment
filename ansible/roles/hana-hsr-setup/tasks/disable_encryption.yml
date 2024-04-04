@@ -1,0 +1,29 @@
+---
+- name: "SAP HSR - ENCRYPTION OFF Queries"
+  tags: hsr_logmode
+  become: true
+  become_user: "{{ sap_ha_install_hana_hsr_sid | lower }}adm"
+  shell: |
+    /usr/sap/{{ sap_ha_install_hana_hsr_sid }}/SYS/exe/hdb/hdbsql \
+    -U {{ sap_ha_install_hana_hsr_hdbuserstore_system_backup_user }} \
+    -m <<EOF
+    ALTER SYSTEM PERSISTENCE ENCRYPTION OFF;
+    ALTER SYSTEM LOG ENCRYPTION OFF;
+    ALTER SYSTEM BACKUP ENCRYPTION OFF;
+    EOF
+  args:
+    executable: /bin/bash
+  ignore_errors: true
+#   when: sap_ha_install_hana_hsr_log_mode.rc != '0'
+
+
+- name: "SAP Hana - update global.ini"
+  ansible.builtin.blockinfile:
+    path: /usr/sap/{{ sap_ha_install_hana_hsr_sid | upper }}/SYS/global/hdb/custom/config/global.ini
+    marker: ""
+    block: |
+
+      [database_initial_encryption]
+      backup_encryption = off
+      persistence_encryption = off
+      log_encryption = off

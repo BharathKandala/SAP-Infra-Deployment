@@ -2,7 +2,7 @@
 - name: Enable replication in primary site
   shell: |
     source /usr/sap/{{ hana_db_sid }}/home/.sapenv.sh && \  
-    /usr/sap/{{ hana_db_sid }}/HDB{{ hana_instance_nbr }}/exe/hdbnsutil -sr_enable --name={{ ansible_hostname }}   
+    /usr/sap/{{ hana_db_sid }}/HDB{{ hana_instance_nbr }}/exe/hdbnsutil -sr_enable --name={{ hana_primary_site_name }}   
   become: yes
   become_user: "{{ hana_db_sid | lower }}adm"
   args:

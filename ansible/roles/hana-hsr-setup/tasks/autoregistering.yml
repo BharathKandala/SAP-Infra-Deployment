@@ -1,0 +1,18 @@
+---
+- name: "SAP Hana - update global.ini with register_secondaries_on_takeover = true"
+  ansible.builtin.lineinfile:
+    path: /usr/sap/{{ sap_ha_install_hana_hsr_sid | upper }}/SYS/global/hdb/custom/config/global.ini
+    insertafter: '[system_replication]'
+    line: "register_secondaries_on_takeover = true"
+
+- name: "SAP Hana - update global.ini with register_secondaries_on_takeover = true"
+  ansible.builtin.lineinfile:
+    path: /usr/sap/{{ sap_ha_install_hana_hsr_sid | upper }}/SYS/global/hdb/custom/config/global.ini
+    insertafter: '[system_replication]'
+    line: "alternative_sources=SITEA:ASYNC,SITEB:ASYNC"  
+  when: ansible_hostname==secondary_virtual_host and hana_replication_mode=="async" 
+
+
+
+
+    

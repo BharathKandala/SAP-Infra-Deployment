@@ -23,9 +23,9 @@
   shell: |
       source /usr/sap/{{ hana_db_sid }}/home/.sapenv.sh && \
       /usr/sap/{{ hana_db_sid | upper }}/HDB{{ hana_instance_nbr }}/exe/hdbnsutil \
-      -sr_register --name={{ ansible_hostname }} \
-      --remoteHost={{ primary_virtual_host }} --remoteInstance={{ hana_instance_nbr }} \
-      --replicationMode={{ hana_replication_mode }} --operationMode={{ hana_opration_mode }}
+      -sr_register --name={{ hana_second_site_name }} \
+      --remoteHost={{ remote_host }} --remoteInstance={{ hana_instance_nbr }} \
+      --mode={{ hana_replication_mode }} --operationMode={{ hana_opration_mode }}
   args:
     executable: /bin/bash
   become: yes

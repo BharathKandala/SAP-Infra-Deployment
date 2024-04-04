@@ -1,7 +1,10 @@
 ---
-    
-#- import_tasks: primary_db_backup.yml
-#  when: ansible_hostname==primary_virtual_host
+- import_tasks: disable_encryption.yml
+
+- import_tasks: primary_db_backup.yml
+  when: ansible_hostname==primary_virtual_host and hana_replication_mode=="sync"
+
+- import_tasks: auth.yml
 
 - import_tasks: secondary_files_backup.yml
   when: ansible_hostname==secondary_virtual_host
@@ -15,11 +18,18 @@
 # - import_tasks: change_permission.yml
 #   when: "'{{ virtual_host }}' == '{{ secondary_virtual_host }}'"
 
-
 - import_tasks: primary_enable_replication.yml
   when: ansible_hostname==primary_virtual_host
 
-# - meta: end_play  
   
 - import_tasks: secondary_db_register.yml
   when: ansible_hostname==secondary_virtual_host
+  vars:
+    remote_host: "{{ primary_virtual_host }} "
+
+- import_tasks: autoregistering.yml  
+
+- import_tasks: SAPHanaSR.yml
+  when: ansible_hostname==secondary_virtual_host and hana_replication_mode=="async" 
+
+

@@ -7,7 +7,7 @@
       mode: 0777
   register: create_dir_status
   become: yes
-  become_user: "root"
+  # become_user: "root"
   
 - debug: var=create_dir_status
 
@@ -19,7 +19,7 @@
       mode: 0777
   register: create_dir1_status
   become: yes
-  become_user: "root"
+  # become_user: "root"
   
 - debug: var=create_dir1_status
     
@@ -43,3 +43,8 @@
 
   
 - debug: var=tenantdbbackup
+
+## Wait time for 300 second to make the connection between Prim and Sec HANA systems
+- name: Wait for 300 seconds
+  command: sleep 300
+  no_log: yes
