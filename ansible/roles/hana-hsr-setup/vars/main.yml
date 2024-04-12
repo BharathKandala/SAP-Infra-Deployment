@@ -1,6 +1,6 @@
 ---
 # SAP HANA Replication
-hana_backup_dir: /backup
+# hana_backup_dir: /backup
 # hana_db_sid: A1H
 # hana_instance_nbr: '05'
 hana_opration_mode: logreplay
