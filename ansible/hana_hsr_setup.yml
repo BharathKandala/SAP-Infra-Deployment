@@ -1,5 +1,6 @@
 ---
-- hosts: all
+- hosts: sap_hana
+  max_fail_percentage: 0
   vars:
     allow_world_readable_tmpfiles: true
   roles:
