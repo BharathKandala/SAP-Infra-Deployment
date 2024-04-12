@@ -1,8 +1,8 @@
 ---
 # - import_tasks: disable_encryption.yml
 
-# - import_tasks: primary_db_backup.yml
-#   when: ansible_hostname==primary_virtual_host and hana_replication_mode=="sync"
+- import_tasks: primary_db_backup.yml
+  when: ansible_hostname==primary_virtual_host and hana_replication_mode=="sync"
 
 - import_tasks: auth.yml
 
