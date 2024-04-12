@@ -4,6 +4,7 @@ sap_hana_install_use_master_password: "y"
 sap_hana_install_sid: "QP1"
 sap_hana_install_instance_number: "00"
 sap_hana_install_master_password: "Plrhana@321"
+sap_ha_install_hana_hsr_sid: "QP1"
 
 #### SAP HANA Replication
 
