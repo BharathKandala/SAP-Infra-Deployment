@@ -8,6 +8,7 @@ sap_ha_install_hana_hsr_sid: "{{ sap_hana_install_sid }}"
 sap_ha_install_hana_hsr_instance_number: "{{ sap_hana_install_instance_number }}"
 # sap_ha_install_hana_hsr_cluster_nodes: "{{ sap_hana_cluster_nodes }}"
 sap_ha_install_hana_hsr_hdbuserstore_system_backup_user: HDB_SYSTEMDB
+hana_system_db_paswd: "{{ sap_hana_install_master_password }}"
 sap_ha_install_hana_hsr_db_system_password: "{{ sap_hana_install_master_password }}"
 # sap_ha_install_hana_hsr_fqdn: "{{ sap_domain }}"
 sap_ha_install_hana_hsr_rep_mode: sync
