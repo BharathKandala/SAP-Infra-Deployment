@@ -8,7 +8,7 @@ hana_opration_mode: logreplay
 #hana_replication_mode: async
 #hana_second_site_name: SITEC
 hana_system_backup_prefix: SYSTEM
-hana_system_db_paswd: 'MOPuppets1#'
+#hana_system_db_paswd: 'MOPuppets1#'
 # hana_tenant_backup_prefix: A1H
 # hana_tenant_sid: A1H
 #primary_virtual_host: heia1hhdb05z2
