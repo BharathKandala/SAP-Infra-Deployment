@@ -45,6 +45,6 @@
 - debug: var=tenantdbbackup
 
 ## Wait time for 300 second to make the connection between Prim and Sec HANA systems
-- name: Wait for 300 seconds
-  command: sleep 300
-  no_log: yes
+# - name: Wait for 300 seconds
+#   command: sleep 300
+#   no_log: yes
