@@ -29,7 +29,7 @@
 
 - import_tasks: autoregistering.yml  
 
-- import_tasks: SAPHanaSR.yml
-  when: ansible_hostname==secondary_virtual_host and hana_replication_mode=="async" 
+# - import_tasks: SAPHanaSR.yml
+#   when: ansible_hostname==secondary_virtual_host and hana_replication_mode=="async" 
 
 
