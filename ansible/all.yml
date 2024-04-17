@@ -31,10 +31,10 @@
   # - cloudconnector
   # - saprouter
 
-- import_playbook: disable_services.yml
-  tags: 
-  - hanadb
-  - s4hana    
+# - import_playbook: disable_services.yml
+#   tags: 
+#   - hanadb
+#   - s4hana    
 
 
 # - import_playbook: sap_hana_preconfigure.yml
@@ -47,9 +47,9 @@
 #   - hanadb
 #   - s4hana
 
-- import_playbook: hana_hsr_setup.yml
-  tags:
-  - hsr 
+# - import_playbook: hana_hsr_setup.yml
+#   tags:
+#   - hsr 
 
 # - import_playbook: sap_netweaver_preconfigure.yml
 #   tags: 
@@ -85,10 +85,14 @@
 #   - s4hana
 #   - hanadb
 
-# - import_playbook: disable_services.yml
-#   tags: 
-#   - hanadb
-#   - s4hana    
+- import_playbook: sap_hanadb_pacemaker.yml
+  tags:
+  - ha
+
+- import_playbook: disable_services.yml
+  tags: 
+  - hanadb
+  - s4hana    
   
 # - import_playbook: sap_hana_azure_backup.yml
 #   tags: 
