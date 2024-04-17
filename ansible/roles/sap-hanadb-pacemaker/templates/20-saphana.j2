@@ -1,0 +1,16 @@
+# User rules for 20-saphana with role hanaadmin_no_password
+
+
+Cmnd_Alias {{ hana_prim_site_name }}_SOK = /usr/sbin/crm_attribute -n hana_{{ hana_db_sid | lower }}_site_srHook_{{ hana_prim_site_name }} -v SOK -t crm_config -s SAPHanaSR
+Cmnd_Alias {{ hana_prim_site_name }}_SFAIL = /usr/sbin/crm_attribute -n hana_{{ hana_db_sid | lower }}_site_srHook_{{ hana_prim_site_name }} -v SFAIL -t crm_config -s SAPHanaSR
+Cmnd_Alias {{ hana_second_site_name }}_SOK = /usr/sbin/crm_attribute -n hana_{{ hana_db_sid | lower }}_site_srHook_{{ hana_second_site_name }} -v SOK -t crm_config -s SAPHanaSR
+Cmnd_Alias {{ hana_second_site_name }}_SFAIL = /usr/sbin/crm_attribute -n hana_{{ hana_db_sid | lower }}_site_srHook_{{ hana_second_site_name }} -v SFAIL -t crm_config -s SAPHanaSR
+Cmnd_Alias HOOK_HELPER  = /usr/sbin/SAPHanaSR-hookHelper --sid={{ hana_db_sid | upper }} --case=checkTakeOver
+
+
+{{ hana_db_sid|lower }}adm ALL=(ALL) NOPASSWD: {{ hana_prim_site_name }}_SOK,{{ hana_prim_site_name }}_SFAIL,{{ hana_second_site_name }}_SOK,{{ hana_second_site_name }}_SFAIL,HOOK_HELPER
+
+# Needed for SAPHanaSR and susChkSrv Python hooks
+{{ hana_db_sid|lower }}adm ALL=(ALL) NOPASSWD: /usr/sbin/crm_attribute -n hana_{{ hana_db_sid|lower }}_site_srHook_*
+{{ hana_db_sid|lower }}adm ALL=(ALL) NOPASSWD: /usr/sbin/SAPHanaSR-hookHelper --sid={{ hana_db_sid | upper }} --case=fenceMe
+{{ hana_db_sid|lower }}adm ALL=(ALL) NOPASSWD: /usr/sbin/SAPHanaSR-hookHelper *

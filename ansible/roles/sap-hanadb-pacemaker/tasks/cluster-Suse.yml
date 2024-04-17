@@ -1,0 +1,144 @@
+---
+- name:                                Ensure the Cluster STONITH is configured
+  when: ansible_facts.default_ipv4.address == primary_instance_ip_admin
+  block:  
+    - name:                            Ensure maintenance mode is enabled
+      ansible.builtin.command:         echo "y" | crm configure property maintenance-mode=true
+
+    - name:                            Ensure CIB Bootstrap Options are set
+      ansible.builtin.command: >
+                                       echo "y" | crm configure property \$id="cib-bootstrap-options"
+                                         no-quorum-policy="ignore"
+                                         stonith-enabled="true"
+                                         stonith-action="reboot"
+                                         stonith-timeout="900s"                                     
+
+    - name:                            Ensure the Resource Defaults are configured
+      ansible.builtin.shell: >
+                                       echo "y" | crm configure rsc_defaults \$id="rsc-options"
+                                       resource-stickiness="1000"
+                                       migration-threshold="5000"                                   
+    
+    - name:                            Ensure SAP HANA Topology resource is configured
+      ansible.builtin.shell: >
+                                       echo "y" | crm configure primitive rsc_SAPHanaTopology_{{ db_sid | upper }}_HDB{{ db_instance_number }}
+                                       ocf:suse:SAPHanaTopology
+                                       operations \$id="rsc_sap2_{{ db_sid | upper }}_HDB{{ db_instance_number }}-operations"
+                                       op monitor interval="10" timeout="600"
+                                       op start interval="0" timeout="600"
+                                       op stop interval="0" timeout="300"
+                                       params SID="{{ db_sid | upper }}" InstanceNumber="{{ db_instance_number }}"
+      register:                        sap_hana_topology
+      failed_when:                     sap_hana_topology.rc > 1
+
+    - debug: var=sap_hana_topology
+
+
+    - name:                            Ensure SAP HANA Topology clone set resource is configured
+      ansible.builtin.shell: >
+                                       echo "y" | crm configure clone cln_SAPHanaTopology_{{ db_sid | upper }}_HDB{{ db_instance_number }}
+                                       rsc_SAPHanaTopology_{{ db_sid | upper }}_HDB{{ db_instance_number }}
+                                       meta clone-node-max="1" target-role="Started" interleave="true"
+      register:                        sap_hana_topology_cln
+      failed_when:                     sap_hana_topology_cln.rc > 1
+
+    - debug: var=sap_hana_topology_cln  
+
+
+    - name:                            Ensure SAP HANA primitive resource is configured
+      ansible.builtin.shell: >
+                                       echo "y" | crm configure primitive rsc_SAPHana_{{ db_sid | upper }}_HDB{{ db_instance_number }}
+                                       ocf:suse:SAPHana
+                                       operations \$id="rsc_sap_{{ db_sid | upper }}_HDB{{ db_instance_number }}-operations"
+                                       op start interval="0" timeout="{{ cluster_sap_hana_timeouts.start }}"
+                                       op stop interval="0" timeout="{{ cluster_sap_hana_timeouts.stop }}"
+                                       op promote interval="0" timeout="{{ cluster_sap_hana_timeouts.promote }}"
+                                       op monitor interval="60" role="Master" timeout="{{ cluster_sap_hana_timeouts.monitor_master }}"
+                                       op monitor interval="61" role="Slave" timeout="{{ cluster_sap_hana_timeouts.monitor_slave }}"
+                                       params
+                                       SID="{{ db_sid | upper }}"
+                                       InstanceNumber="{{ db_instance_number }}"
+                                       PREFER_SITE_TAKEOVER="true"
+                                       DUPLICATE_PRIMARY_TIMEOUT="7200"
+                                       AUTOMATED_REGISTER="true"
+      register:                        sap_hana_topology_rsc
+      failed_when:                     sap_hana_topology_rsc.rc > 1
+
+    - debug: var=sap_hana_topology_rsc   
+
+    - name:                            Ensure SAP HANA master-slave resource is configured
+      ansible.builtin.shell: >
+                                       echo "y" | crm configure ms msl_SAPHana_{{ db_sid | upper }}_HDB{{ db_instance_number }}
+                                       rsc_SAPHana_{{ db_sid | upper }}_HDB{{ db_instance_number }}
+                                       meta notify="true" clone-max="2" clone-node-max="1"
+                                       target-role="Started" interleave="true"
+      register:                        sap_hana_msl
+      failed_when:                     sap_hana_msl.rc > 1
+
+    - debug: var=sap_hana_msl    
+
+    - name:                            Ensure SAP HANA Virtual IP resource is configured
+      ansible.builtin.shell: >
+                                       echo "y" | crm configure primitive rsc_ip_{{ db_sid | upper }}_HDB{{ db_instance_number }} ocf:heartbeat:IPaddr2
+                                       meta target-role="Started"
+                                       operations \$id="rsc_ip_{{ db_sid | upper }}_HDB{{ db_instance_number }}-operations"
+                                       op monitor interval="10s" timeout="20s"
+                                       params ip="{{ db_lb_ip }}"                                       
+      register:                        sap_hana_rsc_ip
+      failed_when:                     sap_hana_rsc_ip.rc > 1
+
+    - debug: var=sap_hana_rsc_ip    
+
+    - name:                            Ensure SAP HANA azure-lb resource agent is configured
+      ansible.builtin.shell:         >
+                                       echo "y" | crm configure primitive rsc_nc_{{ db_sid | upper }}_HDB{{ db_instance_number }} azure-lb port=625{{ db_instance_number }} meta resource-stickiness=0
+      register:                        sap_hana_nc_ip
+      failed_when:                     sap_hana_nc_ip.rc > 1
+
+    - debug: var=sap_hana_nc_ip     
+
+    - name:                            Ensure Group IP Address resource is configured
+      ansible.builtin.shell: >
+                                       echo "y" | crm configure group g_ip_{{ db_sid | upper }}_HDB{{ db_instance_number }}
+                                       rsc_ip_{{ db_sid | upper }}_HDB{{ db_instance_number }}
+                                       rsc_nc_{{ db_sid | upper }}_HDB{{ db_instance_number }}
+      register:                        sap_hana_g_ip
+      failed_when:                     sap_hana_g_ip.rc > 1
+
+    - debug: var=sap_hana_g_ip     
+
+    - name:                            Ensure Co-Location constraint is configured
+      ansible.builtin.shell: >
+                                       echo "y" | crm configure colocation col_saphana_ip_{{ db_sid | upper }}_HDB{{ db_instance_number }}
+                                       4000:
+                                       g_ip_{{ db_sid | upper }}_HDB{{ db_instance_number }}:Started
+                                       msl_SAPHana_{{ db_sid | upper }}_HDB{{ db_instance_number }}:Master
+      register:                        sap_hana_g_col_ip
+      failed_when:                     sap_hana_g_col_ip.rc > 1
+
+    - debug: var=sap_hana_g_col_ip  
+
+    - name:                            Ensure Resource order is configured
+      ansible.builtin.shell: >
+                                       echo "y" | crm configure order ord_SAPHana_{{ db_sid | upper }}_HDB{{ db_instance_number }}
+                                       Optional:
+                                       cln_SAPHanaTopology_{{ db_sid | upper }}_HDB{{ db_instance_number }}
+                                       msl_SAPHana_{{ db_sid | upper }}_HDB{{ db_instance_number }}
+      register:                        sap_hana_ord_ip
+      failed_when:                     sap_hana_ord_ip.rc > 1
+
+    - debug: var=sap_hana_ord_ip   
+
+    - name:                            Ensure any required cluster resources are cleaned up
+      ansible.builtin.command:         "crm resource cleanup rsc_SAPHana_{{ db_sid | upper }}_HDB{{ db_instance_number }}"
+
+    - name:                            Ensure maintenance mode is disabled
+      ansible.builtin.command:         echo "y" | crm configure property maintenance-mode=false
+
+    - name:                            Ensure Cleanup - Stonith on Primary
+      ansible.builtin.command:         "stonith_admin --cleanup --history={{ primary_instance_name }}"
+
+    - name:                            Ensure Cleanup - Stonith on sendondary
+      ansible.builtin.command:         "stonith_admin --cleanup --history={{ secondary_instance_name }}"     
+
+  # when:                                inventory_hostname == primary_instance_name

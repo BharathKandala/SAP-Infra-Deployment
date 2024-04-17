@@ -1,0 +1,46 @@
+---
+- name: "SAP Pacemaker Hana - config sr_hook DIR"
+  ansible.builtin.file:
+    path: /hana/shared/SAPHanaSR
+    state: directory
+    mode: "0755"
+    owner: "{{ sap_ha_install_hana_hsr_sid | lower }}adm"
+    group: sapsys
+
+- name: "SAP Pacemaker Hana - config sr_hook"
+  ansible.builtin.copy:
+    remote_src: yes
+    src: /usr/share/SAPHanaSR
+    dest: /hana/shared/
+    mode: "0755"
+    owner: "{{ sap_ha_install_hana_hsr_sid | lower }}adm"
+    group: sapsys     
+
+- name: "SAP Pacemaker Hana - config sr_hook"
+  ansible.builtin.copy:
+    remote_src: yes
+    src: /usr/share/SAPHanaSR/SAPHanaSR.py
+    dest: /hana/shared/SAPHanaSR/SAPHanaSR.py
+    mode: "0755"
+    owner: "{{ sap_ha_install_hana_hsr_sid | lower }}adm"
+    group: sapsys 
+
+- name: "SAP Pacemaker Hana - update hook in global.ini"
+  ansible.builtin.blockinfile:
+    path: /usr/sap/{{ sap_ha_install_hana_hsr_sid | upper }}/SYS/global/hdb/custom/config/global.ini
+    marker: ""
+    block: |
+      [ha_dr_provider_SAPHanaSR]
+      provider = SAPHanaSR
+      path = /hana/shared/SAPHanaSR
+      execution_order = 1
+
+      [ha_dr_provider_suschksrv]
+      provider = susChkSrv
+      path = /usr/share/SAPHanaSR
+      execution_order = 3
+      action_on_lost = fence
+
+      [trace]
+      ha_dr_saphanasr = info
+

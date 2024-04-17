@@ -1,0 +1,12 @@
+---
+- name: "Enable saptune services"
+  ansible.builtin.service:
+    name: saptune
+    enabled: true
+    state: started
+
+- name: "Configuration saptune NETWEAVER"
+  ansible.builtin.command: "saptune solution apply HANA"
+  register: sap_saptune
+  ignore_errors: yes
+  changed_when: sap_saptune.rc == 0 

@@ -1,0 +1,98 @@
+---
+- name:                                HANA 2.0 only - Implement the Python system replication hook SAPHanaSR
+  when:
+    - hdb_version[0:2] == "2."
+  block:
+
+    - name:                            Ensure a list of package version is available for checking the SAPHanaSR package version
+      ansible.builtin.package_facts:
+
+    # - name:                            Check if "myHooks" file exists in /hana/shared directory
+    #   ansible.builtin.stat:
+    #     path:                          /hana/shared/myHooks
+    #   register:                        my_hooks_stat
+
+    - name:                            copy SAPHanaSR.py (SUSE)
+      ansible.builtin.copy:
+        src:                           /usr/share/SAPHanaSR/SAPHanaSR.py
+        dest:                          /hana/shared/myHooks/
+        remote_src:                    true
+        owner:                         root
+        group:                         root      
+        mode:                          '0644'
+      when:
+        - ansible_os_family | upper == "SUSE"
+        - not my_hooks_stat.stat.exists
+
+    # - name:                            Change ownership of the directory
+    #   ansible.builtin.file:
+    #     path:                          /hana/shared/myHooks
+    #     state:                         directory
+    #     recurse:                       true
+    #     owner:                         "{{ db_sid | lower }}adm"
+    #     group:                         sapsys
+
+    # - name:                            Stop HANA Database
+    #   ansible.builtin.import_tasks:    ../../../roles-misc/helpers/tasks/stop_hana.yml
+
+    - name: Stop Secondary Site HANA DB
+      shell: |
+        echo -e $(/usr/sap/{{ db_sid | upper }}/HDB{{ db_instance_number }}/HDB stop)
+      become: yes
+      become_user: "{{ db_sid | lower }}adm"
+      register: stopdb_secondarynode
+
+    - name: To check the status of HanaDB
+      shell: |
+        echo -e $(/usr/sap/hostctrl/exe/sapcontrol -nr "{{ db_instance_number }}" -function GetProcessList)
+      become: yes
+      become_user: "{{ db_sid | lower }}adm"   
+      register: DBstatus
+
+    - debug: var=DBstatus.stdout  
+
+    # - name:                            Adjust global.ini on each cluster node
+    #   ansible.builtin.blockinfile:
+    #     path:                          /hana/shared/{{ db_sid | upper }}/global/hdb/custom/config/global.ini
+    #     block: |
+    #                                    [ha_dr_provider_SAPHanaSR]
+    #                                    provider = SAPHanaSR
+    #                                    path = /hana/shared/myHooks
+    #                                    execution_order = 1
+    #                                    [trace]
+    #                                    ha_dr_saphanasr = info
+
+    - name:                            Adjust global.ini on each cluster node
+      ansible.builtin.blockinfile:
+        path:                          /hana/shared/{{ db_sid | upper }}/global/hdb/custom/config/global.ini
+        block: |
+                                       [ha_dr_provider_SAPHanaSR]
+                                       provider = SAPHanaSR
+                                       path = /hana/shared/SAPHanaSR
+                                       execution_order = 3
+                                       action_on_lost = fence
+                                       [trace]
+                                       ha_dr_saphanasr = info                                     
+
+
+    # - name:                           Start HANA Database
+    #   ansible.builtin.import_tasks:   ../../../roles-misc/helpers/tasks/start_hana.yml
+
+    - name: Start Secondary Site HANA DB
+      shell: |
+         echo -e $(/usr/sap/"{{ db_sid | upper }}"/HDB"{{ db_instance_number }}"/HDB start)
+      become: yes
+      become_user: "{{ db_sid | lower }}adm"
+      register: startdb_secondarynode
+  
+    - debug: var=startdb_secondarynode
+
+    - name: To check the status of HanaDB again
+      shell: |
+        echo -e $(/usr/sap/hostctrl/exe/sapcontrol -nr "{{ db_instance_number }}" -function GetProcessList)
+      become: yes
+      become_user: "{{ db_sid | lower }}adm"
+      register: DBstatus1
+
+    - debug: var=DBstatus1
+

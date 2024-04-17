@@ -1,0 +1,23 @@
+---
+- name: "5.5 HANADB Pacemaker - import - set_runtime_facts"
+  ansible.builtin.import_tasks: set_runtime_facts.yml
+
+# - name: "5.5 HANADB Pacemaker - import - pre_checks"
+#   ansible.builtin.import_tasks: pre_checks.yml
+
+- name: "5.5 HANADB Pacemaker - import - SAP HanaSR"
+  ansible.builtin.import_tasks: SAPHanaSR.yml
+
+- name: "HANADB PacemakerPost Steps - saptune"
+  ansible.builtin.import_tasks: post_steps.yml
+
+- name: "HANADB PacemakerPost Steps - saptune"
+  ansible.builtin.import_tasks: cluster_sudoer.yml  
+  
+
+- name: "5.5 HANADB Pacemaker - import - provision"
+  ansible.builtin.import_tasks: provision.yml
+#   when: not hana_cluster_existence_check
+
+# - name: "5.5 HANADB Pacemaker - import - post_provision_repor"
+#   ansible.builtin.import_tasks: post_provision_report.yml
