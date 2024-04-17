@@ -8,8 +8,8 @@
 - name: "5.5 HANADB Pacemaker - import - SAP HanaSR"
   ansible.builtin.import_tasks: SAPHanaSR.yml
 
-- name: "HANADB PacemakerPost Steps - saptune"
-  ansible.builtin.import_tasks: post_steps.yml
+# - name: "HANADB PacemakerPost Steps - saptune"
+#   ansible.builtin.import_tasks: post_steps.yml
 
 - name: "HANADB PacemakerPost Steps - saptune"
   ansible.builtin.import_tasks: cluster_sudoer.yml  
