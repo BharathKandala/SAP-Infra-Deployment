@@ -22,21 +22,6 @@ cluster_sap_hana_timeouts:
   demote: 3600
 
 cluster_status_report_wait_in_s: 60
-# sid: "A1C"
-# sid: "A1H"
-# sap_sid: "A1C"
-# db_sid: "A1H" 
-# db_instance_number: "05" 
-# db_lb_ip: "10.178.22.145"
-
-# sid: "A1H"
-# sap_sid: "A1C"
-# db_sid: "A1H" 
-# db_instance_number: "05" 
-# db_lb_ip: "10.178.22.145"
-
-
-# hdb_version: "2."
 
 cluster_status_cmd:
   RedHat: "pcs status --full"
@@ -61,11 +46,5 @@ target: "{{ iscsi_object }}.{{ cluster_name }}.local:{{ cluster_name }}"
 
 hana_stop_start_timeout_in_seconds:    2700
 hana_stop_start_delay_in_seconds:      2
-
-# sid: "A2H"
-# sap_sid: "A2C"
-# db_sid: "A2H" 
-# db_instance_number: "05" 
-# db_lb_ip: "10.178.22.143"
 
 ...
