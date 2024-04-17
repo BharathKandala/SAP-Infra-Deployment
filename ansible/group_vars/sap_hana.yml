@@ -30,6 +30,14 @@ hana_tenant_sid: QP1
 primary_virtual_host: vmplrqp1hana1
 secondary_virtual_host: vmplrqp1hana2
 
+#### SAP HANA Cluster
+
+sid: "QP1"
+# sap_sid: "P1C"
+db_sid: "QP1" 
+db_instance_number: "00" 
+db_lb_ip: "10.222.17.37"
+
 
 
 # # SAP HANA Azure Backups
