@@ -10,7 +10,7 @@
 - name: "SAP Pacemaker Hana - config sr_hook"
   ansible.builtin.copy:
     remote_src: yes
-    src: /usr/share/SAPHanaSR
+    src: /usr/share/SAPHanaSR/srHook
     dest: /hana/shared/
     mode: "0755"
     owner: "{{ sap_ha_install_hana_hsr_sid | lower }}adm"
@@ -19,7 +19,7 @@
 - name: "SAP Pacemaker Hana - config sr_hook"
   ansible.builtin.copy:
     remote_src: yes
-    src: /usr/share/SAPHanaSR/SAPHanaSR.py
+    src: /usr/share/SAPHanaSR/srHook/SAPHanaSR.py
     dest: /hana/shared/SAPHanaSR/SAPHanaSR.py
     mode: "0755"
     owner: "{{ sap_ha_install_hana_hsr_sid | lower }}adm"
@@ -34,12 +34,6 @@
       provider = SAPHanaSR
       path = /hana/shared/SAPHanaSR
       execution_order = 1
-
-      [ha_dr_provider_suschksrv]
-      provider = susChkSrv
-      path = /usr/share/SAPHanaSR
-      execution_order = 3
-      action_on_lost = fence
 
       [trace]
       ha_dr_saphanasr = info
