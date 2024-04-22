@@ -1,5 +1,9 @@
 ---
 packages:
+ - pcs 
+ - pacemaker 
+ - fence-agents-azure-arm 
+ - nmap-ncat
  - acl
  - azure-cli
  - bind-utils
