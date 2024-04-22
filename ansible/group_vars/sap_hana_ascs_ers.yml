@@ -1,0 +1,72 @@
+---
+# SAP HANA
+sap_hana_install_use_master_password: "y"
+sap_hana_install_sid: "QP1"
+sap_hana_install_instance_number: "00"
+sap_hana_install_master_password: "Plrhana@321"
+sap_ha_install_hana_hsr_sid: "{{ sap_hana_install_sid }}"
+sap_ha_install_hana_hsr_instance_number: "{{ sap_hana_install_instance_number }}"
+# sap_ha_install_hana_hsr_cluster_nodes: "{{ sap_hana_cluster_nodes }}"
+sap_ha_install_hana_hsr_hdbuserstore_system_backup_user: HDB_SYSTEMDB
+hana_system_db_paswd: "{{ sap_hana_install_master_password }}"
+sap_ha_install_hana_hsr_db_system_password: "{{ sap_hana_install_master_password }}"
+# sap_ha_install_hana_hsr_fqdn: "{{ sap_domain }}"
+sap_ha_install_hana_hsr_rep_mode: sync
+sap_ha_install_hana_hsr_oper_mode: logreplay
+sap_ha_install_hana_hsr_update_etchosts: yes
+
+#### SAP HANA Replication
+
+hana_backup_dir: /hana/data/backup
+hana_db_sid: QP1
+hana_instance_nbr: '00'
+hana_opration_mode: logreplay
+hana_prim_site_name: SITEA
+hana_replication_mode: sync
+hana_second_site_name: SITEB
+hana_system_backup_prefix: SYSTEM
+hana_tenant_backup_prefix: QP1
+hana_tenant_sid: QP1
+primary_virtual_host: vmplrqp1hana1
+secondary_virtual_host: vmplrqp1hana2
+
+#### SAP HANA Cluster
+
+sid: "QP1"
+# sap_sid: "P1C"
+db_sid: "QP1" 
+db_instance_number: "00" 
+db_lb_ip: "10.222.17.37"
+
+primary_instance_name: "vmplrqp1hana1"
+secondary_instance_name: "vmplrqp1hana2"
+resource_group_name: "rg-pce-sap-qa-gwc-001"
+fencing_spn_subscription_id: "d936a6d0-43af-4559-9183-fc2957c6e589"
+use_msi_for_clusters: true
+
+cluster_totem:
+  token:                               30000
+  retransmits:                         10
+  join:                                 60
+  consensus:                           36000
+  max_messages:                         20
+
+cluster_quorum:
+  expected_votes:                       2
+  two_node:                             1
+
+
+# # SAP HANA Azure Backups
+# sap_hana_backups: yes
+# azure_backup_username: AZUREWLBACKUPHANAUSER
+# azure_backup_password: Plrhana321
+# sap_hana_backup_policy_subscription_id: d936a6d0-43af-4559-9183-fc2957c6e589
+# sap_hana_backup_policy_name: bp-pce-sap-dp1-hana-db-backup
+# sap_hana_backup_vault_resource_group_name: rg-pce-sap-dev-gwc-001 
+# sap_hana_backup_vault_name: rsv-rg-pce-sap-dev-gwc-001
+# sap_hana_backup_server_name: vmplrdp1hana
+# sap_hana_backup_vm_name: vmplrdp1hana
+# sap_hana_backup_vm_resource_group_name: rg-pce-sap-dev-gwc-001
+# sap_hana_backup_database_list: 
+# - "saphanadatabase;dp1;systemdb"
+# - "saphanadatabase;dp1;dp1"
