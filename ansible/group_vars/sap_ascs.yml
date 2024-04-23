@@ -1,0 +1,171 @@
+---
+# General parameters
+swap_size_mb: "20520"
+sap_solution: NETWEAVER
+
+# Azure Storage mounts
+azure_storage_mounts:
+- share_name: heifsmedia
+  storage_account_name: heisapstorage01
+  resource_group_name: hei-coregc-rg-sap-weeu-infra
+  subscription_id: 4f50e73b-0f78-469d-8948-584b0ecb0342
+  path: /share/heifsmedia
+  file_mode: "0775"
+  dir_mode: "0775"
+- share_name: heifsbackup
+  storage_account_name: heisapstorage01
+  resource_group_name: hei-coregc-rg-sap-weeu-infra
+  subscription_id: 4f50e73b-0f78-469d-8948-584b0ecb0342
+  path: /share/heifsbackup
+  file_mode: "0775"
+  dir_mode: "0775"
+- share_name: heifsdepmedia
+  storage_account_name: heidepstorage01
+  resource_group_name: hei-coregc-rg-dep-weeu-saplibrary
+  subscription_id: 48b7643a-5031-4970-9fcf-873eb22ed08c
+  path: /share/heifsdepmedia
+  file_mode: "0775"
+  dir_mode: "0775"
+- share_name: heifstrans-d1c
+  storage_account_name: heisapstorage01
+  resource_group_name: hei-coregc-rg-sap-weeu-infra
+  subscription_id: 4f50e73b-0f78-469d-8948-584b0ecb0342
+  path: /usr/sap/trans
+  file_mode: "0777"
+  dir_mode: "0777"
+  gid: "79"
+  uid: "2024"
+  
+  
+# Volume groups and logical volumes
+vgs:
+# SAP VG
+- name: sapvg
+  lvs:
+  - name: usrsaplv
+    path: /usr/sap/
+    size: 3G
+
+  # sapmnt will be mounted via azure netapps  
+  #- name: sapmntlv
+  #  path: /sapmnt/
+  pvs:
+  - "/dev/disk/azure/scsi1/lun0"
+
+# Product ID for New Installation. Example for backup/restore: NW_ABAP_OneHost:S4HANA2021.CORE.HDB.CP
+sap_swpm_product_catalog_id: NW_ABAP_ASCS:S4HANA2022.CORE.HDB.ABAPHA
+
+# Software
+# sap_swpm_software_path: /share/heifsdepmedia/S4HANA2022FPS00/
+# sap_swpm_sapcar_path: /share/heifsdepmedia/S4HANA2022FPS00/
+# sap_swpm_swpm_path: /share/heifsdepmedia/S4HANA2022FPS00/
+
+sap_swpm_software_path: /share/heifsmedia/S4HANA2022FPS01FIORI/
+sap_swpm_sapcar_path: /share/heifsmedia/S4HANA2022FPS01FIORI/
+sap_swpm_swpm_path: /share/heifsmedia/S4HANA2022FPS01FIORI/
+
+
+# NW Instance Parameters
+sap_swpm_fqdn: "core.heiway.net"
+sap_swpm_delete_sapinst_users: "true"
+sap_swpm_setup_firewall: yes
+
+sap_swpm_sid: "P1C"
+sap_swpm_ascs_instance_nr: "07"
+sap_swpm_ascs_instance_hostname: "heip1casc07z2"
+sap_swpm_ascs_instance_ip: "10.178.40.6"
+sap_swpm_ers_instance_nr: "08"
+sap_swpm_ers_instance_hostname: "heip1cers08z3"
+sap_swpm_ers_instance_ip: "10.178.40.7"
+sap_swpm_pas_instance_nr: "06"
+sap_swpm_pas_instance_hostname: "heip1cpas06z2"
+sap_swpm_pas_instance_ip: "10.178.40.4"
+sap_swpm_aas_instance_nr: "09"
+sap_swpm_aas_instance_hostname: "heip1caas09z3"
+sap_swpm_aas_instance_ip: "10.178.40.5"
+
+# HDB Instance Parameters
+# For dual host installation, change the db_host to appropriate value.Maintain /etc/hosts file for both db and app.
+sap_swpm_db_host: "heip1hhdb05z2"
+sap_swpm_db_ip: "10.178.40.133"
+sap_swpm_db_host_secondary: "heip1hhdb05z3"
+sap_swpm_db_ip_secondary: "10.178.40.134"
+sap_swpm_db_sid: "P1H"
+sap_swpm_db_instance_nr: "05"
+
+# Virtual Ips
+scs_lb_ip: "10.178.40.125"
+ers_lb_ip: "10.178.40.126"
+db_lb_ip: "10.178.40.146"
+
+# Virtual Host Names
+scs_virtual_hostname: "{{ sap_swpm_sid | lower }}scs{{ sap_swpm_ascs_instance_nr }}vip1"
+ers_virtual_hostname: "{{ sap_swpm_sid | lower }}ers{{ sap_swpm_ers_instance_nr }}vip2"
+db_virtual_hostname: "{{ sap_swpm_db_sid | lower }}hdb{{ sap_swpm_db_instance_nr }}vip1"
+
+
+
+# Need to define:
+sap_swpm_java_export_keyphrase: ""
+sap_swpm_use_product_version_descriptor: ""
+sap_swpm_unpack_igs_exe_sar: ""
+sap_swpm_unpack_igs_helper_sar: ""
+sap_swpm_unpack_sap_exe_sar: ""
+sap_swpm_unpack_sap_jvm_sar: ""
+
+
+
+
+
+# DB Restore Parameters
+# sap_swpm_backup_location: "/share/heifsdepmedia/Q2C_S42021_FPS02_BLK_ADDON_FIORI_CONFIG_GF_12102022/DB_Q2H/"
+# sap_swpm_backup_prefix: COMPLETE_DATA_BACKUP
+
+# Unix User ID
+sap_swpm_sapadm_uid: '4001'
+sap_swpm_sapsys_gid: '79'
+sap_swpm_sidadm_uid: '2024'
+sap_swpm_update_etchosts: 'false'
+
+# SWPM parameters
+sap_swpm_inifile_list:
+  - installation_media
+  - swpm_installation_media
+  - credentials
+  - db_hana_restore
+  - db_restore_hana
+  - db_hana_nw_connection
+  - db_connection_nw_hana
+  - nw_other_config
+  - nw_config_other
+  - nw_instance_config
+  - nw_config_central_services_abap
+  - unix_user
+  - sap_os_linux_user
+  - nw_config_host_agent
+  - other
+  - db_hana_high_isolation
+
+# HA Defaults
+
+sap_swpm_virtual_hostname: "{{ scs_virtual_hostname }}"
+
+# Azure NetApps
+
+sap_ha_set_netweaver_role: "ascs"
+sap_ha_set_netweaver_sid: "{{ sap_swpm_sid }}"
+sap_ha_set_netweaver_ascs_instance_nr: "{{ sap_swpm_ascs_instance_nr }}"
+sap_ha_set_netweaver_ers_instance_nr: "{{ sap_swpm_ers_instance_nr }}"
+sap_hasap_ha_set_netweaver_nfs_mount_path_name: p1cprdshr
+sap_ha_set_netweaver_nfs_ip: 10.178.41.4
+
+# Var for GWC IP for netapps
+# sap_hasap_ha_set_netweaver_nfs_mount_path_name: p1cprdsdr
+# sap_ha_set_netweaver_nfs_ip: 10.182.26.68
+
+
+
+
+
+
+  
