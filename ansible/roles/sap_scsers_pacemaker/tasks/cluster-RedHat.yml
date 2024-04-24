@@ -12,36 +12,36 @@
       path: "/usr/sap/{{ sap_swpm_sid }}"
     register: check_s4hana
 
-  - name:                            "SCSERS - SCS - Assign ownership"
-    ansible.builtin.file:
-      path:                          "{{ item.path }}"
-      owner:                         "{{ sap_sid | lower }}adm"
-      group:                         sapsys
-      recurse:                       true
-      mode:                          '0755'
-      state:                         directory
-    register: dir_create  
-    loop:
-      - { path: '/sapmnt/{{ sap_sid | upper }}' }
-      - { path: '/usr/sap/{{ sap_sid | upper }}/SYS' }
-      - { path: '/usr/sap/{{ sap_sid | upper }}/ASCS{{ scs_instance_number }}' }
+  # - name:                            "SCSERS - SCS - Assign ownership"
+  #   ansible.builtin.file:
+  #     path:                          "{{ item.path }}"
+  #     owner:                         "{{ sap_sid | lower }}adm"
+  #     group:                         sapsys
+  #     recurse:                       true
+  #     mode:                          '0755'
+  #     state:                         directory
+  #   register: dir_create  
+  #   loop:
+  #     - { path: '/sapmnt/{{ sap_sid | upper }}' }
+  #     - { path: '/usr/sap/{{ sap_sid | upper }}/SYS' }
+  #     - { path: '/usr/sap/{{ sap_sid | upper }}/ASCS{{ scs_instance_number }}' }
       
-  when: inventory_hostname == primary_instance_name
+  # when: inventory_hostname == primary_instance_name
 
-- name:                            "SCSERS - ERS - Assign ownership"
-  ansible.builtin.file:
-    path:                          "{{ item.path }}"
-    owner:                         "{{ sap_sid | lower }}adm"
-    group:                         sapsys
-    recurse:                       true
-    state:                         directory
-    mode:                          '0755'
-  loop:
-    - { path: '/sapmnt/{{ sap_sid | upper }}' }
-    - { path: '/usr/sap/{{ sap_sid | upper }}/SYS' }
-    - { path: '/usr/sap/{{ sap_sid | upper }}/ERS{{ ers_instance_number }}' }   
+# - name:                            "SCSERS - ERS - Assign ownership"
+#   ansible.builtin.file:
+#     path:                          "{{ item.path }}"
+#     owner:                         "{{ sap_sid | lower }}adm"
+#     group:                         sapsys
+#     recurse:                       true
+#     state:                         directory
+#     mode:                          '0755'
+#   loop:
+#     - { path: '/sapmnt/{{ sap_sid | upper }}' }
+#     - { path: '/usr/sap/{{ sap_sid | upper }}/SYS' }
+#     - { path: '/usr/sap/{{ sap_sid | upper }}/ERS{{ ers_instance_number }}' }   
   
-  when: inventory_hostname == secondary_instance_name    
+#   when: inventory_hostname == secondary_instance_name    
 
 - name: "SCSERS - Install SAP NetWeaver ASCS"
   include_role:   
