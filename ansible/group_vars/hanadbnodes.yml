@@ -1,0 +1,90 @@
+---
+cluster_totem:
+  token: 30000
+  retransmits: 10
+  join: 60
+  consensus: 36000
+  max_messages: 20
+
+cluster_quorum:
+  expected_votes: 2
+  two_node: 1
+
+# These are the default timeouts used for the SAP SCS OS clustering. Depending on the
+# SAP SCS System, these may need to be adjusted if the operation takes longer than expected.
+cluster_sap_scs_timeouts:
+  start:          60s
+  stop:           60s
+  monitor_master: 700
+  monitor_slave: 700
+  promote: 3600
+  demote: 3600
+
+cluster_status_cmd:
+  RedHat: "pcs status --full"
+  Suse: "crm status full"
+
+cluster_status_report_wait_in_s: 60
+
+# SCS/ERS SID/Instance Numbers
+sap_domain: 'core.heiway.net'
+scs_instance_number: "07"
+ers_instance_number: "08"
+sid: "P1C"
+primary_instance_name: "heip1casc07z2"
+secondary_instance_name: "heip1cers08z3"
+sap_mnt: "10.178.41.4:/p1cprdshrP1C"
+sap_sid: "P1C"
+scs_lb_ip: "10.178.40.125"
+ers_lb_ip: "10.178.40.126"
+password_ha_db_cluster: "Welcome123"
+sap_fqdn: "core.heiway.net"
+subnet_prefix: "25"
+
+sid: "P1H"
+sap_sid: "P1C"
+db_sid: "P1H" 
+db_instance_number: "05" 
+db_lb_ip: "10.178.40.146"
+
+# scs_virtual_hostname: "heia1casc07z2"
+# ers_virtual_hostname: "heia1cers08z3"
+
+#cluster_variables move these to group vars########
+resource_group_name: "hei-coregc-rg-saps4-weeu-p1c"
+sap_hana_fencing_agent_subscription_id: "523f431c-5ce6-4840-962b-53c8e0dbf500"                                         
+
+sap_hana_fencing_agent_tenant_id: "66e853de-ece3-44dd-9d66-ee6bdf4159d4"
+
+
+scs_virtual_hostname: "{{ sap_sid | lower }}scs{{ scs_instance_number }}vip1"
+ers_virtual_hostname: "{{ sap_sid | lower }}ers{{ ers_instance_number }}vip2"
+
+
+# The following values should be same as iSCSI configuration
+# run 'sudo targetcli ls' on iSCSI target virtual machines to get all iSCSI configuration
+cluster_name: nw{{ sid | lower }}
+# storage_object: sbd{{ cluster_name }}
+# target: "{{ iscsi_object }}.{{ cluster_name }}.local:{{ cluster_name }}"
+
+# SAP ASCS/ERS Utility Commands
+sapcontrolscs_command: "sapcontrol -nr {{ scs_instance_number }}"
+sapcontrolers_command: "sapcontrol -nr {{ ers_instance_number }}"
+
+# hana_stop_start_timeout_in_seconds: 2700
+# hana_stop_start_delay_in_seconds: 2
+
+primary_instance:
+  name: "{{hostvars[groups['hanadbnodes'][0]].ansible_facts.hostname}}"
+  ip_admin: "{{ hostvars[groups['hanadbnodes'][0]].ansible_facts.default_ipv4.address }}"
+  ip_db: "{{ hostvars[groups['hanadbnodes'][0]].ansible_facts.default_ipv4.address }}"
+secondary_instance:
+  name: "{{hostvars[groups['hanadbnodes'][1]].ansible_facts.hostname}}"
+  ip_admin: "{{ hostvars[groups['hanadbnodes'][1]].ansible_facts.default_ipv4.address }}"
+  ip_db: "{{ hostvars[groups['hanadbnodes'][1]].ansible_facts.default_ipv4.address }}"
+
+
+
+
+...
+
