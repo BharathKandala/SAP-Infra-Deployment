@@ -46,6 +46,7 @@ sap_sid: "QP1"
 db_sid: "QP1" 
 db_instance_number: "00" 
 db_lb_ip: "10.222.17.37"
+sap_swpm_sid: "{{ sid }}"
 
 #cluster_variables move these to group vars########
 resource_group_name: "rg-pce-sap-qa-gwc-001"
