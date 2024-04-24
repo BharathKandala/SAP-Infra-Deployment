@@ -1,9 +1,9 @@
 ---
-- import_playbook: os_settings.yml
-  tags:
-  - os
-  - security
-  - ha
+# - import_playbook: os_settings.yml
+#   tags:
+#   - os
+#   - security
+#   - ha
 
 
   
@@ -31,10 +31,10 @@
   # - cloudconnector
   # - saprouter
 
-# - import_playbook: disable_services.yml
-#   tags: 
-#   - hanadb
-#   - s4hana    
+- import_playbook: disable_services.yml
+  tags: 
+  - hanadb
+  - s4hana    
 
 
 # - import_playbook: sap_hana_preconfigure.yml
@@ -59,11 +59,15 @@
 # - import_playbook: sap_nw_java_ads_install.yml
 #   tags: 
 #   - netweaver
-  
-# - import_playbook: disable_services.yml
-#   tags: 
-#   - hanadb
-#   - s4hana   
+
+- import_playbook: sap_scsers-pacemaker.yml
+  tags: 
+  - ha
+
+- import_playbook: disable_services.yml
+  tags: 
+  - hanadb
+  - s4hana   
 
 
 # # - import_playbook: sap_hana_isolation_mode.yml
