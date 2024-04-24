@@ -1,9 +1,9 @@
 ---
-- name: ASCS Cluster / Install ASCS on Primary host 
-  block:  
-   - name: ASCS - Cluster based on OS in VM
-     ansible.builtin.include_tasks: "cluster-ascs.yml"
-  when: inventory_hostname == primary_instance_name
+# - name: ASCS Cluster / Install ASCS on Primary host 
+#   block:  
+#    - name: ASCS - Cluster based on OS in VM
+#      ansible.builtin.include_tasks: "cluster-ascs.yml"
+#   when: inventory_hostname == primary_instance_name
 
 - name: ASCS Cluster / Install ASCS on Primary host 
   block:  
