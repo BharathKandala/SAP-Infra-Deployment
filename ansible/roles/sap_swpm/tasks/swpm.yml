@@ -3,11 +3,8 @@
 ### Deprecated standard method, can fail to detect process exit (e.g. hang errors with SAP SWPM 2.0 SP11)
 ### Detect changed when using 'SAPinst build information' from beginning of stdout
 ### Or detect changed when using instslana.xml at end of stdout (this is the Process XML file aka. SAPInst Software Logistics Toolset Analytics XML file, which records the installation information)
-### Execute SAP SWPM, instead of command module use the shell module to allow use of umask according to SAP SWPM recommendations
-### Use of umask will enforce permissions 755 in /usr/sap etc (thereby resolving any shared NFS mount points initially attached with permissions 777)
 #- name:  SAP SWPM - {{ sap_swpm_swpm_installation_header }}
-#  ansible.builtin.shell: >-
-#    umask {{ sap_swpm_umask | default('022') }};
+#  command: >-
 #    ./sapinst \
 #    {{ sap_swpm_swpm_command_inifile }} \
 #    {{ sap_swpm_swpm_command_product_id }} \
@@ -23,11 +20,10 @@
 ### Async method
 
 # Required for Ansible Module pids
-- name: Install Python devel, Python pip and gcc to system Python
+- name: Install Python devel and gcc to system Python
   ansible.builtin.package:
     name:
       - python3-devel
-      - python3-pip
       - gcc
     state: present
 
@@ -38,9 +34,12 @@
       - psutil
 #    executable: pip3.6
 
+- name: SAP SWPM Pre Install - Stop the firewalld service
+  ansible.builtin.command: "systemctl stop firewalld"
+
 - name: Set fact for the sapinst command line
   ansible.builtin.set_fact:
-    __sap_swpm_sapinst_command: "umask {{ sap_swpm_umask | default('022') }} ; ./sapinst {{ sap_swpm_swpm_command_inifile }}
+    __sap_swpm_sapinst_command: "./sapinst {{ sap_swpm_swpm_command_inifile }}
     {{ sap_swpm_swpm_command_product_id }}
     {{ sap_swpm_swpm_command_extra_args }}"
   tags: sap_swpm_sapinst_commandline
@@ -58,17 +57,29 @@
 #   args:
 #     chdir: "{{ sap_swpm_sapinst_path }}"
 
-# Execute SAP SWPM, instead of command module use the shell module to allow use of umask according to SAP SWPM recommendations
-# Use of umask will enforce permissions 755 in /usr/sap etc (thereby resolving any shared NFS mount points initially attached with permissions 777)
+# Execute SAP SWPM
 # Reason for noqa: This command installs software, so it will change things
 - name: SAP SWPM - {{ sap_swpm_swpm_installation_header }} # noqa no-changed-when
-  ansible.builtin.shell: |
-    {{ __sap_swpm_sapinst_command }}
+  ansible.builtin.command: "{{ __sap_swpm_sapinst_command }}"
   register: __sap_swpm_register_sapinst_async_job
   args:
     chdir: "{{ sap_swpm_sapinst_path }}"
   async: 32400 # Seconds for maximum runtime, set to 9 hours
   poll: 0 # Seconds between polls, use 0 to run Ansible Tasks concurrently
+
+# Added By Meher for folder Creation
+- name:  "Change Permissions for /usr/sap/{{ sap_sid | upper }}/ERS{{ ers_instance_number }}"
+  ansible.builtin.file:
+    path:  "{{ item.path }}"
+    owner: "{{ sap_sid | lower }}adm"
+    group: sapsys
+    recurse: true
+    state: directory
+    mode: '0755'
+  loop:
+    - { path: '/usr/sap/{{ sap_sid | upper }}/ERS{{ ers_instance_number }}' }     
+  when: 
+     - "'_ERS' in sap_swpm_product_catalog_id"     
 
 # Monitor sapinst process (i.e. ps aux | grep sapinst) and wait for exit
 - name: SAP SWPM - Wait for sapinst process to exit, poll every 60 seconds
@@ -97,7 +108,6 @@
 - name: SAP SWPM - Display the sapinst output
   ansible.builtin.debug:
     msg: "{{ __sap_swpm_register_sapinst.stdout_lines }}"
-  when: sap_swpm_display_unattended_output
 
 - name: SAP SWPM - Find last installation location
   ansible.builtin.command: cat /tmp/sapinst_instdir/.lastInstallationLocation
@@ -116,29 +126,6 @@
   register: swpm_success_file_contents
   changed_when: false
 
-- name: SAP SWPM - Find sapcontrol log file/s
-  ansible.builtin.find:
-    paths: "{{ swpm_last_install_path.stdout }}"
-    recurse: false
-    file_type: file
-    patterns: '.*sapcontrol.*log'
-    use_regex: true
-  register: swpm_output_sapcontrol_files
-
-- name: SAP SWPM - Get sapcontrol file/s
-  ansible.builtin.command: awk -v RS='(^|\n)GetInstanceProperties\n' 'END{printf "%s", $0}' {{ item }}
-  register: swpm_sapcontrol_file_contents
-  changed_when: false
-  loop: "{{ swpm_output_sapcontrol_files.files | map(attribute='path') | list | unique }}"
-
 - name: SAP SWPM - Display installation finished from success file
   ansible.builtin.debug:
     msg: "{{ swpm_success_file_contents.stdout_lines }}"
-
-- name: SAP SWPM - Display status from sapcontrol file/s
-  ansible.builtin.debug:
-    msg: "{{ ['GetInstanceProperties'] + file_output.stdout_lines }}"
-  loop: "{{ swpm_sapcontrol_file_contents.results }}"
-  loop_control:
-    loop_var: file_output
-    label: "{{ file_output.item }}"

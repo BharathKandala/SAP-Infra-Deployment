@@ -32,6 +32,7 @@
   ansible.builtin.user:
     name: '{{ sap_swpm_sid | lower }}adm'
     comment: "SAP User - {{ sap_swpm_sid }}"
+    password: "{{ sap_swpm_master_password | password_hash('sha512') }}"
     uid: '{{ sap_swpm_sidadm_uid }}'
     group: '{{ sap_swpm_sapsys_gid }}'
 
@@ -44,8 +45,36 @@
     recurse: yes
     mode: '0755'
 
-# - name: SAP SWPM Pre Install - Purge parameters so it will not populate inifile.params to prevent SWPM from crashing
-#   ansible.builtin.set_facts:
-#     sap_swpm_sapadm_uid: ""
-#     sap_swpm_sapsys_gid: ""
-#     sap_swpm_sidadm_uid: ""
+- name: SAP SWPM Pre Install -  ASCS Cluster / Install ASCS on Primary host 
+  block: 
+  - name: "SCSERS - SCS - Assign ownership"
+    ansible.builtin.file:
+      path: "{{ item.path }}"
+      state: directory
+      owner: '{{ sap_swpm_sid | lower }}adm'
+      group: sapsys
+      recurse: yes
+      mode: '0755'
+    loop:
+      - { path: '/sapmnt/{{ sap_swpm_sid | upper }}' }
+      - { path: '/usr/sap/{{ sap_swpm_sid | upper }}/SYS' }
+      - { path: '/usr/sap/{{ sap_swpm_sid | upper }}/ASCS{{ sap_swpm_ascs_instance_nr }}' }
+     
+  when: inventory_hostname == sap_swpm_ascs_instance_hostname
+
+- name: SAP SWPM Pre Install - ASCS Cluster / Install ERS on Primary host 
+  block: 
+  - name: "SCSERS - ERS - Assign ownership"
+    ansible.builtin.file:
+      path: "{{ item.path }}"
+      state: directory
+      owner: '{{ sap_swpm_sid | lower }}adm'
+      group: sapsys
+      recurse: yes
+      mode: '0755'
+    loop:
+      - { path: '/sapmnt/{{ sap_swpm_sid | upper }}' }
+      - { path: '/usr/sap/{{ sap_swpm_sid | upper }}/SYS' }
+      - { path: '/usr/sap/{{ sap_swpm_sid | upper }}/ERS{{ sap_swpm_ers_instance_nr }}' }  
+
+  when: inventory_hostname == sap_swpm_ers_instance_hostname   

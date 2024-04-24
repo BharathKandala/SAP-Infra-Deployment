@@ -1,0 +1,12 @@
+---
+- name:                               "Setup Virtual host name resolution - SCS & ERS"
+  ansible.builtin.blockinfile:
+    path:                             /etc/hosts
+    mode:                             0644
+    create:                           true
+    state:                            present
+    block: |
+                                      {{ scs_lb_ip }} {{ scs_virtual_hostname }}.{{ sap_fqdn }} {{ scs_virtual_hostname }}
+                                      {{ ers_lb_ip }} {{ ers_virtual_hostname }}.{{ sap_fqdn }} {{ ers_virtual_hostname }}
+    marker:                           "# {mark} ASCS/ERS Entries {{ scs_virtual_hostname }}"
+  register:                           scsersvirhosts

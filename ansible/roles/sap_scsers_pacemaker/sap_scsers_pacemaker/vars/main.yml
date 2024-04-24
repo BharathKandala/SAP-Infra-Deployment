@@ -1,0 +1,56 @@
+# ---
+# cluster_totem:
+#   token: 30000
+#   retransmits: 10
+#   join: 60
+#   consensus: 36000
+#   max_messages: 20
+
+# cluster_quorum:
+#   expected_votes: 2
+#   two_node: 1
+
+# # These are the default timeouts used for the SAP SCS OS clustering. Depending on the
+# # SAP SCS System, these may need to be adjusted if the operation takes longer than expected.
+# cluster_sap_scs_timeouts:
+#   start:          60s
+#   stop:           60s
+#   monitor_master: 700
+#   monitor_slave: 700
+#   promote: 3600
+#   demote: 3600
+
+# cluster_status_cmd:
+#   RedHat: "pcs status --full"
+#   Suse: "crm status full"
+
+# cluster_status_report_wait_in_s: 60
+
+# # SCS/ERS SID/Instance Numbers
+# scs_instance_number: "07"
+# ers_instance_number: "08"
+# sid: "A1C"
+# # primary_instance_name: "heia1hhdb05z2"
+# # secondary_instance_name: "heia1hhdb05z3"
+# sap_mnt: "10.178.23.4:/a1caccshrA1C"
+# sap_sid: "A1C"
+# scs_lb_ip: "10.178.22.125"
+# ers_lb_ip: "10.178.22.126"
+# password_ha_db_cluster: "Welcome123"
+# sap_fqdn: "core.heiway.net"
+# subnet_prefix: "25"
+
+
+# # The following values should be same as iSCSI configuration
+# # run 'sudo targetcli ls' on iSCSI target virtual machines to get all iSCSI configuration
+# cluster_name: nw{{ sid | lower }}
+# # storage_object: sbd{{ cluster_name }}
+# # target: "{{ iscsi_object }}.{{ cluster_name }}.local:{{ cluster_name }}"
+
+# # SAP ASCS/ERS Utility Commands
+# sapcontrolscs_command: "sapcontrol -nr {{ scs_instance_number }}"
+# sapcontrolers_command: "sapcontrol -nr {{ ers_instance_number }}"
+
+# # hana_stop_start_timeout_in_seconds: 2700
+# # hana_stop_start_delay_in_seconds: 2
+# ...

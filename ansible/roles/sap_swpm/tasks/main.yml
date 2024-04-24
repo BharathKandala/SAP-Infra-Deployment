@@ -1,5 +1,4 @@
 ---
-
 - name: SAP SWPM - run pre_install tasks
   ansible.builtin.import_tasks: pre_install.yml
   tags:

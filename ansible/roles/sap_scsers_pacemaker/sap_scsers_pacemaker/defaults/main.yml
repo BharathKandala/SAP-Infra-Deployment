@@ -1,0 +1,9 @@
+---
+distro_name:                           "{{ ansible_os_family | upper }}-{{ ansible_distribution_major_version }}"
+distribution_id:                       "{{ ansible_os_family | lower ~ ansible_distribution_major_version }}"
+distribution_full_id:                  "{{ ansible_os_family | lower ~ ansible_distribution_version }}"
+
+scs_virtual_hostname:                  "{{ sap_sid | lower }}scs{{ scs_instance_number }}vip1"
+ers_virtual_hostname:                  "{{ sap_sid | lower }}ers{{ ers_instance_number }}vip2"
+iscsi_object:                          iqn.2006-04
+iscsi_port:                            3260

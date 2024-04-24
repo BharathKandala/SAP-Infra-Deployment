@@ -60,7 +60,6 @@ sap_swpm_inifile_list:
 #  - credentials_anydb_sapase
 #  - credentials_anydb_sapmaxdb
 #  - credentials_nwas_ssfs
-#  - credentials_hdbuserstore
   - db_config_hana
 #  - db_config_anydb_all
 #  - db_config_anydb_ibmdb2
@@ -80,7 +79,6 @@ sap_swpm_inifile_list:
   - nw_config_central_services_abap
 #  - nw_config_central_services_java
   - nw_config_primary_application_server_instance
-#  - nw_config_additional_application_server_instance
 #  - nw_config_ers
   - nw_config_ports
 #  - nw_config_java_ume
@@ -88,16 +86,11 @@ sap_swpm_inifile_list:
 #  - nw_config_webdisp_generic
 #  - nw_config_webdisp_gateway
   - nw_config_host_agent
-#  - nw_config_post_load_abap_reports
-#  - nw_config_livecache
-#  - nw_config_sld
-#  - nw_config_abap_language_packages
+#  - nw_config_post_abap_reports
   - sap_os_linux_user
 
 ## Not in use
 #  - swpm_installation_media_download_service
-#  - solman_credentials_swpm1
-#  - solman_abap_swpm1
 #  - solman_daa_swpm1
 
 
@@ -138,7 +131,7 @@ sap_swpm_cd_export_pt1_path:
 sap_swpm_cd_export_pt2_path:
 sap_swpm_cd_language_path:
 sap_swpm_cd_java_path:
-sap_swpm_cd_rdbms_path:
+sap_swpm_cd_rdms_path:
 sap_swpm_cd_export_path:
 sap_swpm_cd_ibmdb2_path:
 sap_swpm_cd_ibmdb2_client_path:
@@ -179,8 +172,6 @@ sap_swpm_ers_instance_nr: ""
 sap_swpm_ers_instance_hostname: ""
 sap_swpm_pas_instance_nr: ""
 sap_swpm_pas_instance_hostname: ""
-sap_swpm_aas_instance_nr: ""
-sap_swpm_aas_instance_hostname: ""
 
 sap_swpm_java_scs_instance_nr: ""
 
@@ -204,6 +195,8 @@ sap_swpm_virtual_hostname: "initial"
 
 sap_swpm_java_template_id_selected_list:
   - java_engine_ee
+  - java_nwas_as
+  - java_adobe_document_services
 
 sap_swpm_java_template_id_lookup_dictionary:
   java_nwas_as:
@@ -212,7 +205,7 @@ sap_swpm_java_template_id_lookup_dictionary:
   java_engine_se:
     - 01200615324800000125 # Adapter Engine (Java SE)
   java_engine_ee:
-    - 01200615324800000165 # Adapter Engine (Java EE), includes java_nwas_as (01200615324800000135)
+    - 01200615324800000165 # Adapter Engine (Java EE)
   java_nwdi:
     - 01200615324800000129 # Development Infrastructure
     - 01200615324800003960 # Developer Studio
@@ -227,7 +220,7 @@ sap_swpm_java_template_id_lookup_dictionary:
     - 01200615324800002887 # Enterprise Services Repository
     - 01200615324800000149 # ESR Content
   java_adobe_document_services:
-    - 01200615324800000128 # Adobe Document Services, includes java_nwas_as (01200615324800000135) and java_engine_ee (01200615324800000125)
+    - 01200615324800000128 # Adobe Document Services
     - 01200314694800005225 # PDF Export
   java_pi_aex:
     - 01200615324800003841 # Advanced Adapter Engine Extnd
@@ -237,7 +230,7 @@ sap_swpm_java_template_id_lookup_dictionary:
   java_scheduling_cps:
     - 01200615324800000153 # Central Process Scheduling
   java_solman:
-    - 01200615324800001035 # Solution Manager, includes java_nwas_as (01200615324800000135) and java_engine_ee (01200615324800000125)
+    - 01200615324800001035 # Solution Manager
   java_demo:
     - 01200615324800002898 # Demo Applications
 
@@ -315,9 +308,7 @@ sap_swpm_wd_backend_ms_http_port:
 sap_swpm_wd_backend_ms_host:
 sap_swpm_wd_backend_rfc_host:
 sap_swpm_wd_backend_rfc_instance_nr:
-sap_swpm_wd_backend_rfc_client_nr: # 000 default
-sap_swpm_wd_backend_rfc_user: # DDIC default
-sap_swpm_wd_backend_rfc_user_password:
+sap_swpm_wd_backend_rfc_ddic_000_password:
 sap_swpm_wd_backend_scenario_size:
 sap_swpm_wd_virtual_host:
 
@@ -349,7 +340,6 @@ sap_swpm_diagnostics_agent_password:
 
 ## --- Individual Software Paths --- ##
 # will follow sap_swpm_software_path
-# alternatively, can be detected and set with sap_install_media_detect Ansible Role
 
 sap_swpm_igs_path:
 sap_swpm_igs_file_name:
@@ -386,6 +376,3 @@ sap_swpm_setup_firewall: 'false'
 
 # Update /etc/hosts
 sap_swpm_update_etchosts: 'false'
-
-# Display SAP SWPM Unattended Mode output (sapinst stdout)
-sap_swpm_display_unattended_output: false
