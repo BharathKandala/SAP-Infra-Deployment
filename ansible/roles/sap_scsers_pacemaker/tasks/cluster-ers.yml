@@ -4,40 +4,45 @@
 - name:                                "5.6 SCSERS - SUSE - ERS - Cluster Configuration before Install"
   throttle:                            1
   block:
-    - name:                            "5.6 SCSERS - ERS - Bring Secondary host online"
-      ansible.builtin.command:         crm node online {{ secondary_instance_name }}
-      register:                        secondary_online
-      changed_when:                    secondary_online.rc != 0
 
-    - name :                           "5.6 SCSERS - ERS - Put Primary host on standby"
-      ansible.builtin.command:         crm node standby {{ primary_instance_name }}
-      register:                        primary_standby
-      changed_when:                    primary_standby.rc != 0
+    - name:                            "5.6 SCSERS - RHEL - ERS - Put Secondary host on online"
+      ansible.builtin.command:         pcs node unstandby {{ secondary_instance_name }}
 
-    - name:                            "5.6 SCSERS - ERS - Configure File system resources"
+    - name:                            "5.6 SCSERS - RHEL - ERS - Put Primary host on standby"
+      ansible.builtin.command:         pcs node standby {{ primary_instance_name }}     
+
+    - name:                            "5.6 SCSERS - RHEL - ERS - Set fact for ERS Filesystem"
+      ansible.builtin.set_fact:
+        ers_filesystem_device:        "{{ sap_mnt }}/usrsap{{ sap_sid | upper }}ers{{ ers_instance_number }}"
+
+    - name:                            "5.6 SCSERS - RHEL - ERS - Configure File system resources"
       ansible.builtin.command: >
-                                       crm configure primitive fs_{{ sap_sid }}_ERS Filesystem \
-                                       device='{{ sap_mnt }}/usrsap{{ sap_sid }}ers' \
-                                       directory='/usr/sap/{{ sap_sid | upper }}/ERS{{ ers_instance_number }}' fstype='nfs' options='sec=sys,vers=4.1' \
-                                       op start timeout="{{ cluster_sap_scs_timeouts.start }}" interval=0 \
-                                       op stop timeout="{{ cluster_sap_scs_timeouts.stop }}"  interval=0 \
-                                       op monitor interval="20s" timeout="40s"
+                                       pcs resource create fs_{{ sap_sid | upper }}_ERS Filesystem \
+                                       device='{{ ers_filesystem_device }}' \
+                                       directory='/usr/sap/{{ sap_sid | upper }}/ERS{{ ers_instance_number }}' fstype='nfs' force_unmount=safe options='sec=sys,vers=4.1' \
+                                       op start interval=0 timeout=60 \
+                                       op stop interval=0 timeout=120 \
+                                       op monitor interval=200 timeout=400 \
+                                       --group g-{{ sap_sid | upper }}_ERS
       register:                        ers_fs_resource
       failed_when:                     ers_fs_resource.rc > 1
 
-    - name:                            "5.6 SCSERS - ERS - Create ERS VIP - This is LB frontend ERS IP"
+
+    - name:                            "5.6 SCSERS - RHEL - ERS - Create ERS VIP - This is LB frontend ERS IP"
       ansible.builtin.command: >
-                                       crm configure primitive vip_{{ sap_sid }}_ERS IPaddr2 \
-                                       params ip={{ ers_lb_ip }} \
-                                       op monitor interval="10s" timeout="20s"
+                                       pcs resource create vip_{{ sap_sid | upper }}_ERS IPaddr2 \
+                                       ip={{ ers_lb_ip }} cidr_netmask={{ subnet_prefix }} \
+                                       --group g-{{ sap_sid | upper }}_ERS
       register:                        ers_vip
       failed_when:                     ers_vip.rc > 1
 
-
-    - name:                            "5.6 SCSERS - ERS - create Azure LB resource "
-      ansible.builtin.command:         crm configure primitive nc_{{ sap_sid }}_ERS azure-lb port=621{{ ers_instance_number }}
+    - name:                            "5.6 SCSERS - RHEL - ERS - create Azure LB resource "
+      ansible.builtin.command: >
+                                       pcs resource create nc_{{ sap_sid | upper }}_ERS azure-lb port=621{{ ers_instance_number }} \
+                                       --group g-{{ sap_sid | upper }}_ERS
       register:                        ers_alb
       failed_when:                     ers_alb.rc > 1
+
 
     - name:                            "5.6 SCSERS - ERS - Create Health Probe"
       ansible.builtin.command: >
