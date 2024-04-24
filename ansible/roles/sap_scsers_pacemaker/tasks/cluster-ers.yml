@@ -44,12 +44,7 @@
       failed_when:                     ers_alb.rc > 1
 
 
-    - name:                            "5.6 SCSERS - ERS - Create Health Probe"
-      ansible.builtin.command: >
-                                       crm configure group g-{{ sap_sid }}_ERS fs_{{ sap_sid }}_ERS nc_{{ sap_sid }}_ERS \
-                                       vip_{{ sap_sid }}_ERS meta resource-stickiness=3000
-      register:                        ers_hp
-      failed_when:                     ers_hp.rc > 1
+
   when: inventory_hostname == secondary_instance_name
 
 # END of playbook.
