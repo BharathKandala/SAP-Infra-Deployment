@@ -27,36 +27,33 @@ cluster_status_cmd:
 cluster_status_report_wait_in_s: 60
 
 # SCS/ERS SID/Instance Numbers
-sap_domain: 'core.heiway.net'
-scs_instance_number: "07"
-ers_instance_number: "08"
-sid: "P1C"
-primary_instance_name: "heip1casc07z2"
-secondary_instance_name: "heip1cers08z3"
-sap_mnt: "10.178.41.4:/p1cprdshrP1C"
-sap_sid: "P1C"
-scs_lb_ip: "10.178.40.125"
-ers_lb_ip: "10.178.40.126"
+sap_domain: 'nonprod.pce.cloud'
+scs_instance_number: "01"
+ers_instance_number: "02"
+sid: "QP1"
+primary_instance_name: "vmplrqp1ascs"
+secondary_instance_name: "vmplrqp1ers"
+sap_mnt: "10.222.19.4:/QP1APP"
+sap_sid: "QP1"
+scs_lb_ip: "10.222.16.17"
+ers_lb_ip: "10.222.16.20"
 password_ha_db_cluster: "Welcome123"
-sap_fqdn: "core.heiway.net"
+sap_fqdn: "nonprod.pce.cloud"
 subnet_prefix: "25"
 
-sid: "P1H"
-sap_sid: "P1C"
-db_sid: "P1H" 
-db_instance_number: "05" 
-db_lb_ip: "10.178.40.146"
-
-# scs_virtual_hostname: "heia1casc07z2"
-# ers_virtual_hostname: "heia1cers08z3"
+sid: "QP1"
+sap_sid: "QP1"
+db_sid: "QP1" 
+db_instance_number: "00" 
+db_lb_ip: "10.222.17.37"
 
 #cluster_variables move these to group vars########
-resource_group_name: "hei-coregc-rg-saps4-weeu-p1c"
-sap_hana_fencing_agent_subscription_id: "523f431c-5ce6-4840-962b-53c8e0dbf500"                                         
+resource_group_name: "rg-pce-sap-qa-gwc-001"
+sap_hana_fencing_agent_subscription_id: "d936a6d0-43af-4559-9183-fc2957c6e589"                                         
 
-sap_hana_fencing_agent_tenant_id: "66e853de-ece3-44dd-9d66-ee6bdf4159d4"
+#sap_hana_fencing_agent_tenant_id: ""
 
-
+# Virtual Host Names
 scs_virtual_hostname: "{{ sap_sid | lower }}scs{{ scs_instance_number }}vip1"
 ers_virtual_hostname: "{{ sap_sid | lower }}ers{{ ers_instance_number }}vip2"
 
