@@ -11,11 +11,11 @@
 - name: "SCSERS Pacemaker - provision"
   ansible.builtin.import_tasks: provision.yml
 
-- name: "SCSERS Pacemaker - post_activities"
-  ansible.builtin.import_tasks: post_steps.yml   
+# - name: "SCSERS Pacemaker - post_activities"
+#   ansible.builtin.import_tasks: post_steps.yml   
 
-- name: "SCSERS Pacemaker - post_provision_report"
-  ansible.builtin.import_tasks: post_provision_report.yml
+# - name: "SCSERS Pacemaker - post_provision_report"
+#   ansible.builtin.import_tasks: post_provision_report.yml
 
  
 ...
