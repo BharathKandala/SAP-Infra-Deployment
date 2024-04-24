@@ -53,7 +53,7 @@
 #   - "/dev/disk/azure/scsi1/lun0"
 
 # # Product ID for New Installation. Example for backup/restore: NW_ABAP_OneHost:S4HANA2021.CORE.HDB.CP
-# sap_swpm_product_catalog_id: NW_ERS:S4HANA2022.CORE.HDB.ABAPHA
+# sap_swpm_product_catalog_id: NW_ERS:S4HANA2023.CORE.HDB.ABAPHA
 
 # Software
 # sap_swpm_software_path: /share/heifsdepmedia/S4HANA2022FPS00/
