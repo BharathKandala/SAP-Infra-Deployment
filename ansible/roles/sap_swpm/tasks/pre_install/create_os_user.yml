@@ -35,6 +35,7 @@
     password: "{{ sap_swpm_master_password | password_hash('sha512') }}"
     uid: '{{ sap_swpm_sidadm_uid }}'
     group: '{{ sap_swpm_sapsys_gid }}'
+    shell: /bin/csh
 
 - name: SAP SWPM Pre Install - Create a /usr/sap/{{ sap_swpm_sid }}
   ansible.builtin.file:
