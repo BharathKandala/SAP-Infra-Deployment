@@ -103,17 +103,20 @@ scs_virtual_hostname: "{{ sap_swpm_sid | lower }}scs{{ sap_swpm_ascs_instance_nr
 ers_virtual_hostname: "{{ sap_swpm_sid | lower }}ers{{ sap_swpm_ers_instance_nr }}vip2"
 db_virtual_hostname: "{{ sap_swpm_db_sid | lower }}hdb{{ sap_swpm_db_instance_nr }}vip1"
 
+# NW Passwords
+sap_app_install_master_password: "Plrsap@321"
+sap_swpm_master_password: "{{ sap_app_install_master_password }}"
+sap_swpm_ddic_000_password: "{{ sap_app_install_master_password }}"
+sap_swpm_java_export_keyphrase: "{{ sap_app_install_master_password }}"
 
-
-# Need to define:
-sap_swpm_java_export_keyphrase: ""
-sap_swpm_use_product_version_descriptor: ""
-sap_swpm_unpack_igs_exe_sar: "/software/S4_media"
-sap_swpm_unpack_igs_helper_sar: "/software/S4_media"
-sap_swpm_unpack_sap_exe_sar: "/software/S4_media"
-# sap_swpm_unpack_sap_jvm_sar: "/software/S4_media"
-
-
+# HDB Passwords
+sap_hana_install_master_password: "Plrhana@321"
+sap_swpm_db_system_password: "{{ sap_hana_install_master_password }}"
+sap_swpm_db_systemdb_password: "{{ sap_hana_install_master_password }}"
+# sap_swpm_db_schema_java: "SAPJAVA1"
+sap_swpm_db_schema_password: "{{ sap_hana_install_master_password }}"
+sap_swpm_db_schema_java_password: "{{ sap_hana_install_master_password }}"
+sap_swpm_db_sidadm_password: "{{ sap_hana_install_master_password }}"
 
 
 
