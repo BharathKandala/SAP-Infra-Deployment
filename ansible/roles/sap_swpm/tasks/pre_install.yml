@@ -38,6 +38,12 @@
   when: "sap_swpm_setup_firewall | bool"
   tags: sap_swpm_setup_firewall
 
+# Create Users
+
+- name: SAP SWPM Pre Install - Create Users
+  ansible.builtin.include_tasks:
+    file: pre_install/create_os_user.yml
+
 # /etc/hosts
 
 - name: SAP SWPM Pre Install - Update /etc/hosts
