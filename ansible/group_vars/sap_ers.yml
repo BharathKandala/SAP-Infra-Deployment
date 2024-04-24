@@ -156,15 +156,13 @@ sap_swpm_virtual_hostname: "{{ ers_virtual_hostname }}"
 
 # Azure NetApps
 
-sap_ha_set_netweaver_role: "ers"
-sap_ha_set_netweaver_sid: "{{ sap_swpm_sid }}"
-sap_ha_set_netweaver_ascs_instance_nr: "{{ sap_swpm_ascs_instance_nr }}"
-sap_ha_set_netweaver_ers_instance_nr: "{{ sap_swpm_ers_instance_nr }}"
-sap_hasap_ha_set_netweaver_nfs_mount_path_name: qp1prdshr
-sap_ha_set_netweaver_nfs_ip: ""
+# sap_ha_set_netweaver_role: "ers"
+# sap_ha_set_netweaver_sid: "{{ sap_swpm_sid }}"
+# sap_ha_set_netweaver_ascs_instance_nr: "{{ sap_swpm_ascs_instance_nr }}"
+# sap_ha_set_netweaver_ers_instance_nr: "{{ sap_swpm_ers_instance_nr }}"
+# sap_hasap_ha_set_netweaver_nfs_mount_path_name: qp1prdshr
+# sap_ha_set_netweaver_nfs_ip: ""
 
-# Var for GWC IP for netapps
-# sap_hasap_ha_set_netweaver_nfs_mount_path_name: p1cprdsdr
-# sap_ha_set_netweaver_nfs_ip: 10.182.26.68
+
 
   
