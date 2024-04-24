@@ -1,0 +1,5 @@
+---
+- hosts: hanadbnodes
+  max_fail_percentage: 0
+  roles:
+    - { role: sap_scsers_pacemaker, become: yes }
