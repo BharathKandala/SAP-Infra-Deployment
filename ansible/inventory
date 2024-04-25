@@ -11,6 +11,9 @@ vmplrqp1ers ansible_host=10.222.16.14 ansible_user=setupadmin ansible_ssh_pass=k
 [sap_dbc]
 vmplrqp1app1 ansible_host=10.222.16.15 ansible_user=setupadmin ansible_ssh_pass=VYySQvEEOk7Fc7k1Zd ansible_ssh_common_args='-o StrictHostKeyChecking=no' tier=ha node_tier=dbc 
 
+[sap_pas]
+vmplrqp1app1 ansible_host=10.222.16.15 ansible_user=setupadmin ansible_ssh_pass=VYySQvEEOk7Fc7k1Zd ansible_ssh_common_args='-o StrictHostKeyChecking=no' tier=ha node_tier=dbc 
+
 
 #[sap_hana_ads]
 #vmplrda1hana ansible_host=10.222.17.41 ansible_user=setupadmin ansible_ssh_private_key_file=private_key sap_hana_install_master_password=Plrhana@321
