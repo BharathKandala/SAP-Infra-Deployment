@@ -174,7 +174,7 @@ sap_swpm_inifile_list:
 
 # HA Defaults
 
-sap_swpm_virtual_hostname: "{{ sap_swpm_pas_instance_hostname }}"
+#sap_swpm_virtual_hostname: "{{ sap_swpm_pas_instance_hostname }}"
 
 # Azure NetApps
 
