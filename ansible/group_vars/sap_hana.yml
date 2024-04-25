@@ -46,6 +46,8 @@ scs_virtual_hostname: "{{ sap_swpm_sid | lower }}scs{{ sap_swpm_ascs_instance_nr
 ers_virtual_hostname: "{{ sap_swpm_sid | lower }}ers{{ sap_swpm_ers_instance_nr }}vip2"
 db_virtual_hostname: "{{ sap_swpm_db_sid | lower }}hdb{{ sap_swpm_db_instance_nr }}vip1"
 
+sap_swpm_db_schema_abap: "SAPHANADB"
+
 
 # # SAP HANA Azure Backups
 # sap_hana_backups: yes
