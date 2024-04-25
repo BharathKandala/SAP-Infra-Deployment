@@ -60,18 +60,18 @@
 #   tags: 
 #   - netweaver
 
-- import_playbook: sap_scsers-pacemaker.yml
-  tags: 
-  - ha
+# - import_playbook: sap_scsers-pacemaker.yml
+#   tags: 
+#   - ha
 
 # PAS Installation
 # - import_playbook: sap-nw-dbc-ha.yml
 #   tags:
 #   - ha 
 
-# - import_playbook: sap-nw-pas-ha.yml
-#   tags:
-#   - ha
+- import_playbook: sap-nw-pas-ha.yml
+  tags:
+  - ha
 
 - import_playbook: disable_services.yml
   tags: 
