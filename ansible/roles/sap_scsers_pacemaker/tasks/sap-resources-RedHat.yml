@@ -63,7 +63,7 @@
 - name:                                "5.6 SCSERS - RHEL - SAP Resources - Cluster Configuration after Install"
   when:
     - inventory_hostname == primary_instance_name
-    - ensa2 | default(false)
+    - ensa2 | default(true)
   block:
     - name:                            "5.6 SCSERS - RHEL - ENSA2 - Enable Maintenance mode for the cluster"
       ansible.builtin.command:         pcs property set maintenance-mode=true
