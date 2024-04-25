@@ -54,8 +54,8 @@
 
 # Product ID for New Installation. Example for backup/restore: NW_ABAP_OneHost:S4HANA2021.CORE.HDB.CP
 
-# sap_swpm_product_catalog_id: NW_ABAP_CI:S4HANA2022.CORE.HDB.ABAPHA
-sap_swpm_product_catalog_id: NW_ABAP_CI:S4HANA2022.CORE.HDB.HACP
+sap_swpm_product_catalog_id: NW_ABAP_CI:S4HANA2023.CORE.HDB.ABAPHA
+#sap_swpm_product_catalog_id: NW_ABAP_CI:S4HANA2022.CORE.HDB.HACP
 
 # Software
 # sap_swpm_software_path: /share/heifsdepmedia/S4HANA2022FPS00/
@@ -129,13 +129,6 @@ sap_swpm_db_schema_password: "{{ sap_hana_install_master_password }}"
 sap_swpm_db_schema_java_password: "{{ sap_hana_install_master_password }}"
 sap_swpm_db_sidadm_password: "{{ sap_hana_install_master_password }}"
 
-# # Need to define:
-# sap_swpm_java_export_keyphrase: ""
-# sap_swpm_use_product_version_descriptor: ""
-# sap_swpm_unpack_igs_exe_sar: ""
-# sap_swpm_unpack_igs_helper_sar: ""
-# sap_swpm_unpack_sap_exe_sar: ""
-# sap_swpm_unpack_sap_jvm_sar: ""
 
 # # HDB Passwords
 main_password: "{{ sap_hana_install_master_password }}"
@@ -147,14 +140,6 @@ sap_swpm_ansible_role_mode: "default"
 # # HDB Passwords
 sap_swpm_db_schema_abap: "SAPHANADB"
 main_password: "{{ sap_hana_install_master_password }}"
-
-# DB Restore Parameters
-# sap_swpm_backup_location: "/share/heifsdepmedia/Q2C_S42021_FPS02_BLK_ADDON_FIORI_CONFIG_GF_12102022/DB_Q2H/"
-# sap_swpm_backup_prefix: COMPLETE_DATA_BACKUP
-
-# DB Restore Parameters Backup from AUG 24-2023 (S4HANA2022.CORE.HDB.CP) - S4HANA2022FPS01FIORI
-# sap_swpm_backup_location: "/share/heifsbackup/D4HGOLDENBACKUP_DECRYPTED/"
-# sap_swpm_backup_prefix: COMPLETE_DATA_BACKUP
 
 
 # Unix User ID
@@ -174,7 +159,7 @@ sap_swpm_inifile_list:
   - db_config_anydb_all
   - db_connection_nw_hana
   #- db_hana_restore
-  - db_restore_hana #(Uncomment of backup/restore is required)
+  #- db_restore_hana #(Uncomment of backup/restore is required)
   - nw_config_primary_application_server_instance
   - db_hana_nw_connection
   - nw_config_other
