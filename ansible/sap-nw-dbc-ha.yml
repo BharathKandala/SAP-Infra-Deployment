@@ -1,0 +1,15 @@
+---
+- hosts: sap_dbc
+  max_fail_percentage: 0
+  serial: 1
+  become: yes
+  pre_tasks:
+  - name: Search for SAP S4HANA installation folder
+    stat:
+      path: "/usr/sap/{{ sap_swpm_sid }}"
+    register: check_s4hana
+
+  roles:
+  - role: sap_swpm
+    become: yes
+    # when: not check_s4hana.stat.exists
