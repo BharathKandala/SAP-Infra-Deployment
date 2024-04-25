@@ -41,7 +41,7 @@ password_ha_db_cluster: "Welcome123"
 sap_fqdn: "nonprod.pce.cloud"
 subnet_prefix: "25"
 instance_type: "ASCS"
-
+clus_sap_mon_timeout: 60
 sid: "QP1"
 sap_sid: "QP1"
 db_sid: "QP1" 
