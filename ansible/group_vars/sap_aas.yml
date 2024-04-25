@@ -55,7 +55,7 @@
 # Product ID for New Installation. Example for backup/restore: NW_ABAP_OneHost:S4HANA2021.CORE.HDB.CP
 
 #sap_swpm_product_catalog_id: NW_ABAP_CI:S4HANA2021.CORE.HDB.ABAPHA
-sap_swpm_product_catalog_id: NW_DI:S4HANA2022.CORE.HDB.ABAPHA
+sap_swpm_product_catalog_id: NW_DI:S4HANA2023.CORE.HDB.ABAPHA
 
 # Software
 # sap_swpm_software_path: /share/heifsdepmedia/S4HANA2022FPS00/
@@ -106,13 +106,7 @@ scs_virtual_hostname: "{{ sap_swpm_sid | lower }}scs{{ sap_swpm_ascs_instance_nr
 ers_virtual_hostname: "{{ sap_swpm_sid | lower }}ers{{ sap_swpm_ers_instance_nr }}vip2"
 db_virtual_hostname: "{{ sap_swpm_db_sid | lower }}hdb{{ sap_swpm_db_instance_nr }}vip1"
 
-# # Need to define:
-# sap_swpm_java_export_keyphrase: ""
-# sap_swpm_use_product_version_descriptor: ""
-# sap_swpm_unpack_igs_exe_sar: ""
-# sap_swpm_unpack_igs_helper_sar: ""
-# sap_swpm_unpack_sap_exe_sar: ""
-# sap_swpm_unpack_sap_jvm_sar: ""
+
 
 # NW Passwords
 sap_app_install_master_password: "Plrsap@321"
@@ -149,9 +143,7 @@ main_password: "{{ sap_hana_install_master_password }}"
 sap_swpm_ansible_role_mode: "default"
 
 
-# DB Restore Parameters
-# sap_swpm_backup_location: "/share/heifsdepmedia/Q2C_S42021_FPS02_BLK_ADDON_FIORI_CONFIG_GF_12102022/DB_Q2H/"
-# sap_swpm_backup_prefix: COMPLETE_DATA_BACKUP
+
 
 # Unix User ID
 sap_swpm_sapadm_uid: '1002'
@@ -192,11 +184,6 @@ sap_ha_set_netweaver_ascs_instance_nr: "{{ sap_swpm_ascs_instance_nr }}"
 sap_ha_set_netweaver_ers_instance_nr: "{{ sap_swpm_ers_instance_nr }}"
 sap_ha_set_netweaver_pas_instance_nr: "{{ sap_swpm_pas_instance_nr }}"
 sap_ha_set_netweaver_aas_instance_nr: "{{ sap_swpm_aas_instance_nr }}"
-# sap_hasap_ha_set_netweaver_nfs_mount_path_name: p1cprdshr
-# sap_ha_set_netweaver_nfs_ip: 10.178.41.4
 
-# Var for GWC IP for netapps
-sap_hasap_ha_set_netweaver_nfs_mount_path_name: p1cprdsdr
-sap_ha_set_netweaver_nfs_ip: 10.182.26.68
 
   
