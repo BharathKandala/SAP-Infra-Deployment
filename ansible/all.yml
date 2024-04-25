@@ -73,6 +73,10 @@
   tags:
   - ha
 
+# - import_playbook: sap-nw-aas-ha.yml
+#   tags:
+#   - ha
+
 - import_playbook: disable_services.yml
   tags: 
   - hanadb
