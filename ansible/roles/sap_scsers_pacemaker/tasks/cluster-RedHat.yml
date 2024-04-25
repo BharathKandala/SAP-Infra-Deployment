@@ -5,92 +5,92 @@
      ansible.builtin.include_tasks: "cluster-ascs.yml"
   when: inventory_hostname == primary_instance_name
 
-# - name: ASCS Cluster / Install ASCS on Primary host 
-#   block:  
-# #   - name: Search for SAP S4HANA installation folder
-# #     stat:
-# #       path: "/usr/sap/{{ sap_swpm_sid }}"
-# #     register: check_s4hana
+- name: ASCS Cluster / Install ASCS on Primary host 
+  block:  
+#   - name: Search for SAP S4HANA installation folder
+#     stat:
+#       path: "/usr/sap/{{ sap_swpm_sid }}"
+#     register: check_s4hana
 
-#   - name:                            "SCSERS - SCS - Assign ownership"
-#     ansible.builtin.file:
-#       path:                          "{{ item.path }}"
-#       owner:                         "{{ sap_sid | lower }}adm"
-#       group:                         sapsys
-#       recurse:                       true
-#       mode:                          '0755'
-#       state:                         directory
-#     register: dir_create  
-#     loop:
-#       - { path: '/sapmnt/{{ sap_sid | upper }}' }
-#       - { path: '/usr/sap/{{ sap_sid | upper }}/SYS' }
-#       - { path: '/usr/sap/{{ sap_sid | upper }}/ASCS{{ scs_instance_number }}' }
+  - name:                            "SCSERS - SCS - Assign ownership"
+    ansible.builtin.file:
+      path:                          "{{ item.path }}"
+      owner:                         "{{ sap_sid | lower }}adm"
+      group:                         sapsys
+      recurse:                       true
+      mode:                          '0755'
+      state:                         directory
+    register: dir_create  
+    loop:
+      - { path: '/sapmnt/{{ sap_sid | upper }}' }
+      - { path: '/usr/sap/{{ sap_sid | upper }}/SYS' }
+      - { path: '/usr/sap/{{ sap_sid | upper }}/ASCS{{ scs_instance_number }}' }
       
-#   when: inventory_hostname == primary_instance_name
+  when: inventory_hostname == primary_instance_name
 
-# - name:                            "SCSERS - ERS - Assign ownership"
-#   ansible.builtin.file:
-#     path:                          "{{ item.path }}"
-#     owner:                         "{{ sap_sid | lower }}adm"
-#     group:                         sapsys
-#     recurse:                       true
-#     state:                         directory
-#     mode:                          '0755'
-#   loop:
-#     - { path: '/sapmnt/{{ sap_sid | upper }}' }
-#     - { path: '/usr/sap/{{ sap_sid | upper }}/SYS' }
-#     - { path: '/usr/sap/{{ sap_sid | upper }}/ERS{{ ers_instance_number }}' }   
+- name:                            "SCSERS - ERS - Assign ownership"
+  ansible.builtin.file:
+    path:                          "{{ item.path }}"
+    owner:                         "{{ sap_sid | lower }}adm"
+    group:                         sapsys
+    recurse:                       true
+    state:                         directory
+    mode:                          '0755'
+  loop:
+    - { path: '/sapmnt/{{ sap_sid | upper }}' }
+    - { path: '/usr/sap/{{ sap_sid | upper }}/SYS' }
+    - { path: '/usr/sap/{{ sap_sid | upper }}/ERS{{ ers_instance_number }}' }   
   
-#   when: inventory_hostname == secondary_instance_name    
+  when: inventory_hostname == secondary_instance_name    
 
-# - name: "SCSERS - Install SAP NetWeaver ASCS"
-#   include_role:   
-#      name: sap_swpm
-#      apply:
-#        delegate_to: "{{ groups['sap_ascs'][0] }}"
-#   when: inventory_hostname == primary_instance_name
+- name: "SCSERS - Install SAP NetWeaver ASCS"
+  include_role:   
+     name: sap_swpm
+     apply:
+       delegate_to: "{{ groups['sap_ascs'][0] }}"
+  when: inventory_hostname == primary_instance_name
 
 
-# # - meta: end_play
+# - meta: end_play
 
-# - name: ERS Cluster / Install ERS on Secondary host 
-#   block:
-#     - name: ASCS - Cluster based on OS in VM
-#       ansible.builtin.include_tasks: "cluster-ers.yml"
-#   when: inventory_hostname == secondary_instance_name
+- name: ERS Cluster / Install ERS on Secondary host 
+  block:
+    - name: ASCS - Cluster based on OS in VM
+      ansible.builtin.include_tasks: "cluster-ers.yml"
+  when: inventory_hostname == secondary_instance_name
 
-# - name: ASCS Cluster / Install ERS on Primary host 
-#   block: 
-# #   - name: Search for SAP S4HANA installation folder
-# #     stat:
-# #       path: "/usr/sap/{{ sap_swpm_sid }}"
-# #     register: check_s4hana
+- name: ASCS Cluster / Install ERS on Primary host 
+  block: 
+#   - name: Search for SAP S4HANA installation folder
+#     stat:
+#       path: "/usr/sap/{{ sap_swpm_sid }}"
+#     register: check_s4hana
 
-#   - name:                            "SCSERS - ERS - Assign ownership"
-#     ansible.builtin.file:
-#       path:                          "{{ item.path }}"
-#       owner:                         "{{ sap_sid | lower }}adm"
-#       group:                         sapsys
-#       recurse:                       true
-#       state:                         directory
-#       mode:                          '0755'
-#     loop:
-#       - { path: '/sapmnt/{{ sap_sid | upper }}' }
-#       - { path: '/usr/sap/{{ sap_sid | upper }}/SYS' }
-#       - { path: '/usr/sap/{{ sap_sid | upper }}/ERS{{ ers_instance_number }}' }   
+  - name:                            "SCSERS - ERS - Assign ownership"
+    ansible.builtin.file:
+      path:                          "{{ item.path }}"
+      owner:                         "{{ sap_sid | lower }}adm"
+      group:                         sapsys
+      recurse:                       true
+      state:                         directory
+      mode:                          '0755'
+    loop:
+      - { path: '/sapmnt/{{ sap_sid | upper }}' }
+      - { path: '/usr/sap/{{ sap_sid | upper }}/SYS' }
+      - { path: '/usr/sap/{{ sap_sid | upper }}/ERS{{ ers_instance_number }}' }   
 
-#   when: inventory_hostname == secondary_instance_name     
+  when: inventory_hostname == secondary_instance_name     
 
-# - name: "SCSERS - Install SAP NetWeaver ERS"
-#   include_role:   
-#      name: sap_swpm
-#      apply:
-#        delegate_to: "{{ groups['sap_ers'][0] }}"
-#   when: inventory_hostname == secondary_instance_name  
+- name: "SCSERS - Install SAP NetWeaver ERS"
+  include_role:   
+     name: sap_swpm
+     apply:
+       delegate_to: "{{ groups['sap_ers'][0] }}"
+  when: inventory_hostname == secondary_instance_name  
   
-# - name:                            "5.6 SCSERS - RHEL - ERS - Put Primary host on line"
-#   ansible.builtin.command:         pcs node unstandby {{ primary_instance_name }}
-#   register:                        primary_online
-#   changed_when:                    primary_online.rc != 0   
-#   when: inventory_hostname == primary_instance_name         
+- name:                            "5.6 SCSERS - RHEL - ERS - Put Primary host on line"
+  ansible.builtin.command:         pcs node unstandby {{ primary_instance_name }}
+  register:                        primary_online
+  changed_when:                    primary_online.rc != 0   
+  when: inventory_hostname == primary_instance_name         
     
