@@ -196,11 +196,11 @@ sap_swpm_ddic_000_password: "{{ sap_hana_install_master_password }}"
 
 
 # HDB Passwords
-# sap_swpm_db_system_password: "{{ sap_hana_install_master_password }}"
-# sap_swpm_db_systemdb_password: "{{ sap_hana_install_master_password }}"
-# sap_swpm_db_schema_abap_password: "{{ sap_hana_install_master_password }}"
-# sap_swpm_db_sidadm_password: "{{ sap_hana_install_master_password }}"
-# sap_swpm_db_schema_abap: "SAPHANADB"
+sap_swpm_db_system_password: "{{ sap_hana_install_master_password }}"
+sap_swpm_db_systemdb_password: "{{ sap_hana_install_master_password }}"
+sap_swpm_db_schema_abap_password: "{{ sap_hana_install_master_password }}"
+sap_swpm_db_sidadm_password: "{{ sap_hana_install_master_password }}"
+sap_swpm_db_schema_abap: "SAPHANADB"
 
 
   
