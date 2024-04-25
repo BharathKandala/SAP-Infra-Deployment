@@ -1,56 +1,56 @@
 ---
 # General parameters
-swap_size_mb: "20520"
-sap_solution: NETWEAVER
+# swap_size_mb: "20520"
+# sap_solution: NETWEAVER
 
 # Azure Storage mounts
-azure_storage_mounts:
-- share_name: heifsmedia
-  storage_account_name: heisapstorage01
-  resource_group_name: hei-coregc-rg-sap-weeu-infra
-  subscription_id: 4f50e73b-0f78-469d-8948-584b0ecb0342
-  path: /share/heifsmedia
-  file_mode: "0775"
-  dir_mode: "0775"
-- share_name: heifsbackup
-  storage_account_name: heisapstorage01
-  resource_group_name: hei-coregc-rg-sap-weeu-infra
-  subscription_id: 4f50e73b-0f78-469d-8948-584b0ecb0342
-  path: /share/heifsbackup
-  file_mode: "0775"
-  dir_mode: "0775"
-- share_name: heifsdepmedia
-  storage_account_name: heidepstorage01
-  resource_group_name: hei-coregc-rg-dep-weeu-saplibrary
-  subscription_id: 48b7643a-5031-4970-9fcf-873eb22ed08c
-  path: /share/heifsdepmedia
-  file_mode: "0775"
-  dir_mode: "0775"
-- share_name: heifstrans-d1c
-  storage_account_name: heisapstorage01
-  resource_group_name: hei-coregc-rg-sap-weeu-infra
-  subscription_id: 4f50e73b-0f78-469d-8948-584b0ecb0342
-  path: /usr/sap/trans
-  file_mode: "0777"
-  dir_mode: "0777"
-  gid: "79"
-  uid: "2024"
+# azure_storage_mounts:
+# - share_name: heifsmedia
+#   storage_account_name: heisapstorage01
+#   resource_group_name: hei-coregc-rg-sap-weeu-infra
+#   subscription_id: 4f50e73b-0f78-469d-8948-584b0ecb0342
+#   path: /share/heifsmedia
+#   file_mode: "0775"
+#   dir_mode: "0775"
+# - share_name: heifsbackup
+#   storage_account_name: heisapstorage01
+#   resource_group_name: hei-coregc-rg-sap-weeu-infra
+#   subscription_id: 4f50e73b-0f78-469d-8948-584b0ecb0342
+#   path: /share/heifsbackup
+#   file_mode: "0775"
+#   dir_mode: "0775"
+# - share_name: heifsdepmedia
+#   storage_account_name: heidepstorage01
+#   resource_group_name: hei-coregc-rg-dep-weeu-saplibrary
+#   subscription_id: 48b7643a-5031-4970-9fcf-873eb22ed08c
+#   path: /share/heifsdepmedia
+#   file_mode: "0775"
+#   dir_mode: "0775"
+# - share_name: heifstrans-d1c
+#   storage_account_name: heisapstorage01
+#   resource_group_name: hei-coregc-rg-sap-weeu-infra
+#   subscription_id: 4f50e73b-0f78-469d-8948-584b0ecb0342
+#   path: /usr/sap/trans
+#   file_mode: "0777"
+#   dir_mode: "0777"
+#   gid: "79"
+#   uid: "2024"
   
   
 # Volume groups and logical volumes
-vgs:
-# SAP VG
-- name: sapvg
-  lvs:
-  - name: usrsaplv
-    path: /usr/sap/
-    size: 63G
+# vgs:
+# # SAP VG
+# - name: sapvg
+#   lvs:
+#   - name: usrsaplv
+#     path: /usr/sap/
+#     size: 63G
 
-  # sapmnt will be mounted via azure netapps  
-  #- name: sapmntlv
-  #  path: /sapmnt/
-  pvs:
-  - "/dev/disk/azure/scsi1/lun0"
+#   # sapmnt will be mounted via azure netapps  
+#   #- name: sapmntlv
+#   #  path: /sapmnt/
+#   pvs:
+#   - "/dev/disk/azure/scsi1/lun0"
 
 # Product ID for New Installation. Example for backup/restore: NW_ABAP_OneHost:S4HANA2021.CORE.HDB.CP
 
@@ -62,27 +62,27 @@ sap_swpm_product_catalog_id: NW_DI:S4HANA2022.CORE.HDB.ABAPHA
 # sap_swpm_sapcar_path: /share/heifsdepmedia/S4HANA2022FPS00/
 # sap_swpm_swpm_path: /share/heifsdepmedia/S4HANA2022FPS00/
 
-sap_swpm_software_path: /share/heifsmedia/S4HANA2022FPS01FIORI/
-sap_swpm_sapcar_path: /share/heifsmedia/S4HANA2022FPS01FIORI/
-sap_swpm_swpm_path: /share/heifsmedia/S4HANA2022FPS01FIORI/
+sap_swpm_software_path: /software/S4_media/
+sap_swpm_sapcar_path: /software/HCMT_tool/
+sap_swpm_swpm_path: /software/S4_media/
 
 
 # NW Instance Parameters
-sap_swpm_fqdn: "core.heiway.net"
+sap_swpm_fqdn: "nonprod.pce.cloud"
 sap_swpm_delete_sapinst_users: "true"
 sap_swpm_setup_firewall: yes
 
 
-sap_swpm_sid: "P1C"
-sap_swpm_ascs_instance_nr: "07"
-sap_swpm_ascs_instance_hostname: "heip1casc07z2"
-sap_swpm_ascs_instance_ip: "10.178.40.6"
-sap_swpm_ers_instance_nr: "08"
-sap_swpm_ers_instance_hostname: "heip1cers08z3"
-sap_swpm_ers_instance_ip: "10.178.40.7"
-sap_swpm_pas_instance_nr: "06"
+sap_swpm_sid: "QP1"
+sap_swpm_ascs_instance_nr: "01"
+sap_swpm_ascs_instance_hostname: "vmplrqp1ascs"
+sap_swpm_ascs_instance_ip: "10.222.16.13"
+sap_swpm_ers_instance_nr: "02"
+sap_swpm_ers_instance_hostname: "vmplrqp1ers"
+sap_swpm_ers_instance_ip: "10.222.16.14"
+sap_swpm_pas_instance_nr: "00"
 sap_swpm_pas_instance_hostname: "heip1cpas06z2"
-sap_swpm_pas_instance_ip: "10.178.40.4"
+sap_swpm_pas_instance_ip: "10.222.16.14"
 sap_swpm_aas_instance_nr: "09"
 sap_swpm_aas_instance_hostname: "heip1caas09z3"
 sap_swpm_aas_instance_ip: "10.178.40.5"
