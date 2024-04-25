@@ -1,5 +1,5 @@
 ---
-- hosts: sap_s4hana , sap_hana , sap_webdispatcher, sap_nw_java_ads, sap_hana_ads
+- hosts: all   # sap_s4hana , sap_hana , sap_webdispatcher, sap_nw_java_ads, sap_hana_ads
   max_fail_percentage: 0
   tasks:
   - name: stop Firewalld
