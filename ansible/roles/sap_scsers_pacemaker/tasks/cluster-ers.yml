@@ -22,7 +22,7 @@
                                        directory='/usr/sap/{{ sap_sid | upper }}/ERS{{ ers_instance_number }}' fstype='nfs' force_unmount=safe options='sec=sys,vers=4.1' \
                                        op start interval=0 timeout=60 \
                                        op stop interval=0 timeout=120 \
-                                       op monitor interval=200 timeout=400 \
+                                       op monitor interval=200 timeout=105 \
                                        --group g-{{ sap_sid | upper }}_ERS
       register:                        ers_fs_resource
       failed_when:                     ers_fs_resource.rc > 1
