@@ -41,6 +41,11 @@ db_lb_ip: "10.222.17.37"
 primary_instance_name: "vmplrqp1hana1"
 secondary_instance_name: "vmplrqp1hana2"
 
+# Virtual Host Names
+scs_virtual_hostname: "{{ sap_swpm_sid | lower }}scs{{ sap_swpm_ascs_instance_nr }}vip1"
+ers_virtual_hostname: "{{ sap_swpm_sid | lower }}ers{{ sap_swpm_ers_instance_nr }}vip2"
+db_virtual_hostname: "{{ sap_swpm_db_sid | lower }}hdb{{ sap_swpm_db_instance_nr }}vip1"
+
 
 # # SAP HANA Azure Backups
 # sap_hana_backups: yes
