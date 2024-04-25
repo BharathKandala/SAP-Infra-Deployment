@@ -5,5 +5,5 @@
 - name:                                "SCSERS - profile"
   ansible.builtin.include_tasks:       "scsersprofile.yaml"
 
-- name:                                "SCSERS - resources"
-  ansible.builtin.include_tasks:       "sap-resources-{{ ansible_os_family }}.yml"
+# - name:                                "SCSERS - resources"
+#   ansible.builtin.include_tasks:       "sap-resources-{{ ansible_os_family }}.yml"
