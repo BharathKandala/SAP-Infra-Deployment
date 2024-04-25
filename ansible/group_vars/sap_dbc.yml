@@ -170,8 +170,7 @@ sap_ha_set_netweaver_sid: "{{ sap_swpm_sid }}"
 sap_ha_set_netweaver_ascs_instance_nr: "{{ sap_swpm_ascs_instance_nr }}"
 sap_ha_set_netweaver_ers_instance_nr: "{{ sap_swpm_ers_instance_nr }}"
 sap_ha_set_netweaver_pas_instance_nr: "{{ sap_swpm_pas_instance_nr }}"
-# sap_hasap_ha_set_netweaver_nfs_mount_path_name: p1cprdshr
-# sap_ha_set_netweaver_nfs_ip: 10.178.41.4
+
 
 # Var for GWC IP for netapps
 sap_hasap_ha_set_netweaver_nfs_mount_path_name: 
