@@ -40,6 +40,7 @@ ers_lb_ip: "10.222.16.20"
 password_ha_db_cluster: "Welcome123"
 sap_fqdn: "nonprod.pce.cloud"
 subnet_prefix: "25"
+instance_type: "ASCS"
 
 sid: "QP1"
 sap_sid: "QP1"
