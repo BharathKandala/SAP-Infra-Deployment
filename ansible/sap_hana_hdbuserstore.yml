@@ -3,17 +3,7 @@
   max_fail_percentage: 0
   serial: 1  
   tasks:
-    # - name: SAP NW HA - Update SAP HANA secure store
-    #   shell: |
-    #     /usr/sap/{{ sap_ha_set_netweaver_sid }}/hdbclient/hdbuserstore \
-    #     SET DEFAULT {{ db_virtual_hostname }}:3{{ sap_swpm_db_instance_nr }}13@{{ sap_swpm_db_sid | upper }} {{ sap_swpm_db_schema_abap }} '{{ main_password }}'
-    #   args:
-    #     executable: /bin/bash
-    #   become: true
-    #   become_user: "{{ sap_ha_set_netweaver_sid | lower }}adm"
-    #   register:  update_hanauserstore
 
-    # - debug: var=update_hanauserstore
     - name: SAP NW HA - Update SAP HANA secure store
       shell: |
         /usr/sap/{{ sap_hana_install_sid | upper}}/SYS/exe/hdb/hdbuserstore \
