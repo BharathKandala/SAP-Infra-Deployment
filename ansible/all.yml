@@ -66,13 +66,13 @@
 #   - ha
 
 # PAS Installation
-# - import_playbook: sap-nw-dbc-ha.yml
-#   tags:
-#   - ha 
-
-- import_playbook: sap-nw-pas-ha.yml
+- import_playbook: sap-nw-dbc-ha.yml
   tags:
-  - ha
+  - ha 
+
+# - import_playbook: sap-nw-pas-ha.yml
+#   tags:
+#   - ha
 
 # - import_playbook: sap_hana_hdbuserstore.yml
 #   tags: 
