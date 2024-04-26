@@ -14,35 +14,6 @@
       become: true
       become_user: "{{ db_sid | lower }}adm"
 
-    
-
-    
-    # - name: "SCSERS - Add the user '{{ sap_swpm_sid | lower }}adm' to haclient group"
-    #   ansible.builtin.user:
-    #     name: "{{ sap_swpm_sid | lower }}adm"
-    #     comment: "{{ sap_swpm_sid | lower }}adm User account"
-    #     append: yes
-    #     groups: haclient
-    #   ignore_errors: yes  
-
-    # - name: "Configuration net.ipv4.tcp_keepalive_time"
-    #   ansible.builtin.command: "sysctl -w net.ipv4.tcp_keepalive_time=300"
-    #   register: sap_tcp_keepalive
-    #   ignore_errors: yes
-      
-    # - name: "Enable saptune services"
-    #   ansible.builtin.service:
-    #     name: saptune
-    #     enabled: true
-    #     state: started
-    #   ignore_errors: yes
-
-    # - name: "Configuration saptune NETWEAVER"
-    #   ansible.builtin.command: "saptune solution apply NETWEAVER"
-    #   ignore_errors: yes
-    #   register: sap_saptune  
-
-
 
 
      
