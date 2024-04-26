@@ -133,7 +133,7 @@ sap_swpm_db_sidadm_password: "{{ sap_hana_install_master_password }}"
 
 
 # # HDB Passwords
-main_password: "{{ sap_hana_install_master_password }}"
+#main_password: "{{ sap_hana_install_master_password }}"
 
 
 # inifile_reuse
@@ -187,8 +187,8 @@ sap_ha_set_netweaver_pas_instance_nr: "{{ sap_swpm_pas_instance_nr }}"
 
 
 # NW Passwords
-sap_swpm_master_password: "{{ sap_hana_install_master_password }}"
-sap_swpm_ddic_000_password: "{{ sap_hana_install_master_password }}"
+sap_swpm_master_password: "{{ sap_app_install_master_password }}"
+sap_swpm_ddic_000_password: "{{ sap_app_install_master_password }}"
 
 
 
