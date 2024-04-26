@@ -70,9 +70,9 @@
 #   tags:
 #   - ha 
 
-- import_playbook: sap-nw-pas-ha.yml
-  tags:
-  - ha
+# - import_playbook: sap-nw-pas-ha.yml
+#   tags:
+#   - ha
 
 - import_playbook: sap_hana_hdbuserstore.yml
   tags: 
