@@ -1,0 +1,43 @@
+---
+- hosts: sap_pas , sap_aas
+  max_fail_percentage: 0
+  serial: 1  
+  tasks:
+    - name: SAP NW HA - Update SAP HANA secure store
+      shell: |
+        /usr/sap/{{ sap_ha_set_netweaver_sid }}/hdbclient/hdbuserstore \
+        SET DEFAULT {{ db_virtual_hostname }}:3{{ sap_swpm_db_instance_nr }}13@{{ sap_swpm_db_sid | upper }} {{ sap_swpm_db_schema_abap }} '{{ main_password }}'
+      args:
+        executable: /bin/bash
+      become: true
+      become_user: "{{ sap_ha_set_netweaver_sid | lower }}adm"
+      register:  update_hanauserstore
+
+    - debug: var=update_hanauserstore
+
+    
+    - name: "SCSERS - Add the user '{{ sap_swpm_sid | lower }}adm' to haclient group"
+      ansible.builtin.user:
+        name: "{{ sap_swpm_sid | lower }}adm"
+        comment: "{{ sap_swpm_sid | lower }}adm User account"
+        append: yes
+        groups: haclient
+      ignore_errors: yes  
+
+    - name: "Configuration net.ipv4.tcp_keepalive_time"
+      ansible.builtin.command: "sysctl -w net.ipv4.tcp_keepalive_time=300"
+      register: sap_tcp_keepalive
+      ignore_errors: yes
+      
+    - name: "Enable saptune services"
+      ansible.builtin.service:
+        name: saptune
+        enabled: true
+        state: started
+      ignore_errors: yes
+
+    - name: "Configuration saptune NETWEAVER"
+      ansible.builtin.command: "saptune solution apply NETWEAVER"
+      ignore_errors: yes
+      register: sap_saptune  
+
