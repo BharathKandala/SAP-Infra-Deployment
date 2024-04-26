@@ -19,6 +19,7 @@ sap_ha_install_hana_hsr_update_etchosts: yes
 
 hana_backup_dir: /hana/data/backup
 hana_db_sid: QP1
+sap_swpm_db_sid: QP1
 hana_instance_nbr: '00'
 hana_opration_mode: logreplay
 hana_prim_site_name: SITEA
