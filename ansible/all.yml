@@ -56,13 +56,6 @@
 #   - netweaver
 #   - hanadb
 
-# - import_playbook: sap_hana_hdbuserstore.yml
-#   tags: 
-#   - netweaver
-#   - hanadb
-
-
-
 
 # - import_playbook: sap_nw_java_ads_install.yml
 #   tags: 
@@ -80,6 +73,12 @@
 - import_playbook: sap-nw-pas-ha.yml
   tags:
   - ha
+
+- import_playbook: sap_hana_hdbuserstore.yml
+  tags: 
+  - netweaver
+  - hanadb
+  
 
 # - import_playbook: sap-nw-aas-ha.yml
 #   tags:
