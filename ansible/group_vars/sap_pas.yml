@@ -185,13 +185,6 @@ sap_ha_set_netweaver_ers_instance_nr: "{{ sap_swpm_ers_instance_nr }}"
 sap_ha_set_netweaver_pas_instance_nr: "{{ sap_swpm_pas_instance_nr }}"
 
 
-
-# NW Passwords
-sap_swpm_master_password: "{{ sap_app_install_master_password }}"
-sap_swpm_ddic_000_password: "{{ sap_app_install_master_password }}"
-
-
-
 # HDB Passwords
 sap_swpm_db_system_password: "{{ sap_hana_install_master_password }}"
 sap_swpm_db_systemdb_password: "{{ sap_hana_install_master_password }}"
