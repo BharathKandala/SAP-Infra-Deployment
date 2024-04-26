@@ -79,9 +79,9 @@
 #   tags:
 #   - ha 
 
-- import_playbook: sap-nw-pas-ha.yml
-  tags:
-  - ha
+# - import_playbook: sap-nw-pas-ha.yml
+#   tags:
+#   - ha
 
 - import_playbook: sap_post_nw_ha.yml
   tags: 
