@@ -120,7 +120,7 @@ sap_swpm_db_schema_abap: "SAPHANADB"
 sap_app_install_master_password: "Plrsap@321"
 sap_swpm_master_password: "{{ sap_app_install_master_password }}"
 sap_swpm_ddic_000_password: "{{ sap_app_install_master_password }}"
-sap_swpm_java_export_keyphrase: "{{ sap_app_install_master_password }}"
+#sap_swpm_java_export_keyphrase: "{{ sap_app_install_master_password }}"
 
 # HDB Passwords
 sap_hana_install_master_password: "Plrhana@321"
@@ -128,7 +128,7 @@ sap_swpm_db_system_password: "{{ sap_hana_install_master_password }}"
 sap_swpm_db_systemdb_password: "{{ sap_hana_install_master_password }}"
 # sap_swpm_db_schema_java: "SAPJAVA1"
 sap_swpm_db_schema_password: "{{ sap_hana_install_master_password }}"
-sap_swpm_db_schema_java_password: "{{ sap_hana_install_master_password }}"
+#sap_swpm_db_schema_java_password: "{{ sap_hana_install_master_password }}"
 sap_swpm_db_sidadm_password: "{{ sap_hana_install_master_password }}"
 
 
