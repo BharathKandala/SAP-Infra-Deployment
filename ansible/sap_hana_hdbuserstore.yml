@@ -14,7 +14,6 @@
     #   register:  update_hanauserstore
 
     # - debug: var=update_hanauserstore
-
     - name: SAP NW HA - Update SAP HANA secure store
       shell: |
         /usr/sap/{{ sap_hana_install_sid | upper}}/SYS/exe/hdb/hdbuserstore \
@@ -23,7 +22,7 @@
         executable: /bin/bash
       ignore_errors: yes
       become: true
-      become_user: "{{ db_sid | lower }}adm"    
+      become_user: "{{ db_sid | lower }}adm"
 
     
 
