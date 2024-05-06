@@ -32,7 +32,7 @@ sap_swpm_wd_activate_icf: 'true'
 sap_swpm_wd_backend_sid: "QP1"
 sap_swpm_wd_backend_ms_http_port: "8101"
 sap_swpm_wd_backend_ms_host: "{{ sap_swpm_ascs_sid | lower }}scs{{ sap_swpm_ascs_instance_nr }}vip1"
-sap_swpm_wd_backend_rfc_host: "qp1pas00vip1"
+sap_swpm_wd_backend_rfc_host: "vmplrqp1app1.nonprod.pce.cloud"  #"qp1pas00vip1"
 sap_swpm_wd_backend_rfc_instance_nr: "00"
 sap_swpm_wd_backend_scenario_size: "500"
 sap_swpm_wd_backend_rfc_client_nr: "100"
