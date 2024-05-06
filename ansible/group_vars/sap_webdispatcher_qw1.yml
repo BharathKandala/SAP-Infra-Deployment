@@ -10,10 +10,6 @@ sap_swpm_software_path: /software/Webdispatcher_media/
 sap_swpm_sapcar_path: /software/HCMT_tool/
 sap_swpm_swpm_path: /software/Webdispatcher_media/
 
-# NW Passwords
-sap_hana_install_master_password: Plrsap@321
-sap_swpm_master_password: "{{ sap_hana_install_master_password }}"
-
 # Misc
 sap_swpm_delete_sapinst_users: "true"
 sap_swpm_wd_use_wd_http_port: "true"
@@ -23,6 +19,8 @@ sap_swpm_sidadm_uid: "1001"
 sap_swpm_set_fqdn: true
 sap_swpm_fqdn: "nonprod.pce.cloud"
 sap_swpm_setup_firewall: yes
+sap_swpm_ascs_sid: "QP1"
+sap_swpm_ascs_instance_nr: "01"
 
 # NW Instance Parameters
 sap_swpm_sid: "QW1"
@@ -30,12 +28,12 @@ sap_swpm_wd_instance_nr: "00"
 
 # Backend Connection
 sap_swpm_wd_system_connectivity: 'true'
-sap_swpm_wd_activate_icf: 'false'
+sap_swpm_wd_activate_icf: 'true'
 sap_swpm_wd_backend_sid: "QP1"
 sap_swpm_wd_backend_ms_http_port: "8101"
-sap_swpm_wd_backend_ms_host: "qp1scs01vip1"
-sap_swpm_wd_backend_rfc_host: "qp1scs01vip1"
-sap_swpm_wd_backend_rfc_instance_nr: "01"
+sap_swpm_wd_backend_ms_host: "{{ sap_swpm_ascs_sid | lower }}scs{{ sap_swpm_ascs_instance_nr }}vip1"
+sap_swpm_wd_backend_rfc_host: "qp1pas00vip1"
+sap_swpm_wd_backend_rfc_instance_nr: "00"
 sap_swpm_wd_backend_scenario_size: "500"
 # sap_swpm_wd_backend_rfc_client_nr: "000"
 # sap_swpm_wd_backend_rfc_user: "DDIC"
@@ -45,17 +43,29 @@ sap_swpm_wd_virtual_host: "vmplrqw2app" # Change it to  Hostname of the actual s
 # SAP Host Agent
 sap_swpm_install_saphostagent: 'false'
 
-# Generate inifile.params using sap_swpm Ansible Role
-sap_swpm_inifile_list:
-  - swpm_installation_media
-  - credentials
-  - nw_config_other
-  # - nw_config_central_services_abap
-  # - nw_config_primary_application_server_instance
-  # - nw_config_ports
-  - nw_config_webdisp_generic
-  # - nw_config_host_agent
-  - sap_os_linux_user
+# NW Passwords
+sap_swpm_master_password: "Plrsap@321"
+sap_swpm_ddic_000_password: "{{ sap_swpm_master_password }}"
+sap_swpm_wd_backend_rfc_ddic_000_password: "{{ sap_swpm_master_password }}"
 
+# HDB Passwords
+sap_hana_install_master_password: "Plrhana@321"
+sap_swpm_db_system_password: "{{ sap_hana_install_master_password }}"
+sap_swpm_db_systemdb_password: "{{ sap_hana_install_master_password }}"
+sap_swpm_db_schema_abap_password: "{{ sap_hana_install_master_password }}"
+sap_swpm_db_sidadm_password: "{{ sap_hana_install_master_password }}"
+sap_swpm_db_schema_abap: "SAPHANADB"
+
+sap_swpm_inifile_list:
+- installation_media
+- swpm_installation_media
+- other
+- generic_webdisp
+- nw_config_webdisp_generic
+- unix_user
+- sap_os_linux_user
+- nw_other_config
+- nw_config_other
+- credentials
 
 
