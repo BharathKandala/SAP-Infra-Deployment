@@ -38,7 +38,7 @@ sap_swpm_wd_backend_scenario_size: "500"
 # sap_swpm_wd_backend_rfc_client_nr: "000"
 # sap_swpm_wd_backend_rfc_user: "DDIC"
 # sap_swpm_wd_backend_rfc_user_password: "NewPass$321"
-sap_swpm_wd_virtual_host: "vmplrqw2app" # Change it to  Hostname of the actual server
+sap_swpm_wd_virtual_host: "{{ inventory_hostname  }}" # Change it to  Hostname of the actual server
 
 # SAP Host Agent
 sap_swpm_install_saphostagent: 'false'
