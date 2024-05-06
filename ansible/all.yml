@@ -1,9 +1,9 @@
 ---
-# - import_playbook: os_settings.yml
-#   tags:
-#   - os
-#   - security
-#   - ha
+- import_playbook: os_settings.yml
+  tags:
+  - os
+  - security
+  - ha
 
 
   
