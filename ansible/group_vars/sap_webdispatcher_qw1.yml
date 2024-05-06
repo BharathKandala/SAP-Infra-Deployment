@@ -35,9 +35,9 @@ sap_swpm_wd_backend_ms_host: "{{ sap_swpm_ascs_sid | lower }}scs{{ sap_swpm_ascs
 sap_swpm_wd_backend_rfc_host: "qp1pas00vip1"
 sap_swpm_wd_backend_rfc_instance_nr: "00"
 sap_swpm_wd_backend_scenario_size: "500"
-# sap_swpm_wd_backend_rfc_client_nr: "000"
-# sap_swpm_wd_backend_rfc_user: "DDIC"
-# sap_swpm_wd_backend_rfc_user_password: "NewPass$321"
+sap_swpm_wd_backend_rfc_client_nr: "100"
+sap_swpm_wd_backend_rfc_user: "sap_wfrt"
+sap_swpm_wd_backend_rfc_user_password: "Plrsap@321"
 sap_swpm_wd_virtual_host: "{{ inventory_hostname  }}" # Change it to  Hostname of the actual server
 
 # SAP Host Agent
