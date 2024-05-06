@@ -45,8 +45,8 @@ sap_swpm_install_saphostagent: 'false'
 
 # NW Passwords
 sap_swpm_master_password: "Plrsap@321"
-sap_swpm_ddic_000_password: "{{ sap_swpm_master_password }}"
-sap_swpm_wd_backend_rfc_ddic_000_password: "{{ sap_swpm_master_password }}"
+# sap_swpm_ddic_000_password: "{{ sap_swpm_master_password }}"
+# sap_swpm_wd_backend_rfc_ddic_000_password: "{{ sap_swpm_master_password }}"
 
 # HDB Passwords
 sap_hana_install_master_password: "Plrhana@321"
