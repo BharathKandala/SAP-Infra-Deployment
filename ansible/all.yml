@@ -1,9 +1,9 @@
 ---
-# - import_playbook: os_settings.yml
-#   tags:
-#   - os
-#   - security
-#   - ha
+- import_playbook: os_settings.yml
+  tags:
+  - os
+  - security
+  - ha
 
 
   
@@ -79,14 +79,14 @@
 #   tags:
 #   - ha 
 
-- import_playbook: sap-nw-pas-ha.yml
-  tags:
-  - ha
+# - import_playbook: sap-nw-pas-ha.yml
+#   tags:
+#   - ha
 
-- import_playbook: sap_post_nw_ha.yml
-  tags: 
-  - netweaver
-  - hanadb
+# - import_playbook: sap_post_nw_ha.yml
+#   tags: 
+#   - netweaver
+#   - hanadb
   
 
 # - import_playbook: sap-nw-aas-ha.yml
@@ -121,13 +121,6 @@
 #   tags: 
 #   - s4hana
 #   - hanadb
-
-
-
-# - import_playbook: disable_services.yml
-#   tags: 
-#   - hanadb
-#   - s4hana    
   
 # - import_playbook: sap_hana_azure_backup.yml
 #   tags: 
@@ -135,10 +128,15 @@
 #   - s4hana
 #   - hanabackup
 
-# - import_playbook: sap_webdispatcher_install.yml
-#   tags: 
-#   - hanadb
-#   - s4hana
+- import_playbook: sap_webdispatcher_install.yml
+  tags: 
+  - hanadb
+  - s4hana
+
+- import_playbook: disable_services.yml
+  tags: 
+  - hanadb
+  - s4hana    
 
 # - import_playbook: sap_cloudconnector_install.yml
 #   tags: 
