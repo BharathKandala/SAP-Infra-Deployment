@@ -1,5 +1,5 @@
 ---
-- hosts: sap_webdispatcher
+- hosts: sap_webdispatcher,sap_webdispatcher_qw1,sap_webdispatcher_qw2
   # pre_tasks:
   # - name: Search for SAP Web Dispatcher installation folder
   #   stat:
