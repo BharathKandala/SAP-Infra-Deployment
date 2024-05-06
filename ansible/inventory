@@ -11,8 +11,8 @@
 #[sap_dbc]
 #vmplrqp1app1 ansible_host=10.222.16.15 ansible_user=setupadmin ansible_ssh_pass=VYySQvEEOk7Fc7k1Zd ansible_ssh_common_args='-o StrictHostKeyChecking=no' tier=ha node_tier=dbc 
 
-[sap_pas]
-vmplrqp1app1 ansible_host=10.222.16.15 ansible_user=setupadmin ansible_ssh_pass=VYySQvEEOk7Fc7k1Zd ansible_ssh_common_args='-o StrictHostKeyChecking=no' tier=ha node_tier=dbc 
+#[sap_pas]
+#vmplrqp1app1 ansible_host=10.222.16.15 ansible_user=setupadmin ansible_ssh_pass=VYySQvEEOk7Fc7k1Zd ansible_ssh_common_args='-o StrictHostKeyChecking=no' tier=ha node_tier=dbc 
 
 
 #[sap_hana_ads]
@@ -23,6 +23,9 @@ vmplrqp1app1 ansible_host=10.222.16.15 ansible_user=setupadmin ansible_ssh_pass=
 
 #[sap_webdispatcher]
 #vmplrdw1app ansible_host=10.222.16.21 ansible_user=setupadmin ansible_ssh_private_key_file=private_key
+
+[sap_webdispatcher_qw1]
+vmplrqw1app ansible_host=10.222.16.10 ansible_user=setupadmin ansible_ssh_pass=rZ5wvJo4HA36cCGLyE ansible_ssh_common_args='-o StrictHostKeyChecking=no'
 
 #[sap_cloudconnector]
 #vmplrdc1app ansible_host=10.222.16.61 ansible_user=setupadmin ansible_ssh_private_key_file=private_key
