@@ -27,6 +27,9 @@
 [sap_webdispatcher_qw1]
 vmplrqw1app ansible_host=10.222.16.10 ansible_user=setupadmin ansible_ssh_pass=rZ5wvJo4HA36cCGLyE ansible_ssh_common_args='-o StrictHostKeyChecking=no'
 
+#[sap_webdispatcher_qw2]
+#vmplrqw1app ansible_host=10.222.16.12 ansible_user=setupadmin ansible_ssh_pass=HZRueOAFXM8mowZhyh ansible_ssh_common_args='-o StrictHostKeyChecking=no'
+
 #[sap_cloudconnector]
 #vmplrdc1app ansible_host=10.222.16.61 ansible_user=setupadmin ansible_ssh_private_key_file=private_key
 
