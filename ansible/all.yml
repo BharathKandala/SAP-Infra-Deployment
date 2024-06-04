@@ -1,9 +1,9 @@
 ---
-- import_playbook: os_settings.yml
-  tags:
-  - os
-  - security
-  - ha
+# - import_playbook: os_settings.yml
+#   tags:
+#   - os
+#   - security
+#   - ha
 
 
   
@@ -47,9 +47,9 @@
 #   - hanadb
 #   - s4hana
 
-# - import_playbook: hana_hsr_setup.yml
-#   tags:
-#   - hsr 
+- import_playbook: hana_hsr_setup.yml
+  tags:
+  - hsr 
 
 # - import_playbook: sap_hanadb_pacemaker.yml
 #   tags:
@@ -95,10 +95,10 @@
 
 
 
-# - import_playbook: disable_services.yml
-#   tags: 
-#   - hanadb
-#   - s4hana  
+- import_playbook: disable_services.yml
+  tags: 
+  - hanadb
+  - s4hana  
 
 
 
@@ -128,15 +128,15 @@
 #   - s4hana
 #   - hanabackup
 
-- import_playbook: sap_webdispatcher_install.yml
-  tags: 
-  - hanadb
-  - s4hana
+# - import_playbook: sap_webdispatcher_install.yml
+#   tags: 
+#   - hanadb
+#   - s4hana
 
-- import_playbook: disable_services.yml
-  tags: 
-  - hanadb
-  - s4hana    
+# - import_playbook: disable_services.yml
+#   tags: 
+#   - hanadb
+#   - s4hana    
 
 # - import_playbook: sap_cloudconnector_install.yml
 #   tags: 
