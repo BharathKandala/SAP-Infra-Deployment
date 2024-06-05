@@ -3,10 +3,10 @@
 #vmplrqp1ers ansible_host=10.222.16.14 ansible_user=setupadmin ansible_ssh_pass=kCx2gGg0hs9vTbWv0G ansible_ssh_common_args='-o StrictHostKeyChecking=no' tier=ha node_tier=ers secondary_virtual_host=vmplrqp1ers secondary_instance_name=vmplrqp1ers
 
 #[sap_ascs]
-#vmplrqp1ascs ansible_host=10.222.16.13 ansible_user=setupadmin ansible_ssh_pass=5Sxe1KA8Mnx8gMEhPT ansible_ssh_common_args='-o StrictHostKeyChecking=no' tier=ha node_tier=ascs 
+#vmplrqp1ascs ansible_host=10.111.16.22 ansible_user=setupadmin ansible_ssh_pass=F4w3QaIzwRHiPl6KrX8r8q ansible_become_pass=F4w3QaIzwRHiPl6KrX8r8q ansible_ssh_common_args='-o StrictHostKeyChecking=no' tier=ha node_tier=ascs 
 
 #[sap_ers]
-#vmplrqp1ers ansible_host=10.222.16.14 ansible_user=setupadmin ansible_ssh_pass=kCx2gGg0hs9vTbWv0G ansible_ssh_common_args='-o StrictHostKeyChecking=no' tier=ha node_tier=ers 
+#vmplrqp1ers ansible_host=10.111.16.23 ansible_user=setupadmin ansible_ssh_pass=I79Br1cczbKSN9cGaOq970 ansible_become_pass=I79Br1cczbKSN9cGaOq970 ansible_ssh_common_args='-o StrictHostKeyChecking=no' tier=ha node_tier=ers 
 
 #[sap_dbc]
 #vmplrqp1app1 ansible_host=10.222.16.15 ansible_user=setupadmin ansible_ssh_pass=VYySQvEEOk7Fc7k1Zd ansible_ssh_common_args='-o StrictHostKeyChecking=no' tier=ha node_tier=dbc 
