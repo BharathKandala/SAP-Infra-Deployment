@@ -111,10 +111,10 @@
       mode: '0644'
     no_log: true
 
-  - name: add public key to authorized_keys
-    ansible.posix.authorized_key:
-      user: root
-      key: '{{ shared_ssh_pub_key.content | b64decode }}'
+  # - name: add public key to authorized_keys
+  #   ansible.posix.authorized_key:
+  #     user: root
+  #     key: '{{ shared_ssh_pub_key.content | b64decode }}'
 
   - name: ensure root login is enabled for sshd
     lineinfile:
