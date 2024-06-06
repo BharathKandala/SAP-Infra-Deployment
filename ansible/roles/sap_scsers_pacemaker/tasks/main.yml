@@ -1,24 +1,24 @@
 ---
-- name: "SCSERS Pacemaker - Authorization"
-  ansible.builtin.import_tasks: auth.yml
+# - name: "SCSERS Pacemaker - Authorization"
+#   ansible.builtin.import_tasks: auth.yml
   
-# - name: "SCSERS Pacemaker - set_runtime_facts"
-#   ansible.builtin.import_tasks: set_runtime_facts.yml
+- name: "SCSERS Pacemaker - set_runtime_facts"
+  ansible.builtin.import_tasks: set_runtime_facts.yml
 
-# - name: "SCSERS Pacemaker - pre_checks"
-#   ansible.builtin.import_tasks: pre_checks.yml
+- name: "SCSERS Pacemaker - pre_checks"
+  ansible.builtin.import_tasks: pre_checks.yml
 
-# - name: "SCSERS Pacemaker - prep_steps"
-#   ansible.builtin.import_tasks: prep_steps.yml
+- name: "SCSERS Pacemaker - prep_steps"
+  ansible.builtin.import_tasks: prep_steps.yml
 
-# - name: "SCSERS Pacemaker - provision"
-#   ansible.builtin.import_tasks: provision.yml
+- name: "SCSERS Pacemaker - provision"
+  ansible.builtin.import_tasks: provision.yml
 
-# # - name: "SCSERS Pacemaker - post_activities"
-# #   ansible.builtin.import_tasks: post_steps.yml   
+# - name: "SCSERS Pacemaker - post_activities"
+#   ansible.builtin.import_tasks: post_steps.yml   
 
-# # - name: "SCSERS Pacemaker - post_provision_report"
-# #   ansible.builtin.import_tasks: post_provision_report.yml
+# - name: "SCSERS Pacemaker - post_provision_report"
+#   ansible.builtin.import_tasks: post_provision_report.yml
 
  
 ...
