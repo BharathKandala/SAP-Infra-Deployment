@@ -81,6 +81,11 @@ secondary_instance:
   name: "{{hostvars[groups['hanadbnodes'][1]].ansible_facts.hostname}}"
   ip_admin: "{{ hostvars[groups['hanadbnodes'][1]].ansible_facts.default_ipv4.address }}"
   ip_db: "{{ hostvars[groups['hanadbnodes'][1]].ansible_facts.default_ipv4.address }}"
+  
+sap_swpm_sapadm_uid: '1002'
+sap_swpm_sapsys_gid: '1002'
+sap_swpm_sidadm_uid: '1001'
+sap_swpm_update_etchosts: 'false'
 
 
 
