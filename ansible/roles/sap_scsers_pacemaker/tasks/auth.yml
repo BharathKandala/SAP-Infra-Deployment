@@ -112,7 +112,7 @@
     no_log: true
 
   - name: add public key to authorized_keys
-    authorized_key:
+    ansible.posix.authorized_key:
       user: root
       key: '{{ shared_ssh_pub_key.content | b64decode }}'
 
