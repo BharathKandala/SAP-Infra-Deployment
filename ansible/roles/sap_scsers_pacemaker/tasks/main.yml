@@ -1,6 +1,6 @@
 ---
-- name: "SCSERS Pacemaker - Authorization"
-  ansible.builtin.import_tasks: auth.yml
+# - name: "SCSERS Pacemaker - Authorization"
+#   ansible.builtin.import_tasks: auth.yml
 
 - name: "SCSERS Pacemaker - Users"
   ansible.builtin.import_tasks: createusers.yml
