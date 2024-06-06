@@ -51,7 +51,7 @@ sap_swpm_sid: "{{ sid }}"
 
 #cluster_variables move these to group vars########
 resource_group_name: "rg-pce-sap-qa-gwc-001"
-sap_hana_fencing_agent_subscription_id: "d936a6d0-43af-4559-9183-fc2957c6e589"                                         
+sap_hana_fencing_agent_subscription_id: "69e0eaf7-cc5d-47b8-a5c6-c93d4e4bb57b"                                         
 
 #sap_hana_fencing_agent_tenant_id: ""
 
@@ -62,7 +62,7 @@ ers_virtual_hostname: "{{ sap_sid | lower }}ers{{ ers_instance_number }}vip2"
 
 # The following values should be same as iSCSI configuration
 # run 'sudo targetcli ls' on iSCSI target virtual machines to get all iSCSI configuration
-cluster_name: nw{{ sid | lower }}
+cluster_name: qp1hacluster   # nw{{ sid | lower }}
 # storage_object: sbd{{ cluster_name }}
 # target: "{{ iscsi_object }}.{{ cluster_name }}.local:{{ cluster_name }}"
 
