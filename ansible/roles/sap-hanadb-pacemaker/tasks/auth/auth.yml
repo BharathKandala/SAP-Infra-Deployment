@@ -1,0 +1,149 @@
+---
+- hosts: all
+  tasks:
+    - name: Ensure Process limit is raised
+      lineinfile:
+        path: /etc/systemd/system.conf
+        state: present
+        regexp: "^#?\\s*DefaultTasksMax="
+        line: "DefaultTasksMax=4096"
+      register: raise_process_limit
+    
+    - name: Ensure systemctl daemon is reloaded
+      systemd:
+        daemon_reload: True  
+    
+    - name: Ensure clustering can manage Virtual IPs - dirty_bytes
+      lineinfile:
+        path: /etc/sysctl.conf
+        state: present
+        regexp: "^#?\\s*vm.dirty_bytes="
+        line: "vm.dirty_bytes = 629145600"
+    
+    - name: Ensure clustering can manage Virtual IPs - dirty_background_bytes
+      lineinfile:
+        path: /etc/sysctl.conf
+        state: present
+        regexp: "^#?\\s*vm.dirty_background_bytes="
+        line: "vm.dirty_background_bytes = 314572800" 
+    
+    - name: Ensure clustering can manage Virtual IPs - swappiness
+      lineinfile:
+        path: /etc/sysctl.conf
+        state: present
+        regexp: "^#?\\s*vm.swappiness="
+        line: "vm.swappiness = 10"           
+    
+    - name: Ensure clustering can manage Virtual IPs on the Database Interface
+      ansible.builtin.lineinfile:
+        path: /etc/sysconfig/network/ifcfg-eth0
+        state: present
+        regexp: "^#?\\s*CLOUD_NETCONFIG_MANAGE="
+        line: "CLOUD_NETCONFIG_MANAGE='no'"
+    
+    # Set up Hosts entries for the cluster nodes
+    - name: Ensure the Primary node hosts entry exists
+      lineinfile:
+        path: /etc/hosts
+        state: present
+        insertafter: EOF
+        regexp: "{{ primary_instance.name }}"
+        line: "{{ primary_instance.ip_db }} {{ primary_instance.name }}"
+    
+    - name: Ensure the Secondary node hosts entry exists
+      lineinfile:
+        path: /etc/hosts
+        state: present
+        insertafter: EOF
+        regexp: "{{ secondary_instance.name }}"
+        line: "{{ secondary_instance.ip_db }} {{ secondary_instance.name }}"
+    
+    - block:
+      - name: Create /root/.ssh if not exist
+        file:
+          path: /root/.ssh
+          state: directory
+          mode: '0700'
+    
+      - name: stat shared ssh private key
+        stat:
+          path: /root/.ssh/id_rsa
+        register: stat_ssh_priv_key
+        run_once: true
+    
+      - name: stat shared ssh public key
+        stat:
+          path: /root/.ssh/id_rsa.pub
+        register: stat_ssh_pub_key
+        run_once: true
+    
+      - name: create shared ssh key
+        shell: yes | ssh-keygen -t rsa -N '' -f /root/.ssh/id_rsa
+        when: false in (stat_ssh_priv_key.stat.exists, stat_ssh_pub_key.stat.exists)
+        run_once: true
+    
+      - name: read shared ssh private key
+        slurp:
+          src: /root/.ssh/id_rsa
+        register: shared_ssh_priv_key
+        run_once: true
+        no_log: true
+    
+      - name: read shared ssh public key
+        slurp:
+          src: /root/.ssh/id_rsa.pub
+        register: shared_ssh_pub_key
+        run_once: true
+        no_log: true
+    
+      - name: copy shared ssh private key
+        copy:
+          content: '{{ item.content }}'
+          dest: '{{ item.dest }}'
+          mode: '{{ item.mode }}'
+          owner: root
+          group: root
+        loop:
+        - content: '{{ shared_ssh_priv_key.content | b64decode }}'
+          dest: /root/.ssh/id_rsa
+          mode: '0600'
+        - content: '{{ shared_ssh_pub_key.content | b64decode }}'
+          dest: /root/.ssh/id_rsa.pub
+          mode: '0644'
+        no_log: true
+    
+      - name: add public key to authorized_keys
+        authorized_key:
+          user: root
+          key: '{{ shared_ssh_pub_key.content | b64decode }}'
+    
+      - name: ensure root login is enabled for sshd
+        lineinfile:
+          path: /etc/ssh/sshd_config
+          regex: '^PermitRootLogin no'
+          line: '#PermitRootLogin no'
+        register: modify_sshd_config
+      
+      - name:  Generic Pacemaker - Ensure trust relationship is working from primary to secondary
+        ansible.builtin.command:             ssh -oStrictHostKeyChecking=no {{ secondary_instance.name }} "hostname -s"
+        register:                            primary_to_secondary_ssh_result
+        changed_when:                        false
+        failed_when:                         primary_to_secondary_ssh_result.stdout_lines[0] != secondary_instance.name
+        when:  ansible_hostname == primary_instance.name
+    
+      - name: Generic Pacemaker - Ensure trust relationship is working from secondary to primary"
+        ansible.builtin.command:             ssh -oStrictHostKeyChecking=no {{ primary_instance.name }} "hostname -s"
+        register:                            secondary_to_primary_ssh_result
+        changed_when:                        false
+        failed_when:                         secondary_to_primary_ssh_result.stdout_lines[0] != primary_instance.name
+        when:                                ansible_hostname == secondary_instance.name 
+      
+      when: |
+        ansible_os_family == 'Suse'
+    
+    - name: ensure sshd reads modified config
+      service:
+        name: sshd.service
+        state: reloaded
+      when: modify_sshd_config is changed
+        
