@@ -33,12 +33,12 @@
     regexp: "^#?\\s*vm.swappiness="
     line: "vm.swappiness = 10"           
 
-- name: Ensure clustering can manage Virtual IPs on the Database Interface
-  ansible.builtin.lineinfile:
-    path: /etc/sysconfig/network/ifcfg-eth0
-    state: present
-    regexp: "^#?\\s*CLOUD_NETCONFIG_MANAGE="
-    line: "CLOUD_NETCONFIG_MANAGE='no'"
+# - name: Ensure clustering can manage Virtual IPs on the Database Interface
+#   ansible.builtin.lineinfile:
+#     path: /etc/sysconfig/network/ifcfg-eth0
+#     state: present
+#     regexp: "^#?\\s*CLOUD_NETCONFIG_MANAGE="
+#     line: "CLOUD_NETCONFIG_MANAGE='no'"
 
 # Set up Hosts entries for the cluster nodes
 - name: Ensure the Primary node hosts entry exists
