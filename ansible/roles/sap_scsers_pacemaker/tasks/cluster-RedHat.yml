@@ -5,8 +5,8 @@
 #      ansible.builtin.include_tasks: "cluster-ascs.yml"
 #   when: inventory_hostname == primary_instance_name
 
-- name: ASCS Cluster / Install ASCS on Primary host 
-  block:  
+# - name: ASCS Cluster / Install ASCS on Primary host 
+#   block:  
 #   - name: Search for SAP S4HANA installation folder
 #     stat:
 #       path: "/usr/sap/{{ sap_swpm_sid }}"
