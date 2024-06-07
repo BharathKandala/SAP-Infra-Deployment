@@ -50,13 +50,13 @@
 #        delegate_to: "{{ groups['sap_ascs'][0] }}"
 #   when: inventory_hostname == primary_instance_name
 
-- name: ERS Cluster / Install ERS on Secondary host 
-  block:
-    - name: ASCS - Cluster based on OS in VM
-      ansible.builtin.include_tasks: "cluster-ers.yml"
-  when: inventory_hostname == secondary_instance_name
+# - name: ERS Cluster / Install ERS on Secondary host 
+#   block:
+#     - name: ASCS - Cluster based on OS in VM
+#       ansible.builtin.include_tasks: "cluster-ers.yml"
+#   when: inventory_hostname == secondary_instance_name
 
-- meta: end_play
+# - meta: end_play
 
 - name: ASCS Cluster / Install ERS on Primary host 
   block: 
