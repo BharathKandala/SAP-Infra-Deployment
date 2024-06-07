@@ -1,9 +1,9 @@
 ---
-- name:                                "SCSERS - Cluster based on OS in VM"
-  ansible.builtin.include_tasks:       "cluster-{{ ansible_os_family }}.yml"
+# - name:                                "SCSERS - Cluster based on OS in VM"
+#   ansible.builtin.include_tasks:       "cluster-{{ ansible_os_family }}.yml"
 
-# - name:                                "SCSERS - profile"
-#   ansible.builtin.include_tasks:       "scsersprofile.yaml"
+- name:                                "SCSERS - profile"
+  ansible.builtin.include_tasks:       "scsersprofile.yaml"
 
 # - name:                                "SCSERS - resources"
 #   ansible.builtin.include_tasks:       "sap-resources-{{ ansible_os_family }}.yml"
